@@ -42,6 +42,7 @@ type
     function Serialize: String;
     procedure DeSerialize(pSor: String);
     function KirakKovetkezoHelyre(pMozaik: TMozaik): Boolean;
+    procedure KovetkezoHely(var pX, pY: Byte);
     procedure Levesz(pMozaik: TMozaik);
     function KeszVan: Boolean;
     procedure Leallit;
@@ -352,7 +353,7 @@ function TJatekTer.KirakKovetkezoHelyre(pMozaik: TMozaik): Boolean;
 var i, j, lCsusztat: Byte;
 begin
   //végigtolni a mozaikot az összes lehetséges helyen, érzékelni a végét
-  for i := pMozaik.fIttVoltUtoljaraX  to 10 do begin
+  for i := pMozaik.fIttVoltUtoljaraX to 10 do begin
     for j := pMozaik.fIttVoltUtoljaraY + 1 to 6 do begin //EBBEN A PLUSZ EGYBEN (+1) NEM VAGYOK BIZTOS... DE VALAHOGY ARRÉBB KÉNE MÁSZATNI. MOST ÍGY CSINÁLOM.
       if KirakhatoIde(pMozaik,i,j) then begin
         Kirak(pMozaik,i,j);
@@ -370,6 +371,22 @@ begin
   pMozaik.fIttVoltUtoljaraX := 0;
   pMozaik.fIttVoltUtoljaraY := 0;
   Result := false; //ha idáig eljutott, akkor nem sikerült kirakni
+end;
+
+procedure TJatekTer.KovetkezoHely(var pX, pY: Byte);
+var i, j: Byte;
+begin
+  pX := 0;
+  pY := 0;
+  for j := 1 to 6 do begin
+    for i := 1 to 10 do begin
+      if fTeglalap[i,j] = '@' then begin
+        pX := i;
+        pY := j;
+        Exit;
+      end;
+    end;
+  end;
 end;
 
 function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pX, pY: Byte): Boolean;
@@ -516,7 +533,6 @@ begin
   end;
 end;
 
-
 {----------}
 { TfrmMain }
 {----------}
@@ -544,9 +560,21 @@ end;
 procedure TfrmMain.Rekurziv;
 var jTipus, lKezdoMozaik: TMozaikNevek;
 begin
+  // kirakni legelsõnek elsõ verzióját 1,1-re
+  // megkeresni a köv helyet felsõ sorban, pl ez a 6,1
+  // próbálni fedni a 6,1-et a köv idommal
+  // ha nem megy forgatni azt
+  // ha nem megy, következõ idom
+  // .. forgatni
+  // ....
+  //ha semelyik nem megy, visszalépni és leszedni az elõzõt
+
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin
       repeat
+
+        KovetkezoHely
+
         while (fJatekter.KirakKovetkezoHelyre(fMozaikok[jTipus])) do begin
           inc(fAktualisSzint);
 
