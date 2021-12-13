@@ -68,7 +68,7 @@ object frmMain: TfrmMain
     Width = 153
     Height = 105
     Caption = 'Gyorsas'#225'g'
-    ItemIndex = 1
+    ItemIndex = 2
     Items.Strings = (
       'l'#225'thatatlan'
       'l'#225'that'#243' gyors'

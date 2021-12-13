@@ -34,6 +34,7 @@ type
   private
     fTeglalap: TTeglalap;
     fKirakottMennyiseg: Byte;
+    fNextX, fNextY: Byte;
     constructor Create;
     function KirakhatoIde(pMozaik: TMozaik; pX, pY: Byte): Boolean;
     procedure Kirak(pMozaik: TMozaik; pX, pY: Byte);
@@ -42,7 +43,7 @@ type
     function Serialize: String;
     procedure DeSerialize(pSor: String);
     function KirakKovetkezoHelyre(pMozaik: TMozaik): Boolean;
-    procedure KovetkezoHely(var pX, pY: Byte);
+    procedure KovetkezoHely;
     procedure Levesz(pMozaik: TMozaik);
     function KeszVan: Boolean;
     procedure Leallit;
@@ -373,16 +374,16 @@ begin
   Result := false; //ha idáig eljutott, akkor nem sikerült kirakni
 end;
 
-procedure TJatekTer.KovetkezoHely(var pX, pY: Byte);
+procedure TJatekTer.KovetkezoHely;
 var i, j: Byte;
 begin
-  pX := 0;
-  pY := 0;
+  fNextX := 0;
+  fNextY := 0;
   for j := 1 to 6 do begin
     for i := 1 to 10 do begin
       if fTeglalap[i,j] = '@' then begin
-        pX := i;
-        pY := j;
+        fNextX := i;
+        fNextY := j;
         Exit;
       end;
     end;
@@ -390,18 +391,30 @@ begin
 end;
 
 function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pX, pY: Byte): Boolean;
-var i, j: Byte;
+var i, j, iKulso, jKulso: Byte;
 begin
-  for i := 1 to 5 do begin
-    for j := 1 to 5 do begin
-      if ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pX+i-1,pY+j-1] <> '@')) //egybelógás lenne
-         or
-         ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pX+i-1,pY+j-1] = 'M')) then begin //kilógás lenne
-        Result := false;
-        Exit;
+  for iKulso := 1 to 5 do begin
+    for jKulso := 1 to 5 do begin
+
+      for i := 1 to 5 do begin
+        for j := 1 to 5 do begin
+          if ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pX+i+iKulso-2,pY+j+jKulso-2] <> '@')) //egybelógás lenne
+             or
+             ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pX+i+iKulso-2,pY+j+jKulso-2] = 'M')) //kilógás lenne
+             or
+             (pMozaik.fNegyzet[i,j] = '@') then begin  //nem lenne fedett a jobb felsõ sarok
+
+            //GÁZ VAN: A "KÖV CELLÁT MINDENKÉPP FEDNI" MÓDSZERNÉL IS KELL VALAMENNYI TOLOGATÁS, MERT PL A KERESZTET ÍGY SOHA AZ ÉLETBEN NEM FOGJA KIRAKNI!
+            Result := false;
+            Exit;
+          end;
+        end;
       end;
+
     end;
   end;
+
+
   Result := true;
 end;
 
@@ -559,6 +572,7 @@ end;
 
 procedure TfrmMain.Rekurziv;
 var jTipus, lKezdoMozaik: TMozaikNevek;
+
 begin
   // kirakni legelsõnek elsõ verzióját 1,1-re
   // megkeresni a köv helyet felsõ sorban, pl ez a 6,1
@@ -573,36 +587,27 @@ begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin
       repeat
 
-        KovetkezoHely
+        fJatekter.KovetkezoHely;
 
-        while (fJatekter.KirakKovetkezoHelyre(fMozaikok[jTipus])) do begin
-          inc(fAktualisSzint);
-
-          fRekurzioSzintjei[fAktualisSzint] := fMozaikok[jTipus].fMozaikTipus;
-
-          if oToltveVolt and (fAktualisSzint = fToltottAktSzint) then oToltveVolt := false;
-
-          if oMenteniKell then begin
-            Save;
-            fJatekter.Leallit;
-          end;
-
-          SetTempo;
-
-          if fJatekter.KeszVan then begin
-            inc(fHanyadikMegoldas);
-            Writeln(f, IntToStr(fHanyadikMegoldas) + '. megoldás:');
-            Writeln(f, fJatekter.Serialize + #13#10);
-          end else begin
-            Rekurziv;
-          end;
-
-          fJatekter.Levesz(fMozaikok[jTipus]);
-
-          dec(fAktualisSzint);
-
-          SetTempo;
+        if fJatekter.KirakhatoIde(fMozaikok[jTipus], fJatekter.fNextX, fJatekter.fNextY) then begin
+          fJatekter.Kirak(fMozaikok[jTipus], fJatekter.fNextX, fJatekter.fNextY);
         end;
+
+        SetTempo;
+
+     {   if fJatekter.KeszVan then begin
+          inc(fHanyadikMegoldas);
+          Writeln(f, IntToStr(fHanyadikMegoldas) + '. megoldás:');
+          Writeln(f, fJatekter.Serialize + #13#10);
+        end else begin
+          Rekurziv;
+        end;
+     }
+        fJatekter.Levesz(fMozaikok[jTipus]);
+
+
+        SetTempo;
+
       until not (fMozaikok[jTipus].Valtoztat);
       fMozaikok[jTipus].fValtozatIndex := 0;
     end;

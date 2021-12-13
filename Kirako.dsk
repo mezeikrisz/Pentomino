@@ -50,13 +50,13 @@ LeftPanelData=00000400000000009303000000000000018C000000000000000100000000C90100
 RightPanelSize=0
 BottomPanelSize=0
 BottomPanelClients=MessageView@EditWindow0
-BottomPanelData=00000400010000000B0000004D6573736167655669657700000000000000000000000000000000000100000000000000000B0000004D65737361676556696577FFFFFFFF
+BottomPanelData=00000400010000000B0000004D657373616765566965770000000000000000000000000000000000FFFFFFFF
 
 [View0]
 Module=C:\Krisz_Projects\Kirakó\Main.pas
-CursorX=1
-CursorY=559
-TopLine=693
+CursorX=155
+CursorY=407
+TopLine=453
 LeftCol=1
 
 [Watches]
@@ -127,7 +127,7 @@ LRDockWidth=190
 Dockable=1
 SplitPos=118
 ArrangeBy=Name
-SelectedItem=Visible
+SelectedItem=Name
 ExpandedItems=
 HiddenCategories=
 
@@ -167,13 +167,13 @@ Dockable=1
 Create=1
 Visible=0
 State=0
-Left=12
-Top=0
-Width=1647
+Left=-6
+Top=-697
+Width=443
 Height=85
 MaxLeft=-1
 MaxTop=-1
-ClientWidth=1647
+ClientWidth=443
 ClientHeight=85
 TBDockHeight=85
 LRDockWidth=443
