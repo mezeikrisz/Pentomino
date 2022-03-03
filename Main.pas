@@ -7,24 +7,25 @@ uses
   Dialogs, ExtCtrls, StdCtrls, Grids;
 
 type
-  TNegyzet = Array[1..5,1..5] of Char;
+  TNegyzet = Array[1..5,1..5] of Char; //sorindex majd oszlopindex, tehát fordítva, mint pixelcímzésnél
 
-  TTeglalap = Array[1..11,1..7] of Char;
+  TTeglalap = Array[1..7,1..11] of Char; //sorindex majd oszlopindex
 
   TMozaikNevek = (Ures, Hosszu, Elbetu, Hazteto, Sonka, Kereszt, Puska, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
 
   TMozaik = class(TObject)
-  private
+  public //private //hogy rálásson a test, egyelõre public minden
     fNegyzet: TNegyzet;
     fMozaikTipus: TMozaikNevek;
     fValtozatIndex: Byte;
-    fIttVoltUtoljaraX, fIttVoltUtoljaraY: Byte;
-    fElsoTeliX, fElsoTeliY: Byte;
+    fIttVoltUtoljaraI, fIttVoltUtoljaraJ: Byte;
+    fElsoTeliJ: Byte;
     fKiVanRakva: Boolean;
     constructor Create(pMozaik: TMozaikNevek);
-    procedure Forgat;    //fNegyzetet megforgatja clockwise
-    procedure Tukroz;    //fNegyzetet tükrözi függõleges tengelyre
+    procedure Forgat;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
+    procedure Tukroz;      //fNegyzetet tükrözi függõleges tengelyre
     procedure Normalizal;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
+    function Hasonlit(pNegyzet: TNegyzet): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
@@ -32,20 +33,22 @@ type
   end;
 
   TJatekTer = class(TObject)
-  private
+  public //private //hogy rálásson a test, egyelõre public minden
     fTeglalap: TTeglalap;
     fKirakottMennyiseg: Byte;
-    fElsoUresX, fElsoUresY: Byte;
+    fElsoUresI, fElsoUresJ: Byte;
     constructor Create;
-    function KirakhatoIde(pMozaik: TMozaik; pX, pY: Byte): Boolean;
-    procedure Kirak(pMozaik: TMozaik; pX, pY: Byte);
-    function LyukLenne: Boolean;
-    procedure ElsoUresKeres;
+    function KirakhatoIde(pMozaik: TMozaik; pI, pJ: Byte): Boolean;
+    procedure Kirak(pMozaik: TMozaik; pI, pJ: Byte);
+    function LyukLenneEgy: Boolean;
+    function LyukLenneKetto: Boolean;
+    function LyukLenneHarom: Boolean;
+    function LyukLenneNegy: Boolean;
+    procedure KeresElsoUres;
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
-    function KirakKovetkezoHelyre(pMozaik: TMozaik): Boolean;
-    procedure Levesz(pMozaik: TMozaik);
+    procedure Levesz(pMozaik: TMozaik; pI, pJ: Byte);
     function KeszVan: Boolean;
     procedure Leallit;
   end;
@@ -137,67 +140,67 @@ var
 
   oMozaikTomb: Array[Ures..Esbetu] of TNegyzet =
   (
-  (('@','@','@','@','@'),
+  (('@','@','@','@','@'),  //Ures
    ('@','@','@','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('A','@','@','@','@'),
-   ('A','@','@','@','@'),
-   ('A','@','@','@','@'),
-   ('A','@','@','@','@'),
-   ('A','@','@','@','@')),
-  (('B','@','@','@','@'),
-   ('B','@','@','@','@'),
-   ('B','@','@','@','@'),
-   ('B','B','@','@','@'),
+  (('A','A','A','A','A'),  //Hosszu
+   ('@','@','@','@','@'),
+   ('@','@','@','@','@'),
+   ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('C','@','@','@','@'),
+  (('B','B','@','@','@'),  //Elbetu
+   ('@','B','@','@','@'),
+   ('@','B','@','@','@'),
+   ('@','B','@','@','@'),
+   ('@','@','@','@','@')),
+  (('C','@','@','@','@'),  //Hazteto
    ('C','@','@','@','@'),
    ('C','C','C','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('D','@','@','@','@'),
-   ('D','D','@','@','@'),
+  (('D','D','D','@','@'),  //Sonka
    ('D','D','@','@','@'),
    ('@','@','@','@','@'),
+   ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('@','E','@','@','@'),
+  (('@','E','@','@','@'),  //Kereszt
    ('E','E','E','@','@'),
    ('@','E','@','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('F','F','F','F','@'),
-   ('@','F','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
+  (('F','@','@','@','@'),  //Puska
+   ('F','@','@','@','@'),
+   ('F','F','@','@','@'),
+   ('F','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('G','G','G','@','@'),
-   ('@','@','G','G','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
+  (('G','@','@','@','@'),  //Lapat
+   ('G','@','@','@','@'),
+   ('G','G','@','@','@'),
+   ('@','G','@','@','@'),
    ('@','@','@','@','@')),
-  (('H','H','@','@','@'),
+  (('H','H','@','@','@'),  //Csunya
    ('@','H','H','@','@'),
    ('@','H','@','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('I','I','I','@','@'),
+  (('@','I','@','@','@'),  //Tebetu
    ('@','I','@','@','@'),
-   ('@','I','@','@','@'),
+   ('I','I','I','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('J','J','@','@','@'),
+  (('@','@','J','@','@'),  //Lepcso
    ('@','J','J','@','@'),
-   ('@','@','J','@','@'),
+   ('J','J','@','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('K','K','K','@','@'),
+  (('K','K','K','@','@'),  //Ubetu
    ('K','@','K','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@'),
    ('@','@','@','@','@')),
-  (('L','L','@','@','@'),
+  (('L','L','@','@','@'),  //Esbetu
    ('@','L','@','@','@'),
    ('@','L','L','@','@'),
    ('@','@','@','@','@'),
@@ -217,9 +220,10 @@ begin
   fNegyzet := oMozaikTomb[pMozaik];
   fMozaikTipus := pMozaik;
   fValtozatIndex := 0;
-  fIttVoltUtoljaraX := 0;
-  fIttVoltUtoljaraY := 0;
+  fIttVoltUtoljaraI := 0;
+  fIttVoltUtoljaraJ := 0;
   fKiVanRakva := false;
+  Normalizal;
 end;
 
 procedure TMozaik.Forgat;
@@ -235,48 +239,52 @@ begin
 end;
 
 procedure TMozaik.Normalizal;
-var i, j, i2, j2, lMinX, lMinY: Byte;
+var i, j, i2, j2, i3, j3, lMinJ, lMinI: Byte;
     lTempNegyzet: TNegyzet;
 begin
   if (fNegyzet[1,1] <> '@') then Exit; //mert nincs mit normalizálni
 
   //minimum keresés mindkét koordinátára, ahol ertek = 1
-  lMinX := 5;
-  for i := 1 to 5 do begin
-    j := 0;
-    repeat
-      inc(j);
-    until (fNegyzet[i,j] <> '@') or (j = 5);
-    if j < lMinX then lMinX := j;
-  end;
-  lMinY := 5;
+  lMinI := 5;
   for j := 1 to 5 do begin
     i := 0;
     repeat
       inc(i);
     until (fNegyzet[i,j] <> '@') or (i = 5);
-    if i < lMinY then lMinY := i;
+    if i < lMinI then lMinI := i;
+  end;
+  lMinJ := 5;
+  for i := 1 to 5 do begin
+    j := 0;
+    repeat
+      inc(j);
+    until (fNegyzet[i,j] <> '@') or (j = 5);
+    if j < lMinJ then lMinJ := j;
   end;
 
-  fElsoTeliX := lMinX;
-  fElsoTeliY := lMinY;
+  if (lMinI = 1) and (lMinJ = 1) then begin //mert nincs mit normalizálni
+  end else begin
+    lTempNegyzet := oMozaikTomb[Ures];
 
-  if (lMinX = 1) and (lMinY = 1) then Exit; //mert nincs mit normalizálni
-
-  lTempNegyzet := oMozaikTomb[Ures];
-
-  //majd a két számmal jelölt pontig felmásolni mindent
-  i2 := 1;
-  for i := lMinY to 5 do begin
-    j2 := 1;
-    for j := lMinX to 5 do begin
-      lTempNegyzet[i2,j2] := fNegyzet[i,j];
-      inc(j2);
+    //majd a két számmal jelölt pontig felmásolni mindent
+    i2 := 1;
+    for i := lMinI to 5 do begin
+      j2 := 1;
+      for j := lMinJ to 5 do begin
+        lTempNegyzet[i2,j2] := fNegyzet[i,j];
+        inc(j2);
+      end;
+      inc(i2);
     end;
-    inc(i2);
+    fNegyzet := lTempNegyzet;
   end;
-
-  fNegyzet := lTempNegyzet;
+  
+  //a normalizált négyzet elsõ sorában megkeresni az elsõ értékes jegyet, ez legyen a J offset. Oszlopban elvileg nem kell vele törõdni.
+  j3 := 0;
+  repeat
+    inc(j3);
+  until (fNegyzet[1,j3] <> '@') or (j3 = 5);
+  fElsoTeliJ := j3 - 1;             //offset 0-tól indul, ha a sarokban kezdõdik az értékes jegy
 end;
 
 function TMozaik.Serialize: String;
@@ -284,8 +292,8 @@ var lKirakni: String;
     i, j: Byte;
 begin
   lKirakni := '';
-  for j := 1 to 5 do begin
-    for i := 1 to 5 do begin
+  for i := 1 to 5 do begin
+    for j := 1 to 5 do begin
       lKirakni := lKirakni + fNegyzet[i,j];
     end;
     lKirakni := lKirakni + #13#10;
@@ -297,9 +305,9 @@ procedure TMozaik.DeSerialize(pSor: String);
 var i, j, k: Byte;
 begin
   k := 1;
-  StringReplace(pSor, #13#10, '', [rfReplaceAll]);
-  for j := 1 to 5 do begin
-    for i := 1 to 5 do begin
+  pSor := StringReplace(pSor, #13#10, '', [rfReplaceAll]);
+  for i := 1 to 5 do begin
+    for j := 1 to 5 do begin
       fNegyzet[i,j] := pSor[k];
       inc(k);
     end;
@@ -321,7 +329,7 @@ end;
 function TMozaik.Valtoztat: Boolean;
 begin
   if (Length(oMozaikValtozatok[fMozaikTipus]) = fValtozatIndex) then begin
-    Result := false;
+    Result := false;                                                       //false-szal száll ki, ha már nincs több változat
     Exit;
   end;
   inc(fValtozatIndex);
@@ -331,6 +339,20 @@ begin
     'T': Tukroz;
   end;
   Normalizal;
+  Result := true;                                                          //true-val, ha csinált valamit
+end;
+
+function TMozaik.Hasonlit(pNegyzet: TNegyzet): Boolean;
+var i, j: Integer;
+begin
+  for i := 1 to 5 do begin
+    for j := 1 to 5 do begin
+      if pNegyzet[i, j] <> fNegyzet[i, j] then begin
+        Result := false;
+        Exit;
+      end;
+     end;
+  end;
   Result := true;
 end;
 
@@ -341,57 +363,28 @@ end;
 constructor TJatekTer.Create;
 var i, j: Byte;
 begin
-  for i := 1 to 11 do begin
-    for j := 1 to 7 do begin
+  for i := 1 to 7 do begin
+    for j := 1 to 11 do begin
       fTeglalap[i,j] := '@';
     end;
   end;
-  for i := 1 to 11 do begin
-    fTeglalap[i,7] := 'M';
+  for i := 1 to 7 do begin
+    fTeglalap[i,11] := 'M';
   end;
-  for j := 1 to 7 do begin
-    fTeglalap[11,j] := 'M';
+  for j := 1 to 11 do begin
+    fTeglalap[7,j] := 'M';
   end;
   fKirakottMennyiseg := 0;
 end;
 
-function TJatekTer.KirakKovetkezoHelyre(pMozaik: TMozaik): Boolean;
-begin
-  //végigtolni a mozaikot az összes lehetséges helyen, érzékelni a végét
-//  for i := pMozaik.fIttVoltUtoljaraX  to 10 do begin
-//    for j := pMozaik.fIttVoltUtoljaraY + 1 to 6 do begin //EBBEN A PLUSZ EGYBEN (+1) NEM VAGYOK BIZTOS... DE VALAHOGY ARRÉBB KÉNE MÁSZATNI. MOST ÍGY CSINÁLOM.
-//ciklizálás helyett minimum keresés kell az elsõ üres kockára... oda próbálni pakolni.
-//ha nem megy, akkor leszedni, forgatni, tükrözni, tologatni, stb
-//
-
-      if KirakhatoIde(pMozaik,fElsoUresX,fElsoUresY) then begin
-        //azaz ki tudja rakni a köv pozícióra
-
-        Kirak(pMozaik,fElsoUresX,fElsoUresY);
-        if LyukLenne then begin                //extra gyorsítás: egyes zárványoknál nem inkább leszedi a most felrakottat
-          Levesz(pMozaik);
-        end else begin
-          pMozaik.fIttVoltUtoljaraX := fElsoUresX;
-          pMozaik.fIttVoltUtoljaraY := fElsoUresY;
-          Result := true;
-          Exit;
-        end;
-      end;
-//    end;
-//  end;
-  pMozaik.fIttVoltUtoljaraX := 0;
-  pMozaik.fIttVoltUtoljaraY := 0;
-  Result := false; //ha idáig eljutott, akkor nem sikerült kirakni
-end;
-
-function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pX, pY: Byte): Boolean;
+function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pI, pJ: Byte): Boolean;
 var i, j: Byte;
 begin
   for i := 1 to 5 do begin
-    for j := 1 to 5 do begin
-      if ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pX+i-1,pY+j-1] <> '@')) //egybelógás lenne
+    for j := 1 to 5 do begin                    
+      if ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] <> '@')) //egybelógás lenne
          or
-         ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pX+i-1,pY+j-1] = 'M')) then begin //kilógás lenne
+         ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = 'M')) then begin //kilógás lenne
         Result := false;
         Exit;
       end;
@@ -400,30 +393,32 @@ begin
   Result := true;
 end;
 
-procedure TJatekTer.Kirak(pMozaik: TMozaik; pX, pY: Byte);
+procedure TJatekTer.Kirak(pMozaik: TMozaik; pI, pJ: Byte);
 var i, j: Byte;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
       if pMozaik.fNegyzet[i,j] <> '@' then begin
-        fTeglalap[pX+i-1,pY+j-1] := pMozaik.fNegyzet[i,j];
+        fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := pMozaik.fNegyzet[i,j];
       end;
     end;
   end;
-  pMozaik.fKiVanRakva := true;
-  inc(fKirakottMennyiseg);
+  pMozaik.fKiVanRakva := true;         //állapotjelzõ kell ez?
+  inc(fKirakottMennyiseg);             //állapotjelzõ kell ez?
 end;
 
-procedure TJatekTer.Levesz(pMozaik: TMozaik);
+procedure TJatekTer.Levesz(pMozaik: TMozaik; pI, pJ: Byte); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
 var i, j: Byte;
 begin
-  for i := 1 to 10 do begin
-    for j := 1 to 6 do begin
-      if (fTeglalap[i,j] =  oMozaikKarakterek[pMozaik.fMozaikTipus]) then fTeglalap[i,j] := '@';
+  for i := 1 to 5 do begin
+    for j := 1 to 5 do begin
+      if (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus]) then begin
+        fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := '@';
+      end;
     end;
   end;
-  pMozaik.fKiVanRakva := false;
-  dec(fKirakottMennyiseg);
+  pMozaik.fKiVanRakva := false;        //állapotjelzõ kell ez?
+  dec(fKirakottMennyiseg);             //állapotjelzõ kell ez?
 end;
 
 function TJatekTer.KeszVan: Boolean;
@@ -431,13 +426,13 @@ begin
   Result := (fKirakottMennyiseg = 12);
 end;
 
-function TJatekTer.Serialize: String;
+function TJatekTer.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örökölni 1 parammal...
 var lKirakni: String;
     i, j: Byte;
 begin
   lKirakni := '';
-  for j := 1 to 7 do begin   //a kiíratás soronként kell történjen, ezért vannak fordított sorrendben a ciklusok
-    for i := 1 to 11 do begin
+  for i := 1 to 7 do begin
+    for j := 1 to 11 do begin
       lKirakni := lKirakni + fTeglalap[i,j];
     end;
     lKirakni := lKirakni + #13#10;
@@ -445,95 +440,34 @@ begin
   Result := lKirakni;
 end;
 
-procedure TJatekTer.DeSerialize(pSor: String);
+procedure TJatekTer.DeSerialize(pSor: String); //TODO DeSerialize-t is kiemelni közös õsbe...
 var i, j, k: Byte;
 begin
   k := 1;
-  StringReplace(pSor, #13#10, '' ,[rfReplaceAll]);
-  for j := 1 to 7 do begin
-    for i := 1 to 11 do begin
+  pSor := StringReplace(pSor, #13#10, '' ,[rfReplaceAll]);
+  for i := 1 to 7 do begin
+    for j := 1 to 11 do begin
       fTeglalap[i,j] := pSor[k];
       inc(k);
     end;
   end;
 end;
 
-function TJatekTer.LyukLenne: Boolean;
+procedure TJatekTer.KeresElsoUres;
 var i, j: Byte;
 begin
-  for i := 1 to 10 do begin
-    for j := 1 to 6 do begin
-      if (fTeglalap[i,j] = '@')
-       and
-         (fTeglalap[i+1,j] <> '@')
-       and
-         (fTeglalap[i-1,j] <> '@')
-       and
-         (fTeglalap[i,j+1] <> '@')
-       and
-         (fTeglalap[i,j-1] <> '@') then begin //egyes zárvány
-        Result := true;
-        Exit;
-      end else if (fTeglalap[i,j] = '@')
-                and
-                  (fTeglalap[i,j+1] = '@')
-                and
-                  (fTeglalap[i+1,j] <> '@')
-                and
-                  (fTeglalap[i+1,j+1] <> '@')
-                and
-                  (fTeglalap[i,j+2] <> '@')
-                and
-                  (fTeglalap[i-1,j+1] <> '@')
-                and
-                  (fTeglalap[i-1,j] <> '@')
-                and
-                  (fTeglalap[i,j-1] <> '@')
-                                          then begin //kettes zárvány függõlegesen
-        Result := true;
-        Exit;
-      end else if (fTeglalap[i,j] = '@')
-                and
-                  (fTeglalap[i+1,j] = '@')
-                and
-                  (fTeglalap[i,j-1] <> '@')
-                and
-                  (fTeglalap[i+1,j-1] <> '@')
-                and
-                  (fTeglalap[i+2,j] <> '@')
-                and
-                  (fTeglalap[i+1,j+1] <> '@')
-                and
-                  (fTeglalap[i,j+1] <> '@')
-                and
-                  (fTeglalap[i-1,j] <> '@')
-                                          then begin //kettes zárvány vízszintesen
-        Result := true;
-        Exit;
-      end else begin
-
-        Result := false;
-      end;
-    end;
-  end;
-end;
-
-procedure TJatekTer.ElsoUresKeres;
-var i, j: Byte;
-begin
-  fElsoUresX := 11;
-  fElsoUresY := 7;
-  for i := 1 to 10 do begin
-    for j := 1 to 6 do begin
+  fElsoUresI := 7;                                       //ezen értékek jelzik, ha nincs már üres pozíció, azaz már teli van a játéktér
+  fElsoUresJ := 11;
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
       if fTeglalap[i,j] = '@' then begin
-        fElsoUresX := i;
-        fElsoUresY := j;
+        fElsoUresI := i;
+        fElsoUresJ := j;
         Exit;
       end;
     end;
   end;
 end;
-
 
 procedure TJatekTer.Leallit;
 var i, j: Byte;
@@ -545,9 +479,814 @@ begin
   end;
 end;
 
+function TJatekTer.LyukLenneEgy: Boolean;
+var i, j: Byte;
+begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@') then
+      begin
+        Result := true;
+        Exit;
+      end;
+    end;
+  end;
+  Result := false;
+end;
+
+function TJatekTer.LyukLenneKetto: Boolean;
+var i, j: Byte;
+begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //kettes zárvány vízszintesen
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //kettes zárvány függõlegesen
+        Result := true;
+        Exit;
+      end;
+    end;
+  end;
+  Result := false;
+end;
+
+//valszeg gond lesz a tömb túlcímzésekbõl a 3-4-es lyukvizsgálatoknál. valszeg bõvíteni kéne újabb sor M betûkkel minden irányba a táblát, különben a tábla szélén lyuktalálás helyett "out of bonds" lesz
+//talán rövidzár kiértékeléssel el lehetne kerülni, illetve kivédeni
+//mégjobb: ami 3-as vagy 4-es zárványnál tömb túlcímzést eredményezne, az elõbb akad fel a 2-es vagy az 1-es vizsgálatnál. Csak ügyesen kell õket egymás után drótozni élesben.
+//sõt! teszt tesztje alapján mintha nem is akarna elszállni ebben... nem értem, h miért nem. rövidzárat teljesen felborítva, a túlcímzõs "and" részeket elõre rakva sem akar elszállni.
+//google: default-ban van short circuit evaluation: https://stackoverflow.com/questions/15084323/delphi-and-evaluation-with-2-conditions
+// {$BOOLEVAL ON} kapcsolóval a Main.pas és a MainTest.pas elejében sem száll el. Beszarok.
+
+function TJatekTer.LyukLenneHarom: Boolean;
+var i, j: Byte;
+begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] = '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i,j+3] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+       and
+         (fTeglalap[i-1,j+2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //hármas zárvány vízszintesen (#1)
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //hármas zárvány függõlegesen  (#2)
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //#3
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j-1] = '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //#4
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#5
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#6
+        Result := true;
+        Exit;
+      end;
+    end;
+  end;
+  Result := false;
+end;
+
+function TJatekTer.LyukLenneNegy: Boolean;
+var i, j: Byte;
+begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] = '@')
+       and
+         (fTeglalap[i,j+3] = '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+3] <> '@')
+       and
+         (fTeglalap[i,j+4] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+       and
+         (fTeglalap[i-1,j+2] <> '@')
+       and
+         (fTeglalap[i-1,j+3] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //négyes zárvány vízszintesen (#1)
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i+3,j] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j+1] <> '@')
+       and
+         (fTeglalap[i+4,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+3,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //négyes zárvány függõlegesen  (#2)
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i+1,j+2] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+3] <> '@')
+       and
+         (fTeglalap[i+2,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#3
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j-1] = '@')
+       and
+         (fTeglalap[i+1,j-2] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+2,j-2] <> '@')
+       and
+         (fTeglalap[i+1,j-3] <> '@')
+       and
+         (fTeglalap[i,j-2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#4
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] = '@')
+       and
+         (fTeglalap[i+1,j+2] = '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+       and
+         (fTeglalap[i-1,j+2] <> '@')
+       and
+         (fTeglalap[i,j+3] <> '@')
+       and
+         (fTeglalap[i+1,j+3] <> '@')
+       and
+         (fTeglalap[i+2,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //#5
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+       and
+         (fTeglalap[i-1,j+2] <> '@')
+       and
+         (fTeglalap[i,j+3] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+      then begin                                //#6
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i+2,j+1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j+2] <> '@')
+       and
+         (fTeglalap[i+3,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#7
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i+2,j-1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j] <> '@')
+       and
+         (fTeglalap[i+3,j-1] <> '@')
+       and
+         (fTeglalap[i+2,j-2] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#8
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i+2,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+2] <> '@')
+       and
+         (fTeglalap[i+3,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#9
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#10
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i+2,j+1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+2] <> '@')
+       and
+         (fTeglalap[i+3,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#11
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j-1] = '@')
+       and
+         (fTeglalap[i+2,j-1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+3,j-1] <> '@')
+       and
+         (fTeglalap[i+2,j-2] <> '@')
+       and
+         (fTeglalap[i+1,j-2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#12
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i+1,j+2] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+3] <> '@')
+       and
+         (fTeglalap[i+2,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#13
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j-1] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#14
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i,j+3] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+       and
+         (fTeglalap[i-1,j+2] <> '@')
+      then begin                                //#15
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+1,j-1] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#16
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#17
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i+2,j] = '@')
+       and
+         (fTeglalap[i+1,j-1] = '@')
+       and
+         (fTeglalap[i,j+1] <> '@')
+       and
+         (fTeglalap[i+1,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+3,j] <> '@')
+       and
+         (fTeglalap[i+2,j-1] <> '@')
+       and
+         (fTeglalap[i+1,j-2] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+      then begin                                //#18
+        Result := true;
+        Exit;
+      end;
+      if (fTeglalap[i,j] = '@')
+       and
+         (fTeglalap[i+1,j] = '@')
+       and
+         (fTeglalap[i,j+1] = '@')
+       and
+         (fTeglalap[i+1,j+1] = '@')
+       and
+         (fTeglalap[i,j+2] <> '@')
+       and
+         (fTeglalap[i+1,j+2] <> '@')
+       and
+         (fTeglalap[i+2,j+1] <> '@')
+       and
+         (fTeglalap[i+2,j] <> '@')
+       and
+         (fTeglalap[i+1,j-1] <> '@')
+       and
+         (fTeglalap[i,j-1] <> '@')
+       and
+         (fTeglalap[i-1,j] <> '@')
+       and
+         (fTeglalap[i-1,j+1] <> '@')
+      then begin                                //#19
+        Result := true;
+        Exit;
+      end;
+    end;
+  end;
+  Result := false;
+end;
+
 {----------}
 { TfrmMain }
 {----------}
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+var lMentveVolt: Boolean;
+    iTipus: TMozaikNevek;
+    i: Byte;
+begin
+  oMenteniKell := false;
+  oToltveVolt := false;
+
+  fAktualisSzint := 0;
+  for i := 1 to 12 do begin
+    fRekurzioSzintjei[i] := Ures;
+  end;
+
+  fToltottAktSzint := 0;
+
+  fJatekter := TJatekTer.Create;
+
+  for iTipus := Hosszu to Esbetu do begin
+    fMozaikok[iTipus] := TMozaik.Create(iTipus);
+  end;
+
+  lMentveVolt := FileExists('save.txt');
+
+  btnKeres.Enabled := not lMentveVolt;
+  btnLoad.Enabled := lMentveVolt;
+  btnSave.Enabled := false;
+end;
 
 procedure TfrmMain.btnKeresClick(Sender: TObject);
 begin
@@ -569,56 +1308,10 @@ begin
   //save-nél results-ot is zárni!!
 end;
 
-procedure TfrmMain.Rekurziv;
-var jTipus, lKezdoMozaik: TMozaikNevek;
-begin
-  for jTipus := Hosszu to Esbetu do begin
-    if (not fMozaikok[jTipus].fKiVanRakva) then begin
-      //itt megkeresni legelsõ üres helyet a téglalapon:
-      fJatekter.ElsoUresKeres;
-
-      //repeat
-      while (fMozaikok[jTipus].Valtoztat) do begin
-
-        while (fJatekter.KirakKovetkezoHelyre(fMozaikok[jTipus])) do begin
-          inc(fAktualisSzint);
-
-          fRekurzioSzintjei[fAktualisSzint] := fMozaikok[jTipus].fMozaikTipus;
-
-          if oToltveVolt and (fAktualisSzint = fToltottAktSzint) then oToltveVolt := false;
-
-          if oMenteniKell then begin
-            Save;
-            fJatekter.Leallit;
-          end;
-
-          SetTempo;
-
-          if fJatekter.KeszVan then begin
-            inc(fHanyadikMegoldas);
-            Writeln(f, IntToStr(fHanyadikMegoldas) + '. megoldás:');
-            Writeln(f, fJatekter.Serialize + #13#10);
-          end else begin
-            Rekurziv;
-          end;
-
-          fJatekter.Levesz(fMozaikok[jTipus]);
-
-          dec(fAktualisSzint);
-
-          SetTempo;
-        end;
-      //until not (fMozaikok[jTipus].Valtoztat);
-      end;
-      fMozaikok[jTipus].fValtozatIndex := 0;
-    end;
-  end;
-end;
-
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
   if Assigned(fJatekter) then begin
-    dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ACol+1,ARow+1]) - Ord('@')];
+    dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ARow+1,ACol+1]) - Ord('@')];
     //a cellában lévõ karakter értékébõl kivonjuk az @ ascii kódját, ezzel az integerrel már címezhetõ a Szinek tömb
     dwgdLenyeg.Canvas.FillRect(Rect);
   end;
@@ -634,7 +1327,7 @@ begin
       end;
     2:begin
         dwgdLenyeg.Repaint;
-        Sleep(500);
+        Sleep(750);
       end;
   end;
   Application.ProcessMessages;
@@ -642,16 +1335,17 @@ end;
 
 procedure TfrmMain.btnSaveClick(Sender: TObject);
 begin
-  oMenteniKell := true;
+  {oMenteniKell := true;
 
   btnKeres.Enabled := false;
   btnLoad.Enabled := true;
   btnSave.Enabled := false;
+  }
 end;
 
 procedure TfrmMain.btnLoadClick(Sender: TObject);
 begin
-  oToltveVolt := true;
+  {oToltveVolt := true;
 
   Load;
   dwgdLenyeg.Repaint;
@@ -659,6 +1353,7 @@ begin
   btnLoad.Enabled := false;
   btnSave.Enabled := true;
   Rekurziv;
+  }
 end;
 
 procedure TfrmMain.Save;
@@ -678,8 +1373,8 @@ begin
     Writeln(f, fMozaikok[iTipus].Serialize);
     //fMozaikTipust nem írom ki, mert redundáns infó némileg és nincs is ..ToStr-je :)
     Writeln(f, IntToStr(fMozaikok[iTipus].fValtozatIndex));
-    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraX));
-    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraY));
+    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraI));
+    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraJ));
     if fMozaikok[iTipus].fKiVanRakva then Writeln(f, 'true')
                                      else Writeln(f, 'false');
   end;
@@ -689,6 +1384,7 @@ begin
   Writeln(f,IntToStr(fAktualisSzint));
 
   CloseFile(f);
+
 end;
 
 procedure TfrmMain.Load;
@@ -718,10 +1414,10 @@ begin
     fMozaikok[iTipus].fValtozatIndex := StrToInt(lSor);
 
     Readln(f, lSor);
-    fMozaikok[iTipus].fIttVoltUtoljaraX := StrToInt(lSor);
+    fMozaikok[iTipus].fIttVoltUtoljaraI := StrToInt(lSor);
 
     Readln(f, lSor);
-    fMozaikok[iTipus].fIttVoltUtoljaraY := StrToInt(lSor);
+    fMozaikok[iTipus].fIttVoltUtoljaraJ := StrToInt(lSor);
 
     Readln(f, lSor);
     if lSor = 'true' then fMozaikok[iTipus].fKiVanRakva := true
@@ -746,32 +1442,40 @@ begin
   CloseFile(f);
 end;
 
-procedure TfrmMain.FormCreate(Sender: TObject);
-var lMentveVolt: Boolean;
-    iTipus: TMozaikNevek;
-    i: Byte;
+procedure TfrmMain.Rekurziv;
+var jTipus: TMozaikNevek;
+    lElsoUresI, lElsoUresJ: Byte;
 begin
-  oMenteniKell := false;
-  oToltveVolt := false;
+  for jTipus := Hosszu to Esbetu do begin
+    if (not fMozaikok[jTipus].fKiVanRakva) then begin   // ezt a változót írni kirak, leszed -ben! // további gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
+      fJatekter.KeresElsoUres;
+      lElsoUresI := fJatekter.fElsoUresI;
+      lElsoUresJ := fJatekter.fElsoUresJ;
+      if fJatekter.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
+        fJatekter.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+        SetTempo;
+        if fJatekter.LyukLenneEgy or fJatekter.LyukLenneKetto or fJatekter.LyukLenneHarom or fJatekter.LyukLenneNegy then begin
+          fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+          //SetTempo;
+        end else begin
+          Rekurziv;
+        end;
+        fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+        
+          {if fJatekter.KeszVan then begin
+            inc(fHanyadikMegoldas);
+            Writeln(f, IntToStr(fHanyadikMegoldas) + '. megoldás:');
+            Writeln(f, fJatekter.Serialize + #13#10);
+          end else begin
+            Rekurziv;
+          end;}
 
-  fAktualisSzint := 0;
-  for i := 1 to 12 do begin
-    fRekurzioSzintjei[i] := Ures;
+
+          {fMozaikok[jTipus].fValtozatIndex := 0;}
+
+      end; // if
+    end;
   end;
-
-  fToltottAktSzint := 0;
-
-  fJatekter := TJatekTer.Create;
-
-  for iTipus := Hosszu to Esbetu do begin
-    fMozaikok[iTipus] := TMozaik.Create(iTipus);
-  end;
-
-  lMentveVolt := FileExists('save.txt');
-  
-  btnKeres.Enabled := not lMentveVolt;
-  btnLoad.Enabled := lMentveVolt;
-  btnSave.Enabled := false;
 end;
 
 end.
