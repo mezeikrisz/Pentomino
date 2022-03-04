@@ -264,7 +264,7 @@ begin
        '..***'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
-  Check(mMozaikMindegy.fElsoTeliJ = 2, 'Mozaik Normalizal 5, offset');
+  Check(mMozaikMindegy.fOffsetJ = 2, 'Mozaik Normalizal 5, offset');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -273,7 +273,7 @@ begin
        '*****'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
-  Check(mMozaikMindegy.fElsoTeliJ = 4, 'Mozaik Normalizal 6, offset');
+  Check(mMozaikMindegy.fOffsetJ = 4, 'Mozaik Normalizal 6, offset');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -282,7 +282,7 @@ begin
        '....*'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
-  Check(mMozaikMindegy.fElsoTeliJ = 0, 'Mozaik Normalizal 7, offset');
+  Check(mMozaikMindegy.fOffsetJ = 0, 'Mozaik Normalizal 7, offset');
 
 
   mMozaikEsbetu.Free;

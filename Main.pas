@@ -19,7 +19,7 @@ type
     fMozaikTipus: TMozaikNevek;
     fValtozatIndex: Byte;
     fIttVoltUtoljaraI, fIttVoltUtoljaraJ: Byte;
-    fElsoTeliJ: Byte;
+    fOffsetJ: Byte;
     fKiVanRakva: Boolean;
     constructor Create(pMozaik: TMozaikNevek);
     procedure Forgat;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
@@ -280,21 +280,21 @@ begin
   repeat
     inc(j3);
   until (fNegyzet[1,j3] <> '.') or (j3 = 5);
-  fElsoTeliJ := j3 - 1;             //offset 0-tól indul, ha a sarokban kezdõdik az értékes jegy
+  fOffsetJ := j3 - 1;             //offset 0-tól indul, ha a sarokban kezdõdik az értékes jegy
 end;
 
 function TMozaik.Serialize: String;
-var lKirakni: String;
+var s: String;
     i, j: Byte;
 begin
-  lKirakni := '';
+  s := '';
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      lKirakni := lKirakni + fNegyzet[i,j];
+      s := s + fNegyzet[i,j];
     end;
-    lKirakni := lKirakni + #13#10;
+    s := s + #13#10;
   end;
-  Result := lKirakni;
+  Result := s;
 end;
 
 procedure TMozaik.DeSerialize(pSor: String);
@@ -378,9 +378,9 @@ var i, j: Byte;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin                    
-      if ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] <> '.')) //egybelógás lenne
+      if ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] <> '.')) //egybelógás lenne
          or
-         ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = 'M')) then begin //kilógás lenne
+         ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
         Result := false;
         Exit;
       end;
@@ -395,7 +395,7 @@ begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
       if pMozaik.fNegyzet[i,j] <> '.' then begin
-        fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := pMozaik.fNegyzet[i,j];
+        fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := pMozaik.fNegyzet[i,j];
       end;
     end;
   end;
@@ -409,8 +409,8 @@ var i, j: Byte;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus] then begin
-        fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := '.';
+      if fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus] then begin
+        fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := '.';
       end;
     end;
   end;
@@ -425,17 +425,17 @@ begin
 end;
 
 function TJatekTer.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örökölni 1 parammal...
-var lKirakni: String;
+var s: String;
     i, j: Byte;
 begin
-  lKirakni := '';
+  s := '';
   for i := 1 to 7 do begin
     for j := 1 to 11 do begin
-      lKirakni := lKirakni + fTeglalap[i,j];
+      s := s + fTeglalap[i,j];
     end;
-    lKirakni := lKirakni + #13#10;
+    s := s + #13#10;
   end;
-  Result := lKirakni;
+  Result := s;
 end;
 
 procedure TJatekTer.DeSerialize(pSor: String); //TODO DeSerialize-t is kiemelni közös õsbe...
