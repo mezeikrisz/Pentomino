@@ -1137,20 +1137,47 @@ end;
 procedure TMainTest.testJatekterLevesz;
 var s: String;
     j: TJatekTer;
-    mMozaikKereszt, mMozaikElbetu, mMozaikHosszu: TMozaik;
+    mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TMozaik;
 begin
   j := TJatekTer.Create;
-  mMozaikKereszt := TMozaik.Create(Kereszt);
-  mMozaikElbetu := TMozaik.Create(Elbetu);
   mMozaikHosszu := TMozaik.Create(Hosszu);
+  mMozaikElbetu := TMozaik.Create(Elbetu);
+  mMozaikHazteto := TMozaik.Create(Hazteto);
+  mMozaikSonka := TMozaik.Create(Sonka);
+  mMozaikKereszt := TMozaik.Create(Kereszt);
+  mMozaikPuska := TMozaik.Create(Puska);
+  mMozaikLapat := TMozaik.Create(Lapat);
+  mMozaikCsunya :=TMozaik.Create(Csunya);
+  mMozaikTebetu := TMozaik.Create(Tebetu);
+  mMozaikLepcso := TMozaik.Create(Lepcso);
+  mMozaikUbetu := TMozaik.Create(Ubetu);
+  mMozaikEsbetu := TMozaik.Create(Esbetu);
 
-  j.Kirak(mMozaikElbetu, 1, 1);
-  j.Kirak(mMozaikKereszt, 4, 3);
+  j.Kirak(mMozaikSonka, 1, 1);
+  j.Kirak(mMozaikUbetu, 1, 4);
+  j.Kirak(mMozaikCsunya, 1, 7);
+  j.Kirak(mMozaikElbetu, 1, 9);
+  j.Kirak(mMozaikLapat, 2, 3);
+  j.Kirak(mMozaikKereszt, 2, 5);
+  j.Kirak(mMozaikPuska, 2, 7);
+  j.Kirak(mMozaikEsbetu, 3, 1);
+  j.Kirak(mMozaikTebetu, 3, 9);
+  j.Kirak(mMozaikHazteto, 4, 1);
+  j.Kirak(mMozaikLepcso, 4, 6);
   j.Kirak(mMozaikHosszu, 6, 6);
 
-  j.Levesz(mMozaikElbetu, 1, 1);
-  j.Levesz(mMozaikKereszt, 4, 3);
   j.Levesz(mMozaikHosszu, 6, 6);
+  j.Levesz(mMozaikLepcso, 4, 6);
+  j.Levesz(mMozaikHazteto, 4, 1);
+  j.Levesz(mMozaikTebetu, 3, 9);
+  j.Levesz(mMozaikEsbetu, 3, 1);
+  j.Levesz(mMozaikPuska, 2, 7);
+  j.Levesz(mMozaikKereszt, 2, 5);
+  j.Levesz(mMozaikLapat, 2, 3);
+  j.Levesz(mMozaikElbetu, 1, 9);
+  j.Levesz(mMozaikCsunya, 1, 7);
+  j.Levesz(mMozaikUbetu, 1, 4);
+  j.Levesz(mMozaikSonka, 1, 1);
 
   s := '..........M'#13#10 +
        '..........M'#13#10 +
@@ -1160,10 +1187,19 @@ begin
        '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   Check(j.Serialize = s, 'Levesz 1');
-  
-  mMozaikElbetu.Free;
-  mMozaikKereszt.Free;
+
   mMozaikHosszu.Free;
+  mMozaikElbetu.Free;
+  mMozaikHazteto.Free;
+  mMozaikSonka.Free;
+  mMozaikKereszt.Free;
+  mMozaikPuska.Free;
+  mMozaikLapat.Free;
+  mMozaikCsunya.Free;
+  mMozaikTebetu.Free;
+  mMozaikLepcso.Free;
+  mMozaikUbetu.Free;
+  mMozaikEsbetu.Free;
   j.Free;
 end;
 
