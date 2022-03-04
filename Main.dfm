@@ -16,6 +16,13 @@ object frmMain: TfrmMain
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
+  object lblKirakottMennyiseg: TLabel
+    Left = 8
+    Top = 136
+    Width = 6
+    Height = 13
+    Caption = '0'
+  end
   object btnKeres: TButton
     Left = 8
     Top = 8
@@ -41,27 +48,6 @@ object frmMain: TfrmMain
     TabOrder = 1
     OnDrawCell = dwgdLenyegDrawCell
   end
-  object btnLoad: TButton
-    Left = 8
-    Top = 128
-    Width = 73
-    Height = 25
-    Caption = 'Folytat'
-    TabOrder = 2
-    Visible = False
-    OnClick = btnLoadClick
-  end
-  object btnSave: TButton
-    Left = 88
-    Top = 128
-    Width = 73
-    Height = 25
-    Caption = 'Abbahagy'
-    Enabled = False
-    TabOrder = 3
-    Visible = False
-    OnClick = btnSaveClick
-  end
   object rgrpTempo: TRadioGroup
     Left = 8
     Top = 160
@@ -73,6 +59,6 @@ object frmMain: TfrmMain
       'l'#225'thatatlan'
       'l'#225'that'#243' gyors'
       'l'#225'that'#243' lass'#250)
-    TabOrder = 4
+    TabOrder = 2
   end
 end

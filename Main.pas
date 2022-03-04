@@ -35,7 +35,7 @@ type
   TJatekTer = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
     fTeglalap: TTeglalap;
-    fKirakottMennyiseg: Byte;
+    fKirakottMennyiseg: Integer;
     fElsoUresI, fElsoUresJ: Byte;
     constructor Create;
     function KirakhatoIde(pMozaik: TMozaik; pI, pJ: Byte): Boolean;
@@ -56,14 +56,11 @@ type
   TfrmMain = class(TForm)
     btnKeres: TButton;
     dwgdLenyeg: TDrawGrid;
-    btnLoad: TButton;
-    btnSave: TButton;
     rgrpTempo: TRadioGroup;
+    lblKirakottMennyiseg: TLabel;
     procedure btnKeresClick(Sender: TObject);
     procedure dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
-    procedure btnLoadClick(Sender: TObject);
-    procedure btnSaveClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     i, j: Byte;
@@ -405,6 +402,7 @@ begin
   end;
   pMozaik.fKiVanRakva := true;         //állapotjelzõ kell ez?
   inc(fKirakottMennyiseg);             //állapotjelzõ kell ez?
+
 end;
 
 procedure TJatekTer.Levesz(pMozaik: TMozaik; pI, pJ: Byte); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
@@ -419,6 +417,7 @@ begin
   end;
   pMozaik.fKiVanRakva := false;        //állapotjelzõ kell ez?
   dec(fKirakottMennyiseg);             //állapotjelzõ kell ez?
+
 end;
 
 function TJatekTer.KeszVan: Boolean;
@@ -1284,15 +1283,11 @@ begin
   lMentveVolt := FileExists('save.txt');
 
   btnKeres.Enabled := not lMentveVolt;
-  btnLoad.Enabled := lMentveVolt;
-  btnSave.Enabled := false;
 end;
 
 procedure TfrmMain.btnKeresClick(Sender: TObject);
 begin
   btnKeres.Enabled := false;
-  btnLoad.Enabled := false;
-  btnSave.Enabled := true;
 
   AssignFile(f, 'results.txt');
   Rewrite(f);
@@ -1327,33 +1322,11 @@ begin
       end;
     2:begin
         dwgdLenyeg.Repaint;
-        Sleep(750);
+        Sleep(500);
       end;
   end;
+  lblKirakottMennyiseg.Caption := IntToStr(fJatekter.fKirakottMennyiseg);
   Application.ProcessMessages;
-end;
-
-procedure TfrmMain.btnSaveClick(Sender: TObject);
-begin
-  {oMenteniKell := true;
-
-  btnKeres.Enabled := false;
-  btnLoad.Enabled := true;
-  btnSave.Enabled := false;
-  }
-end;
-
-procedure TfrmMain.btnLoadClick(Sender: TObject);
-begin
-  {oToltveVolt := true;
-
-  Load;
-  dwgdLenyeg.Repaint;
-  btnKeres.Enabled := false;
-  btnLoad.Enabled := false;
-  btnSave.Enabled := true;
-  Rekurziv;
-  }
 end;
 
 procedure TfrmMain.Save;
@@ -1452,16 +1425,20 @@ begin
       lElsoUresI := fJatekter.fElsoUresI;
       lElsoUresJ := fJatekter.fElsoUresJ;
       if fJatekter.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
+        SetTempo;
         fJatekter.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
         SetTempo;
         if fJatekter.LyukLenneEgy or fJatekter.LyukLenneKetto or fJatekter.LyukLenneHarom or fJatekter.LyukLenneNegy then begin
+          SetTempo;
           fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
-          //SetTempo;
+          SetTempo;
         end else begin
           Rekurziv;
+          SetTempo;
+          fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+          SetTempo;
         end;
-        fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
-        
+
           {if fJatekter.KeszVan then begin
             inc(fHanyadikMegoldas);
             Writeln(f, IntToStr(fHanyadikMegoldas) + '. megoldás:');
