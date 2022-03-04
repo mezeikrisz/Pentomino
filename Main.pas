@@ -102,7 +102,7 @@ var
 
   oMozaikKarakterek: Array[Ures..Esbetu] of Char =
   (
-  '@',
+  '.',
   'A',
   'B',
   'C',
@@ -117,9 +117,8 @@ var
   'L'
   );
 
-  oMozaikSzinek: Array[0..13] of TColor =    //ez most nem enummal címezve, mert a szélsõ feketéket is festeni akarom..
+  oMozaikSzinek: Array[0..12] of TColor =    //ez most nem enummal címezve, mert a szélsõ feketéket is festeni akarom, és mert karakter kódokkal kéne címezni, hogy gyorsabb legyen
   (
-  clWhite,
   clRed,
   clGreen,
   clBlue,
@@ -137,71 +136,71 @@ var
 
   oMozaikTomb: Array[Ures..Esbetu] of TNegyzet =
   (
-  (('@','@','@','@','@'),  //Ures
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
+  (('.','.','.','.','.'),  //Ures
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
   (('A','A','A','A','A'),  //Hosszu
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('B','B','@','@','@'),  //Elbetu
-   ('@','B','@','@','@'),
-   ('@','B','@','@','@'),
-   ('@','B','@','@','@'),
-   ('@','@','@','@','@')),
-  (('C','@','@','@','@'),  //Hazteto
-   ('C','@','@','@','@'),
-   ('C','C','C','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('D','D','D','@','@'),  //Sonka
-   ('D','D','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('@','E','@','@','@'),  //Kereszt
-   ('E','E','E','@','@'),
-   ('@','E','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('F','@','@','@','@'),  //Puska
-   ('F','@','@','@','@'),
-   ('F','F','@','@','@'),
-   ('F','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('G','@','@','@','@'),  //Lapat
-   ('G','@','@','@','@'),
-   ('G','G','@','@','@'),
-   ('@','G','@','@','@'),
-   ('@','@','@','@','@')),
-  (('H','H','@','@','@'),  //Csunya
-   ('@','H','H','@','@'),
-   ('@','H','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('@','I','@','@','@'),  //Tebetu
-   ('@','I','@','@','@'),
-   ('I','I','I','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('@','@','J','@','@'),  //Lepcso
-   ('@','J','J','@','@'),
-   ('J','J','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('K','K','K','@','@'),  //Ubetu
-   ('K','@','K','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@')),
-  (('L','L','@','@','@'),  //Esbetu
-   ('@','L','@','@','@'),
-   ('@','L','L','@','@'),
-   ('@','@','@','@','@'),
-   ('@','@','@','@','@'))
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('B','B','.','.','.'),  //Elbetu
+   ('.','B','.','.','.'),
+   ('.','B','.','.','.'),
+   ('.','B','.','.','.'),
+   ('.','.','.','.','.')),
+  (('C','.','.','.','.'),  //Hazteto
+   ('C','.','.','.','.'),
+   ('C','C','C','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('D','D','D','.','.'),  //Sonka
+   ('D','D','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('.','E','.','.','.'),  //Kereszt
+   ('E','E','E','.','.'),
+   ('.','E','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('F','.','.','.','.'),  //Puska
+   ('F','.','.','.','.'),
+   ('F','F','.','.','.'),
+   ('F','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('G','.','.','.','.'),  //Lapat
+   ('G','.','.','.','.'),
+   ('G','G','.','.','.'),
+   ('.','G','.','.','.'),
+   ('.','.','.','.','.')),
+  (('H','H','.','.','.'),  //Csunya
+   ('.','H','H','.','.'),
+   ('.','H','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('.','I','.','.','.'),  //Tebetu
+   ('.','I','.','.','.'),
+   ('I','I','I','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('.','.','J','.','.'),  //Lepcso
+   ('.','J','J','.','.'),
+   ('J','J','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('K','K','K','.','.'),  //Ubetu
+   ('K','.','K','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.')),
+  (('L','L','.','.','.'),  //Esbetu
+   ('.','L','.','.','.'),
+   ('.','L','L','.','.'),
+   ('.','.','.','.','.'),
+   ('.','.','.','.','.'))
   );
 
 implementation
@@ -239,7 +238,7 @@ procedure TMozaik.Normalizal;
 var i, j, i2, j2, i3, j3, lMinJ, lMinI: Byte;
     lTempNegyzet: TNegyzet;
 begin
-  if (fNegyzet[1,1] <> '@') then Exit; //mert nincs mit normalizálni
+  if (fNegyzet[1,1] <> '.') then Exit; //mert nincs mit normalizálni
 
   //minimum keresés mindkét koordinátára, ahol ertek = 1
   lMinI := 5;
@@ -247,7 +246,7 @@ begin
     i := 0;
     repeat
       inc(i);
-    until (fNegyzet[i,j] <> '@') or (i = 5);
+    until (fNegyzet[i,j] <> '.') or (i = 5);
     if i < lMinI then lMinI := i;
   end;
   lMinJ := 5;
@@ -255,7 +254,7 @@ begin
     j := 0;
     repeat
       inc(j);
-    until (fNegyzet[i,j] <> '@') or (j = 5);
+    until (fNegyzet[i,j] <> '.') or (j = 5);
     if j < lMinJ then lMinJ := j;
   end;
 
@@ -280,7 +279,7 @@ begin
   j3 := 0;
   repeat
     inc(j3);
-  until (fNegyzet[1,j3] <> '@') or (j3 = 5);
+  until (fNegyzet[1,j3] <> '.') or (j3 = 5);
   fElsoTeliJ := j3 - 1;             //offset 0-tól indul, ha a sarokban kezdõdik az értékes jegy
 end;
 
@@ -362,7 +361,7 @@ var i, j: Byte;
 begin
   for i := 1 to 7 do begin
     for j := 1 to 11 do begin
-      fTeglalap[i,j] := '@';
+      fTeglalap[i,j] := '.';
     end;
   end;
   for i := 1 to 7 do begin
@@ -379,9 +378,9 @@ var i, j: Byte;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin                    
-      if ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] <> '@')) //egybelógás lenne
+      if ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] <> '.')) //egybelógás lenne
          or
-         ((pMozaik.fNegyzet[i,j] <> '@') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = 'M')) then begin //kilógás lenne
+         ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = 'M')) then begin //kilógás lenne
         Result := false;
         Exit;
       end;
@@ -395,7 +394,7 @@ var i, j: Byte;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if pMozaik.fNegyzet[i,j] <> '@' then begin
+      if pMozaik.fNegyzet[i,j] <> '.' then begin
         fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := pMozaik.fNegyzet[i,j];
       end;
     end;
@@ -410,8 +409,8 @@ var i, j: Byte;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if (fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus]) then begin
-        fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := '@';
+      if fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus] then begin
+        fTeglalap[pI+i-1,pJ-pMozaik.fElsoTeliJ+j-1] := '.';
       end;
     end;
   end;
@@ -459,7 +458,7 @@ begin
   fElsoUresJ := 11;
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if fTeglalap[i,j] = '@' then begin
+      if fTeglalap[i,j] = '.' then begin
         fElsoUresI := i;
         fElsoUresJ := j;
         Exit;
@@ -483,15 +482,15 @@ var i, j: Byte;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@') then
+         (fTeglalap[i,j-1] <> '.') then
       begin
         Result := true;
         Exit;
@@ -506,40 +505,40 @@ var i, j: Byte;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //kettes zárvány vízszintesen
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //kettes zárvány függõlegesen
         Result := true;
         Exit;
@@ -561,144 +560,144 @@ var i, j: Byte;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '@')
+         (fTeglalap[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i,j+3] <> '@')
+         (fTeglalap[i,j+3] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '@')
+         (fTeglalap[i-1,j+2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //hármas zárvány vízszintesen (#1)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '@')
+         (fTeglalap[i+3,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //hármas zárvány függõlegesen  (#2)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //#3
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '@')
+         (fTeglalap[i+1,j-1] = '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '@')
+         (fTeglalap[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //#4
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#5
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#6
         Result := true;
         Exit;
@@ -713,539 +712,539 @@ var i, j: Byte;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '@')
+         (fTeglalap[i,j+2] = '.')
        and
-         (fTeglalap[i,j+3] = '@')
+         (fTeglalap[i,j+3] = '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '@')
+         (fTeglalap[i+1,j+3] <> '.')
        and
-         (fTeglalap[i,j+4] <> '@')
+         (fTeglalap[i,j+4] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '@')
+         (fTeglalap[i-1,j+2] <> '.')
        and
-         (fTeglalap[i-1,j+3] <> '@')
+         (fTeglalap[i-1,j+3] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //négyes zárvány vízszintesen (#1)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i+3,j] = '@')
+         (fTeglalap[i+3,j] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '@')
+         (fTeglalap[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+4,j] <> '@')
+         (fTeglalap[i+4,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+3,j-1] <> '@')
+         (fTeglalap[i+3,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //négyes zárvány függõlegesen  (#2)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i+1,j+2] = '@')
+         (fTeglalap[i+1,j+2] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '@')
+         (fTeglalap[i+1,j+3] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '@')
+         (fTeglalap[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#3
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '@')
+         (fTeglalap[i+1,j-1] = '.')
        and
-         (fTeglalap[i+1,j-2] = '@')
+         (fTeglalap[i+1,j-2] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-2] <> '@')
+         (fTeglalap[i+2,j-2] <> '.')
        and
-         (fTeglalap[i+1,j-3] <> '@')
+         (fTeglalap[i+1,j-3] <> '.')
        and
-         (fTeglalap[i,j-2] <> '@')
+         (fTeglalap[i,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#4
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '@')
+         (fTeglalap[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j+2] = '@')
+         (fTeglalap[i+1,j+2] = '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '@')
+         (fTeglalap[i-1,j+2] <> '.')
        and
-         (fTeglalap[i,j+3] <> '@')
+         (fTeglalap[i,j+3] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '@')
+         (fTeglalap[i+1,j+3] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '@')
+         (fTeglalap[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //#5
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '@')
+         (fTeglalap[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '@')
+         (fTeglalap[i-1,j+2] <> '.')
        and
-         (fTeglalap[i,j+3] <> '@')
+         (fTeglalap[i,j+3] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
       then begin                                //#6
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i+2,j+1] = '@')
+         (fTeglalap[i+2,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '@')
+         (fTeglalap[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '@')
+         (fTeglalap[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '@')
+         (fTeglalap[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#7
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i+2,j-1] = '@')
+         (fTeglalap[i+2,j-1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '@')
+         (fTeglalap[i+3,j] <> '.')
        and
-         (fTeglalap[i+3,j-1] <> '@')
+         (fTeglalap[i+3,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-2] <> '@')
+         (fTeglalap[i+2,j-2] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#8
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i+2,j+1] = '@')
+         (fTeglalap[i+2,j+1] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '@')
+         (fTeglalap[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '@')
+         (fTeglalap[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#9
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '@')
+         (fTeglalap[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#10
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i+2,j+1] = '@')
+         (fTeglalap[i+2,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '@')
+         (fTeglalap[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '@')
+         (fTeglalap[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#11
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '@')
+         (fTeglalap[i+1,j-1] = '.')
        and
-         (fTeglalap[i+2,j-1] = '@')
+         (fTeglalap[i+2,j-1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+3,j-1] <> '@')
+         (fTeglalap[i+3,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-2] <> '@')
+         (fTeglalap[i+2,j-2] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '@')
+         (fTeglalap[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#12
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i+1,j+2] = '@')
+         (fTeglalap[i+1,j+2] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '@')
+         (fTeglalap[i+1,j+3] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '@')
+         (fTeglalap[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#13
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '@')
+         (fTeglalap[i+1,j-1] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '@')
+         (fTeglalap[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#14
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '@')
+         (fTeglalap[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+3] <> '@')
+         (fTeglalap[i,j+3] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '@')
+         (fTeglalap[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '@')
+         (fTeglalap[i-1,j+2] <> '.')
       then begin                                //#15
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '@')
+         (fTeglalap[i+1,j-1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '@')
+         (fTeglalap[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#16
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '@')
+         (fTeglalap[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#17
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '@')
+         (fTeglalap[i+2,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '@')
+         (fTeglalap[i+1,j-1] = '.')
        and
-         (fTeglalap[i,j+1] <> '@')
+         (fTeglalap[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '@')
+         (fTeglalap[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '@')
+         (fTeglalap[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '@')
+         (fTeglalap[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '@')
+         (fTeglalap[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
       then begin                                //#18
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '@')
+      if (fTeglalap[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '@')
+         (fTeglalap[i+1,j] = '.')
        and
-         (fTeglalap[i,j+1] = '@')
+         (fTeglalap[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '@')
+         (fTeglalap[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+2] <> '@')
+         (fTeglalap[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '@')
+         (fTeglalap[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '@')
+         (fTeglalap[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '@')
+         (fTeglalap[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '@')
+         (fTeglalap[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '@')
+         (fTeglalap[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '@')
+         (fTeglalap[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '@')
+         (fTeglalap[i-1,j+1] <> '.')
       then begin                                //#19
         Result := true;
         Exit;
@@ -1306,8 +1305,14 @@ end;
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
   if Assigned(fJatekter) then begin
-    dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ARow+1,ACol+1]) - Ord('@')];
-    //a cellában lévõ karakter értékébõl kivonjuk az @ ascii kódját, ezzel az integerrel már címezhetõ a Szinek tömb
+    if fJatekter.fTeglalap[ARow+1,ACol+1] <> '.' then begin
+      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ARow+1,ACol+1]) - Ord('A')];
+      //a cellában lévõ karakter ascii kódjából kivonjuk az A ascii kódját, ezzel az integerrel már címezhetõ a színes tömb
+    end else begin
+      dwgdLenyeg.Canvas.Brush.Color := clWhite;
+      //az üres cellában . van, az távol van ascii kódilag a betûktõl, nem lehet könnyen címezhetõvé tenni a színes tömböt így
+    end;
+
     dwgdLenyeg.Canvas.FillRect(Rect);
   end;
 end;

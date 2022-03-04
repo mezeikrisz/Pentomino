@@ -53,18 +53,18 @@ begin
   mMozaikHosszu := TMozaik.Create(Hosszu);
 
   //kódból nem tudok ettõl szebb tömb értékadást. deklarációban megy (oMozaikTomb), kódból nem
-  t[1, 1] := '@';   t[1, 2] := '@';   t[1, 3] := '@';   t[1, 4] := '@';   t[1, 5] := '@';
-  t[2, 1] := '@';   t[2, 2] := '@';   t[2, 3] := '@';   t[2, 4] := '@';   t[2, 5] := '@';
-  t[3, 1] := '@';   t[3, 2] := '@';   t[3, 3] := '@';   t[3, 4] := '@';   t[3, 5] := '@';
-  t[4, 1] := '@';   t[4, 2] := '@';   t[4, 3] := '@';   t[4, 4] := '@';   t[4, 5] := '@';
-  t[5, 1] := '@';   t[5, 2] := '@';   t[5, 3] := '@';   t[5, 4] := '@';   t[5, 5] := '@';
+  t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
+  t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
+  t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := '.';   t[3, 4] := '.';   t[3, 5] := '.';
+  t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
+  t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(mMozaikUres.Hasonlit(t), 'Mozaik Hasonlit 1');
 
   t[1, 1] := 'A';   t[1, 2] := 'A';   t[1, 3] := 'A';   t[1, 4] := 'A';   t[1, 5] := 'A';
-  t[2, 1] := '@';   t[2, 2] := '@';   t[2, 3] := '@';   t[2, 4] := '@';   t[2, 5] := '@';
-  t[3, 1] := '@';   t[3, 2] := '@';   t[3, 3] := '@';   t[3, 4] := '@';   t[3, 5] := '@';
-  t[4, 1] := '@';   t[4, 2] := '@';   t[4, 3] := '@';   t[4, 4] := '@';   t[4, 5] := '@';
-  t[5, 1] := '@';   t[5, 2] := '@';   t[5, 3] := '@';   t[5, 4] := '@';   t[5, 5] := '@';
+  t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
+  t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := '.';   t[3, 4] := '.';   t[3, 5] := '.';
+  t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
+  t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(mMozaikHosszu.Hasonlit(t), 'Mozaik Hasonlit 2');
 
   mMozaikUres.Free;
@@ -77,17 +77,17 @@ begin
   mMozaikUres := TMozaik.Create(Ures);
   mMozaikHosszu := TMozaik.Create(Hosszu);
 
-  Check(mMozaikUres.Serialize = '@@@@@'#13#10 +
-                                '@@@@@'#13#10 +
-                                '@@@@@'#13#10 +
-                                '@@@@@'#13#10 +
-                                '@@@@@'#13#10, 'Mozaik Serialize 1');
+  Check(mMozaikUres.Serialize = '.....'#13#10 +
+                                '.....'#13#10 +
+                                '.....'#13#10 +
+                                '.....'#13#10 +
+                                '.....'#13#10, 'Mozaik Serialize 1');
 
   Check(mMozaikHosszu.Serialize = 'AAAAA'#13#10 +
-                                  '@@@@@'#13#10 +
-                                  '@@@@@'#13#10 +
-                                  '@@@@@'#13#10 +
-                                  '@@@@@'#13#10, 'Mozaik Serialize 2');
+                                  '.....'#13#10 +
+                                  '.....'#13#10 +
+                                  '.....'#13#10 +
+                                  '.....'#13#10, 'Mozaik Serialize 2');
 
   mMozaikUres.Free;
   mMozaikHosszu.Free;
@@ -99,19 +99,19 @@ var s: String;
 begin
   mMozaikMindegy := TMozaik.Create(Ures);
 
-  s := '*@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@*'#13#10;
+  s := '*....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '....*'#13#10;
   mMozaikMindegy.DeSerialize(s);
   Check(mMozaikMindegy.Serialize = s, 'Mozaik DeSerialize+Serialize 1');
 
-  s := '@***@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := '.***.'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   mMozaikMindegy.DeSerialize(s);
   Check(mMozaikMindegy.Serialize = s, 'Mozaik DeSerialize+Serialize 2');
 
@@ -138,25 +138,25 @@ begin
   mMozaikMindegy := TMozaik.Create(Ures);
 
   mMozaikHazteto.Forgat;
-  t[1, 1] := '@';   t[1, 2] := '@';   t[1, 3] := 'C';   t[1, 4] := 'C';   t[1, 5] := 'C';
-  t[2, 1] := '@';   t[2, 2] := '@';   t[2, 3] := 'C';   t[2, 4] := '@';   t[2, 5] := '@';
-  t[3, 1] := '@';   t[3, 2] := '@';   t[3, 3] := 'C';   t[3, 4] := '@';   t[3, 5] := '@';
-  t[4, 1] := '@';   t[4, 2] := '@';   t[4, 3] := '@';   t[4, 4] := '@';   t[4, 5] := '@';
-  t[5, 1] := '@';   t[5, 2] := '@';   t[5, 3] := '@';   t[5, 4] := '@';   t[5, 5] := '@';
+  t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := 'C';   t[1, 4] := 'C';   t[1, 5] := 'C';
+  t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := 'C';   t[2, 4] := '.';   t[2, 5] := '.';
+  t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := 'C';   t[3, 4] := '.';   t[3, 5] := '.';
+  t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
+  t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Forgat 1, Hasonlit-tal');
 
-  s := '@@@@@'#13#10 +
-       '@*@@*'#13#10 +
-       '@*@@*'#13#10 +
-       '@*@@*'#13#10 +
-       '@@@@@'#13#10;
+  s := '.....'#13#10 +
+       '.*..*'#13#10 +
+       '.*..*'#13#10 +
+       '.*..*'#13#10 +
+       '.....'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Forgat;
-  s := '@@@@@'#13#10 +
-       '@***@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@***@'#13#10;
+  s := '.....'#13#10 +
+       '.***.'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.***.'#13#10;
   Check(mMozaikMindegy.Serialize = s, 'Mozaik Forgat 2, DeSer+Ser');
 
   mMozaikHazteto.Free;
@@ -172,25 +172,25 @@ begin
   mMozaikMindegy := TMozaik.Create(Ures);
 
   mMozaikHazteto.Tukroz;
-  t[1, 1] := '@';   t[1, 2] := '@';   t[1, 3] := '@';   t[1, 4] := '@';   t[1, 5] := 'C';
-  t[2, 1] := '@';   t[2, 2] := '@';   t[2, 3] := '@';   t[2, 4] := '@';   t[2, 5] := 'C';
-  t[3, 1] := '@';   t[3, 2] := '@';   t[3, 3] := 'C';   t[3, 4] := 'C';   t[3, 5] := 'C';
-  t[4, 1] := '@';   t[4, 2] := '@';   t[4, 3] := '@';   t[4, 4] := '@';   t[4, 5] := '@';
-  t[5, 1] := '@';   t[5, 2] := '@';   t[5, 3] := '@';   t[5, 4] := '@';   t[5, 5] := '@';
+  t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := 'C';
+  t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := 'C';
+  t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := 'C';   t[3, 4] := 'C';   t[3, 5] := 'C';
+  t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
+  t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Tukroz 1, Hasonlit-tal');
 
-  s := '*@@@@'#13#10 +
-       '@*@@@'#13#10 +
-       '@@*@@'#13#10 +
-       '@@@*@'#13#10 +
-       '@@@@*'#13#10;
+  s := '*....'#13#10 +
+       '.*...'#13#10 +
+       '..*..'#13#10 +
+       '...*.'#13#10 +
+       '....*'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Forgat;
-  s := '@@@@*'#13#10 +
-       '@@@*@'#13#10 +
-       '@@*@@'#13#10 +
-       '@*@@@'#13#10 +
-       '*@@@@'#13#10;
+  s := '....*'#13#10 +
+       '...*.'#13#10 +
+       '..*..'#13#10 +
+       '.*...'#13#10 +
+       '*....'#13#10;
   Check(mMozaikMindegy.Serialize = s, 'Mozaik Tukroz 2, DeSer+Ser');
 
   mMozaikHazteto.Free;
@@ -208,78 +208,78 @@ begin
   mMozaikEsbetu.Forgat;
   mMozaikEsbetu.Forgat;
   mMozaikEsbetu.Normalizal;
-  t[1, 1] := 'L';   t[1, 2] := 'L';   t[1, 3] := '@';   t[1, 4] := '@';   t[1, 5] := '@';
-  t[2, 1] := '@';   t[2, 2] := 'L';   t[2, 3] := '@';   t[2, 4] := '@';   t[2, 5] := '@';
-  t[3, 1] := '@';   t[3, 2] := 'L';   t[3, 3] := 'L';   t[3, 4] := '@';   t[3, 5] := '@';
-  t[4, 1] := '@';   t[4, 2] := '@';   t[4, 3] := '@';   t[4, 4] := '@';   t[4, 5] := '@';
-  t[5, 1] := '@';   t[5, 2] := '@';   t[5, 3] := '@';   t[5, 4] := '@';   t[5, 5] := '@';
+  t[1, 1] := 'L';   t[1, 2] := 'L';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
+  t[2, 1] := '.';   t[2, 2] := 'L';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
+  t[3, 1] := '.';   t[3, 2] := 'L';   t[3, 3] := 'L';   t[3, 4] := '.';   t[3, 5] := '.';
+  t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
+  t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(mMozaikEsbetu.Hasonlit(t), 'Mozaik Normalizal 1, Hasonlit-tal');
 
-  s := '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@*@@'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@**'#13#10;
+  s := '.....'#13#10 +
+       '.....'#13#10 +
+       '..*..'#13#10 +
+       '....*'#13#10 +
+       '...**'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
-  s := '*@@@@'#13#10 +
-       '@@*@@'#13#10 +
-       '@**@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := '*....'#13#10 +
+       '..*..'#13#10 +
+       '.**..'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalizal 2, DeSer+Ser');
 
-  s := '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@**'#13#10;
+  s := '.....'#13#10 +
+       '.....'#13#10 +
+       '....*'#13#10 +
+       '....*'#13#10 +
+       '...**'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
-  s := '@*@@@'#13#10 +
-       '@*@@@'#13#10 +
-       '**@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := '.*...'#13#10 +
+       '.*...'#13#10 +
+       '**...'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalizal 3, DeSer+Ser');
 
-  s := '@@*@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@**'#13#10;
+  s := '..*..'#13#10 +
+       '.....'#13#10 +
+       '....*'#13#10 +
+       '....*'#13#10 +
+       '...**'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
-  s := '*@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@*@@'#13#10 +
-       '@@*@@'#13#10 +
-       '@**@@'#13#10;
+  s := '*....'#13#10 +
+       '.....'#13#10 +
+       '..*..'#13#10 +
+       '..*..'#13#10 +
+       '.**..'#13#10;
   Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalizal 4, DeSer+Ser');
 
-  s := '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@@*'#13#10 +
-       '@@***'#13#10;
+  s := '.....'#13#10 +
+       '.....'#13#10 +
+       '....*'#13#10 +
+       '....*'#13#10 +
+       '..***'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
   Check(mMozaikMindegy.fElsoTeliJ = 2, 'Mozaik Normalizal 5, offset');
 
-  s := '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@@*'#13#10 +
+  s := '.....'#13#10 +
+       '.....'#13#10 +
+       '....*'#13#10 +
+       '....*'#13#10 +
        '*****'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
   Check(mMozaikMindegy.fElsoTeliJ = 4, 'Mozaik Normalizal 6, offset');
 
-  s := '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@@*'#13#10 +
-       '@@@@*'#13#10;
+  s := '.....'#13#10 +
+       '.....'#13#10 +
+       '....*'#13#10 +
+       '....*'#13#10 +
+       '....*'#13#10;
   mMozaikMindegy.DeSerialize(s);
   mMozaikMindegy.Normalizal;
   Check(mMozaikMindegy.fElsoTeliJ = 0, 'Mozaik Normalizal 7, offset');
@@ -299,11 +299,11 @@ begin
   mMozaikElbetu := TMozaik.Create(Elbetu);
 
   b := mMozaikUres.Valtoztat;
-  t[1, 1] := '@';   t[1, 2] := '@';   t[1, 3] := '@';   t[1, 4] := '@';   t[1, 5] := '@';
-  t[2, 1] := '@';   t[2, 2] := '@';   t[2, 3] := '@';   t[2, 4] := '@';   t[2, 5] := '@';
-  t[3, 1] := '@';   t[3, 2] := '@';   t[3, 3] := '@';   t[3, 4] := '@';   t[3, 5] := '@';
-  t[4, 1] := '@';   t[4, 2] := '@';   t[4, 3] := '@';   t[4, 4] := '@';   t[4, 5] := '@';
-  t[5, 1] := '@';   t[5, 2] := '@';   t[5, 3] := '@';   t[5, 4] := '@';   t[5, 5] := '@';
+  t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
+  t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
+  t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := '.';   t[3, 4] := '.';   t[3, 5] := '.';
+  t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
+  t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(b = true, 'Ures Valtoztat, kimenõ érték true');
   Check(mMozaikUres.Hasonlit(t), 'Ures Valtoztat, eredmény tömb Hasonlit-tal');
   b := mMozaikUres.Valtoztat;
@@ -311,75 +311,75 @@ begin
   Check(mMozaikUres.Hasonlit(t), 'Ures Valtoztat megint, eredmény tömb Hasonlit-tal');
 
   b := mMozaikElbetu.Valtoztat;
-  s := 'BB@@@'#13#10 +
-       '@B@@@'#13#10 +
-       '@B@@@'#13#10 +
-       '@B@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'BB...'#13#10 +
+       '.B...'#13#10 +
+       '.B...'#13#10 +
+       '.B...'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 1, kimenõ érték true');
   Check(mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 1, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := '@@@B@'#13#10 +
-       'BBBB@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := '...B.'#13#10 +
+       'BBBB.'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 2, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 2, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := 'B@@@@'#13#10 +
-       'B@@@@'#13#10 +
-       'B@@@@'#13#10 +
-       'BB@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'B....'#13#10 +
+       'B....'#13#10 +
+       'B....'#13#10 +
+       'BB...'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 3, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 3, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := 'BBBB@'#13#10 +
-       'B@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'BBBB.'#13#10 +
+       'B....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 4, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 4, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := 'BBBB@'#13#10 +
-       '@@@B@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'BBBB.'#13#10 +
+       '...B.'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 5, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 5, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := '@B@@@'#13#10 +
-       '@B@@@'#13#10 +
-       '@B@@@'#13#10 +
-       'BB@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := '.B...'#13#10 +
+       '.B...'#13#10 +
+       '.B...'#13#10 +
+       'BB...'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 6, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 6, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := 'B@@@@'#13#10 +
-       'BBBB@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'B....'#13#10 +
+       'BBBB.'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 7, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 7, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := 'BB@@@'#13#10 +
-       'B@@@@'#13#10 +
-       'B@@@@'#13#10 +
-       'B@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'BB...'#13#10 +
+       'B....'#13#10 +
+       'B....'#13#10 +
+       'B....'#13#10 +
+       '.....'#13#10;
   Check(b = true, 'Elbetu Valtoztat 8, kimenõ érték true');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 8, Ser');
   b := mMozaikElbetu.Valtoztat;
-  s := 'BB@@@'#13#10 +
-       'B@@@@'#13#10 +
-       'B@@@@'#13#10 +
-       'B@@@@'#13#10 +
-       '@@@@@'#13#10;
+  s := 'BB...'#13#10 +
+       'B....'#13#10 +
+       'B....'#13#10 +
+       'B....'#13#10 +
+       '.....'#13#10;
   Check(b = false, 'Elbetu Valtoztat 9, kimenõ érték false');
   Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 9, Ser');
 
@@ -391,12 +391,12 @@ var s: String;
     j: TJatekTer;
 begin
   j := TJatekTer.Create;
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   Check(j.Serialize = s, 'Jatekter Serialize');
   j.Free;
@@ -407,12 +407,12 @@ var s: String;
     j: TJatekTer;
 begin
   j := TJatekTer.Create;
-  s := '*@@@@@@@@@*'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@oo@@@@M'#13#10 +
-       '@@@@oo@@@@M'#13#10 +
-       '@@@@oo@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '*.........*'#13#10 +
+       '..........M'#13#10 +
+       '....oo....M'#13#10 +
+       '....oo....M'#13#10 +
+       '....oo....M'#13#10 +
+       '..........M'#13#10 +
        '*MMMMMMMMM*'#13#10;
   j.DeSerialize(s);
   Check(j.Serialize = s, 'Mozaik DeSerialize+Serialize 1');
@@ -425,12 +425,12 @@ var s: String;
 begin
   j := TJatekTer.Create;
 
-  s := 'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'ABB@@@@@@@M'#13#10 +
-       'A@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := 'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'ABB.......M'#13#10 +
+       'A.........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneEgy = false, 'LyukLenneEgy, két elemnél nincs lyuk, false legyen');
@@ -445,12 +445,12 @@ begin
   j.DeSerialize(s);
   Check(j.LyukLenneEgy = false, 'LyukLenneEgy, teli táblánál nincs lyuk, false legyen');
 
-  s := '@DD@@@@@@@M'#13#10 +
-       'DDD@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '.DD.......M'#13#10 +
+       'DDD.......M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 1');
@@ -460,27 +460,27 @@ begin
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
-       'AAAAAAAAA@M'#13#10 +
+       'AAAAAAAAA.M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 2');
 
-  s := '@A@@@@@@@@M'#13#10 +
-       'A@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '.A........M'#13#10 +
+       'A.........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 3');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 4');
@@ -494,12 +494,12 @@ var s: String;
 begin
   j := TJatekTer.Create;
 
-  s := 'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'ABB@@@@@@@M'#13#10 +
-       'A@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := 'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'ABB.......M'#13#10 +
+       'A.........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = false, 'LyukLenneKetto, két elemnél nincs lyuk, false legyen');
@@ -514,12 +514,12 @@ begin
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = false, 'LyukLenneKetto, teli táblánál nincs lyuk, false legyen');
 
-  s := 'AAAAA@@@@@M'#13#10 +
-       '@@F@@@@@@@M'#13#10 +
-       'FFFF@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := 'AAAAA.....M'#13#10 +
+       '..F.......M'#13#10 +
+       'FFFF......M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 1');
@@ -528,38 +528,38 @@ begin
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
-       'AAAAAAAAA@M'#13#10 +
-       'AAAAAAAAA@M'#13#10 +
+       'AAAAAAAAA.M'#13#10 +
+       'AAAAAAAAA.M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 2');
 
-  s := '@A@@@@@@@@M'#13#10 +
-       '@A@@@@@@@@M'#13#10 +
-       'A@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '.A........M'#13#10 +
+       '.A........M'#13#10 +
+       'A.........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 3');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 4');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@AA@@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@@@AA@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...AA.....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '...AA.....M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 5');
@@ -573,12 +573,12 @@ var s: String;
 begin
   j := TJatekTer.Create;
 
-  s := 'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'ABB@@@@@@@M'#13#10 +
-       'A@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := 'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'ABB.......M'#13#10 +
+       'A.........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = false, 'LyukLenneHarom, két elemnél nincs lyuk, false legyen');
@@ -593,82 +593,82 @@ begin
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = false, 'LyukLenneHarom, teli táblánál nincs lyuk, false legyen');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@AAA@@@@M'#13#10 +
-       '@@A@@@A@@@M'#13#10 +
-       '@@@AAA@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...AAA....M'#13#10 +
+       '..A...A...M'#13#10 +
+       '...AAA....M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 1');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 2');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@@@AA@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '...AA.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 3');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@A@@A@@@@@M'#13#10 +
-       '@@AA@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '.A..A.....M'#13#10 +
+       '..AA......M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 4');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@AA@@@M'#13#10 +
-       '@@@@A@@A@@M'#13#10 +
-       '@@@@@A@A@@M'#13#10 +
-       '@@@@@@A@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '.....AA...M'#13#10 +
+       '....A..A..M'#13#10 +
+       '.....A.A..M'#13#10 +
+       '......A...M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 5');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@AA@@@M'#13#10 +
-       '@@@@A@@A@@M'#13#10 +
-       '@@@@A@A@@@M'#13#10 +
-       '@@@@@A@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '.....AA...M'#13#10 +
+       '....A..A..M'#13#10 +
+       '....A.A...M'#13#10 +
+       '.....A....M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 6');
 
-  s := '@AAAAAAAA@M'#13#10 +
+  s := '.AAAAAAAA.M'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
-       '@AAAAAAAA@M'#13#10 +
+       '.AAAAAAAA.M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = false, 'LyukLenneHarom, határmenti kínzás 1');
 
-  s := '@AAA@@AAA@M'#13#10 +
-       'A@AAAAAAA@M'#13#10 +
+  s := '.AAA..AAA.M'#13#10 +
+       'A.AAAAAAA.M'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
-       'A@AAAAAAA@M'#13#10 +
-       '@AAA@@AAA@M'#13#10 +
+       'A.AAAAAAA.M'#13#10 +
+       '.AAA..AAA.M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneHarom = false, 'LyukLenneHarom, határmenti kínzás 2');
@@ -682,12 +682,12 @@ var s: String;
 begin
   j := TJatekTer.Create;
 
-  s := 'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'AB@@@@@@@@M'#13#10 +
-       'ABB@@@@@@@M'#13#10 +
-       'A@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := 'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'AB........M'#13#10 +
+       'ABB.......M'#13#10 +
+       'A.........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = false, 'LyukLenneNegy, két elemnél nincs lyuk, false legyen');
@@ -702,212 +702,212 @@ begin
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = false, 'LyukLenneNegy, teli táblánál nincs lyuk, false legyen');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@AAAA@@@@M'#13#10 +
-       '@A@@@@A@@@M'#13#10 +
-       '@@AAAA@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..AAAA....M'#13#10 +
+       '.A....A...M'#13#10 +
+       '..AAAA....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 1');
 
-  s := '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
+  s := '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 2');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@A@@@@@@@M'#13#10 +
-       '@A@AA@@@@@M'#13#10 +
-       '@A@@@A@@@@M'#13#10 +
-       '@@AAA@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..A.......M'#13#10 +
+       '.A.AA.....M'#13#10 +
+       '.A...A....M'#13#10 +
+       '..AAA.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 3');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@A@@@@@M'#13#10 +
-       '@@AA@A@@@@M'#13#10 +
-       '@A@@@A@@@@M'#13#10 +
-       '@@AAA@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '....A.....M'#13#10 +
+       '..AA.A....M'#13#10 +
+       '.A...A....M'#13#10 +
+       '..AAA.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 4');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@AAA@@@@@M'#13#10 +
-       '@A@@@A@@@@M'#13#10 +
-       '@@AA@A@@@@M'#13#10 +
-       '@@@@A@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..AAA.....M'#13#10 +
+       '.A...A....M'#13#10 +
+       '..AA.A....M'#13#10 +
+       '....A.....M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 5');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@AAA@@@@@M'#13#10 +
-       '@A@@@A@@@@M'#13#10 +
-       '@A@AA@@@@@M'#13#10 +
-       '@@A@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..AAA.....M'#13#10 +
+       '.A...A....M'#13#10 +
+       '.A.AA.....M'#13#10 +
+       '..A.......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 6');
 
-  s := '@@@@A@@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@A@@A@@@M'#13#10 +
-       '@@@@AA@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '....A.....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '...A..A...M'#13#10 +
+       '....AA....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 7');
 
-  s := '@@@@A@@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@@@AA@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '....A.....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '...AA.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 8');
 
-  s := '@@@AA@@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@@A@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '...AA.....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '....A.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 9');
 
-  s := '@@@@AA@@@@M'#13#10 +
-       '@@@A@@A@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@@A@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '....AA....M'#13#10 +
+       '...A..A...M'#13#10 +
+       '...A.A....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '....A.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 10');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@A@@@@@@@M'#13#10 +
-       '@A@A@@@@@@M'#13#10 +
-       '@A@@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..A.......M'#13#10 +
+       '.A.A......M'#13#10 +
+       '.A..A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 11');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@A@@A@@@@@M'#13#10 +
-       '@A@A@@@@@@M'#13#10 +
-       '@@A@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '.A..A.....M'#13#10 +
+       '.A.A......M'#13#10 +
+       '..A.......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 12');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@AA@@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@@@A@@A@@@M'#13#10 +
-       '@@@@AA@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...AA.....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '...A..A...M'#13#10 +
+       '....AA....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 13');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@AA@@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@A@@A@@@@@M'#13#10 +
-       '@@AA@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...AA.....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '.A..A.....M'#13#10 +
+       '..AA......M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 14');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@AAA@@@@M'#13#10 +
-       '@@A@@@A@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@@@A@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...AAA....M'#13#10 +
+       '..A...A...M'#13#10 +
+       '...A.A....M'#13#10 +
+       '....A.....M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 15');
 
-  s := '@@@@A@@@@@M'#13#10 +
-       '@@@A@A@@@@M'#13#10 +
-       '@@A@@@A@@@M'#13#10 +
-       '@@@AAA@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '....A.....M'#13#10 +
+       '...A.A....M'#13#10 +
+       '..A...A...M'#13#10 +
+       '...AAA....M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 16');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@A@@A@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '..A..A....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 17');
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@A@@A@@@@@M'#13#10 +
-       '@@A@A@@@@@M'#13#10 +
-       '@@@A@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '...A......M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '.A..A.....M'#13#10 +
+       '..A.A.....M'#13#10 +
+       '...A......M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 18');
 
-  s := '@@@@AA@@@@M'#13#10 +
-       '@@@A@@A@@@M'#13#10 +
-       '@@@A@@A@@@M'#13#10 +
-       '@@@@AA@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '....AA....M'#13#10 +
+       '...A..A...M'#13#10 +
+       '...A..A...M'#13#10 +
+       '....AA....M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 19');
 
-  s := '@AAAAAAAA@M'#13#10 +
+  s := '.AAAAAAAA.M'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
-       '@AAAAAAAA@M'#13#10 +
+       '.AAAAAAAA.M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = false, 'LyukLenneNegy, határmenti kínzás 1');
 
-  s := '@A@A@@AA@@M'#13#10 +
-       'A@AAAAAAA@M'#13#10 +
+  s := '.A.A..AA..M'#13#10 +
+       'A.AAAAAAA.M'#13#10 +
        'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
-       'A@AAAAAAA@M'#13#10 +
-       '@A@A@@AA@@M'#13#10 +
+       'A.AAAAAAA.M'#13#10 +
+       '.A.A..AA..M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   Check(j.LyukLenneNegy = false, 'LyukLenneNegy, határmenti kínzás 2');
@@ -921,45 +921,45 @@ var s: String;
 begin
   j := TJatekTer.Create;
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
   Check((j.fElsoUresI = 1) and (j.fElsoUresJ = 1), 'KeresElsoUres 1');
 
-  s := 'AAA@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := 'AAA.......M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
   Check((j.fElsoUresI = 1) and (j.fElsoUresJ = 4), 'KeresElsoUres 2');
 
   s := 'AAAABBBCCCM'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
   Check((j.fElsoUresI = 2) and (j.fElsoUresJ = 1), 'KeresElsoUres 3');
 
   s := 'AAAABBBCCCM'#13#10 +
-       'DDDDDDDDD@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+       'DDDDDDDDD.M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
@@ -970,7 +970,7 @@ begin
        'EEEEEEEEEEM'#13#10 +
        'FFFFFFFFFFM'#13#10 +
        'GGGGGGGGGGM'#13#10 +
-       'HHHHHHHHH@M'#13#10 +
+       'HHHHHHHHH.M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
@@ -1003,12 +1003,12 @@ begin
   mMozaikLepcso := TMozaik.Create(Lepcso);
   mMozaikHosszu := TMozaik.Create(Hosszu);
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   b := j.KirakhatoIde(mMozaikUres, 1, 1);
@@ -1029,11 +1029,11 @@ begin
   Check(not b, 'KirakhatoIde false 8');
 
   s := 'AAAAAAAAAAM'#13#10 +
-       'BBBBBBBB@@M'#13#10 +
-       'CC@CC@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+       'BBBBBBBB..M'#13#10 +
+       'CC.CC.....M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   b := j.KirakhatoIde(mMozaikElbetu, 2, 8);
@@ -1050,9 +1050,9 @@ begin
   s := 'AAAAAAAAAAM'#13#10 +
        'BBBBBBBBBBM'#13#10 +
        'CCCCCCCCCCM'#13#10 +
-       'DDDDDDDD@DM'#13#10 +
-       'EEEEEEE@@@M'#13#10 +
-       'FFFFFFFF@FM'#13#10 +
+       'DDDDDDDD.DM'#13#10 +
+       'EEEEEEE...M'#13#10 +
+       'FFFFFFFF.FM'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   b := j.KirakhatoIde(mMozaikKereszt, 4, 7);
@@ -1066,11 +1066,11 @@ begin
 
 
   s := 'AAAAAAAAAAM'#13#10 +
-       'BBBBB@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+       'BBBBB.....M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   b := j.KirakhatoIde(mMozaikLepcso, 2, 5);
@@ -1106,24 +1106,24 @@ begin
   mMozaikHosszu := TMozaik.Create(Hosszu);
 
   j.Kirak(mMozaikUres, 1, 1);
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   Check(j.Serialize = s, 'Kirak 1');
 
   j.Kirak(mMozaikHosszu, 1, 1);
   j.Kirak(mMozaikKereszt, 1, 6);
   j.Kirak(mMozaikElbetu, 3, 7);
-  s := 'AAAAAE@@@@M'#13#10 +
-       '@@@@EEE@@@M'#13#10 +
-       '@@@@@EBB@@M'#13#10 +
-       '@@@@@@@B@@M'#13#10 +
-       '@@@@@@@B@@M'#13#10 +
-       '@@@@@@@B@@M'#13#10 +
+  s := 'AAAAAE....M'#13#10 +
+       '....EEE...M'#13#10 +
+       '.....EBB..M'#13#10 +
+       '.......B..M'#13#10 +
+       '.......B..M'#13#10 +
+       '.......B..M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   Check(j.Serialize = s, 'Kirak 2');
 
@@ -1151,12 +1151,12 @@ begin
   j.Levesz(mMozaikKereszt, 1, 6);
   j.Levesz(mMozaikElbetu, 3, 7);
 
-  s := '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
-       '@@@@@@@@@@M'#13#10 +
+  s := '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
+       '..........M'#13#10 +
        'MMMMMMMMMMM'#13#10;
   Check(j.Serialize = s, 'Levesz 1');
   
