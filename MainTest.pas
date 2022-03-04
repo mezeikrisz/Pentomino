@@ -1144,12 +1144,13 @@ begin
   mMozaikElbetu := TMozaik.Create(Elbetu);
   mMozaikHosszu := TMozaik.Create(Hosszu);
 
-  j.Kirak(mMozaikHosszu, 1, 1);
-  j.Kirak(mMozaikKereszt, 1, 6);
-  j.Kirak(mMozaikElbetu, 3, 7);
-  j.Levesz(mMozaikHosszu, 1, 1);
-  j.Levesz(mMozaikKereszt, 1, 6);
-  j.Levesz(mMozaikElbetu, 3, 7);
+  j.Kirak(mMozaikElbetu, 1, 1);
+  j.Kirak(mMozaikKereszt, 4, 3);
+  j.Kirak(mMozaikHosszu, 6, 6);
+
+  j.Levesz(mMozaikElbetu, 1, 1);
+  j.Levesz(mMozaikKereszt, 4, 3);
+  j.Levesz(mMozaikHosszu, 6, 6);
 
   s := '..........M'#13#10 +
        '..........M'#13#10 +
