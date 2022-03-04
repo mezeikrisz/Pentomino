@@ -994,13 +994,14 @@ procedure TMainTest.testJatekterKirakhatoIde;
 var s: String;
     j: TJatekTer;
     b: Boolean;
-    mMozaikUres, mMozaikElbetu, mMozaikKereszt, mMozaikLepcso: TMozaik;
+    mMozaikUres, mMozaikElbetu, mMozaikKereszt, mMozaikLepcso, mMozaikHosszu: TMozaik;
 begin
   j := TJatekTer.Create;
   mMozaikUres := TMozaik.Create(Ures);
   mMozaikElbetu := TMozaik.Create(Elbetu);
   mMozaikKereszt := TMozaik.Create(Kereszt);
   mMozaikLepcso := TMozaik.Create(Lepcso);
+  mMozaikHosszu := TMozaik.Create(Hosszu);
 
   s := '@@@@@@@@@@M'#13#10 +
        '@@@@@@@@@@M'#13#10 +
@@ -1060,6 +1061,9 @@ begin
   Check(not b, 'KirakhatoIde false 15');
   b := j.KirakhatoIde(mMozaikKereszt, 4, 9);
   Check(b, 'KirakhatoIde true 16');
+  b := j.KirakhatoIde(mMozaikKereszt, 4, 10);
+  Check(not b, 'KirakhatoIde false 17');
+
 
   s := 'AAAAAAAAAAM'#13#10 +
        'BBBBB@@@@@M'#13#10 +
@@ -1070,14 +1074,23 @@ begin
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
   b := j.KirakhatoIde(mMozaikLepcso, 2, 5);
-  Check(not b, 'KirakhatoIde false 17');
+  Check(not b, 'KirakhatoIde false 18');
   b := j.KirakhatoIde(mMozaikLepcso, 2, 6);
-  Check(b, 'KirakhatoIde true 18');
+  Check(b, 'KirakhatoIde true 19');
+  b := j.KirakhatoIde(mMozaikHosszu, 2, 5);
+  Check(not b, 'KirakhatoIde false 20');
+  b := j.KirakhatoIde(mMozaikHosszu, 2, 6);
+  Check(b, 'KirakhatoIde true 21');
+  b := j.KirakhatoIde(mMozaikHosszu, 2, 7);
+  Check(not b, 'KirakhatoIde false 21');
+  b := j.KirakhatoIde(mMozaikHosszu, 6, 10);
+  Check(not b, 'KirakhatoIde false 22');
 
   mMozaikUres.Free;
   mMozaikElbetu.Free;
   mMozaikKereszt.Free;
   mMozaikLepcso.Free;
+  mMozaikHosszu.Free;
   j.Free;
 end;
 
