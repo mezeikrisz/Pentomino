@@ -9,7 +9,7 @@ uses
 type
   TNegyzet = Array[1..5,1..5] of Char; //sorindex majd oszlopindex, tehát fordítva, mint pixelcímzésnél
 
-  TTeglalap = Array[1..7,1..11] of Char; //sorindex majd oszlopindex
+  TTeglalap = Array[-4..11,-4..15] of Char; //sorindex majd oszlopindex
 
   TMozaikNevek = (Ures, Hosszu, Elbetu, Hazteto, Sonka, Kereszt, Puska, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
 
@@ -17,9 +17,9 @@ type
   public //private //hogy rálásson a test, egyelõre public minden
     fNegyzet: TNegyzet;
     fMozaikTipus: TMozaikNevek;
-    fValtozatIndex: Byte;
-    fIttVoltUtoljaraI, fIttVoltUtoljaraJ: Byte;
-    fOffsetJ: Byte;
+    fValtozatIndex: Shortint;
+    fIttVoltUtoljaraI, fIttVoltUtoljaraJ: Shortint;
+    fOffsetJ: Shortint;
     fKiVanRakva: Boolean;
     constructor Create(pMozaik: TMozaikNevek);
     procedure Forgat;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
@@ -35,20 +35,21 @@ type
   TJatekTer = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
     fTeglalap: TTeglalap;
-    fKirakottMennyiseg: Integer;
-    fElsoUresI, fElsoUresJ: Byte;
+    fKirakottMennyiseg: Shortint;
+    fElsoUresI, fElsoUresJ: Shortint;
     constructor Create;
-    function KirakhatoIde(pMozaik: TMozaik; pI, pJ: Byte): Boolean;
-    procedure Kirak(pMozaik: TMozaik; pI, pJ: Byte);
+    function KirakhatoIde(pMozaik: TMozaik; pI, pJ: Shortint): Boolean;
+    procedure Kirak(pMozaik: TMozaik; pI, pJ: Shortint);
     function LyukLenneEgy: Boolean;
     function LyukLenneKetto: Boolean;
     function LyukLenneHarom: Boolean;
     function LyukLenneNegy: Boolean;
     procedure KeresElsoUres;
+    function Hasonlit(pTeglalap: TTeglalap): Boolean;
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
-    procedure Levesz(pMozaik: TMozaik; pI, pJ: Byte);
+    procedure Levesz(pMozaik: TMozaik; pI, pJ: Shortint);
     function KeszVan: Boolean;
     procedure Leallit;
   end;
@@ -63,14 +64,14 @@ type
       Rect: TRect; State: TGridDrawState);
     procedure FormCreate(Sender: TObject);
   private
-    i, j: Byte;
+    i, j: Shortint;
     fMozaikok: Array[Hosszu..Esbetu] of TMozaik;
     fJatekter: TJatekTer;
     fRekurzioSzintjei: Array[1..12] of TMozaikNevek;
     f: TextFile;
     fHanyadikMegoldas: Integer;
-    fAktualisSzint: Byte;
-    fToltottAktSzint: Byte;
+    fAktualisSzint: Shortint;
+    fToltottAktSzint: Shortint;
   public
     procedure Rekurziv;
     procedure SetTempo;
@@ -117,7 +118,7 @@ var
   'L'
   );
 
-  oMozaikSzinek: Array[0..12] of TColor =    //ez most nem enummal címezve, mert a szélsõ feketéket is festeni akarom, és mert karakter kódokkal kéne címezni, hogy gyorsabb legyen
+  oMozaikSzinek: Array[1..12] of TColor =    //ez most nem enummal címezve, mert a szélsõ feketéket is festeni akarom, és mert karakter kódokkal kéne címezni, hogy gyorsabb legyen
   (
   clRed,
   clGreen,
@@ -130,8 +131,7 @@ var
   clOlive,
   clAqua,
   clGray,
-  clPurple,
-  clBlack
+  clPurple
   );
 
   oMozaikTomb: Array[Ures..Esbetu] of TNegyzet =
@@ -223,7 +223,7 @@ begin
 end;
 
 procedure TMozaik.Forgat;
-var i, j: Byte;
+var i, j: Shortint;
     lTempNegyzet: TNegyzet;
 begin
   for i := 1 to 5 do begin
@@ -235,7 +235,7 @@ begin
 end;
 
 procedure TMozaik.Normalizal;
-var i, j, i2, j2, i3, j3, lMinJ, lMinI: Byte;
+var i, j, i2, j2, i3, j3, lMinJ, lMinI: Shortint;
     lTempNegyzet: TNegyzet;
 begin
   if (fNegyzet[1,1] <> '.') then Exit; //mert nincs mit normalizálni
@@ -285,7 +285,7 @@ end;
 
 function TMozaik.Serialize: String;
 var s: String;
-    i, j: Byte;
+    i, j: Shortint;
 begin
   s := '';
   for i := 1 to 5 do begin
@@ -298,7 +298,7 @@ begin
 end;
 
 procedure TMozaik.DeSerialize(pSor: String);
-var i, j, k: Byte;
+var i, j, k: Shortint;
 begin
   k := 1;
   pSor := StringReplace(pSor, #13#10, '', [rfReplaceAll]);
@@ -311,7 +311,7 @@ begin
 end;
 
 procedure TMozaik.Tukroz;
-var i, j: Byte;
+var i, j: Shortint;
     lTempNegyzet: TNegyzet;
 begin
   for i := 1 to 5 do begin
@@ -339,7 +339,7 @@ begin
 end;
 
 function TMozaik.Hasonlit(pNegyzet: TNegyzet): Boolean;
-var i, j: Integer;
+var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
@@ -357,24 +357,54 @@ end;
 {-----------}
 
 constructor TJatekTer.Create;
-var i, j: Byte;
+var i, j: Shortint;
 begin
-  for i := 1 to 7 do begin
-    for j := 1 to 11 do begin
+  for i := 1 to 6 do begin      //lényeg
+    for j := 1 to 10 do begin
       fTeglalap[i,j] := '.';
     end;
   end;
-  for i := 1 to 7 do begin
-    fTeglalap[i,11] := 'M';
+
+  for i := -4 to 0 do begin     //teteje
+    for j := -4 to 15 do begin
+      fTeglalap[i,j] := 'M';
+    end;
   end;
-  for j := 1 to 11 do begin
-    fTeglalap[7,j] := 'M';
+  for i := 7 to 11 do begin     //alja
+    for j := -4 to 15 do begin
+      fTeglalap[i,j] := 'M';
+    end;
   end;
+  for i := 1 to 6 do begin     //bal oldala
+    for j := -4 to 0 do begin
+      fTeglalap[i,j] := 'M';
+    end;
+  end;
+  for i := 1 to 6 do begin     //jobb oldala
+    for j := 11 to 15 do begin
+      fTeglalap[i,j] := 'M';
+    end;
+  end;
+
   fKirakottMennyiseg := 0;
 end;
 
-function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pI, pJ: Byte): Boolean;
-var i, j: Byte;
+function TJatekTer.Hasonlit(pTeglalap: TTeglalap): Boolean;
+var i, j: Shortint;
+begin
+  for i := -4 to 11 do begin
+    for j := -4 to 15 do begin
+      if pTeglalap[i, j] <> fTeglalap[i, j] then begin
+        Result := false;
+        Exit;
+      end;
+     end;
+  end;
+  Result := true;
+end;
+
+function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pI, pJ: Shortint): Boolean;
+var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin                    
@@ -389,8 +419,8 @@ begin
   Result := true;
 end;
 
-procedure TJatekTer.Kirak(pMozaik: TMozaik; pI, pJ: Byte);
-var i, j: Byte;
+procedure TJatekTer.Kirak(pMozaik: TMozaik; pI, pJ: Shortint);
+var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
@@ -401,11 +431,10 @@ begin
   end;
   pMozaik.fKiVanRakva := true;         //állapotjelzõ kell ez?
   inc(fKirakottMennyiseg);             //állapotjelzõ kell ez?
-
 end;
 
-procedure TJatekTer.Levesz(pMozaik: TMozaik; pI, pJ: Byte); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
-var i, j: Byte;
+procedure TJatekTer.Levesz(pMozaik: TMozaik; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
+var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
@@ -416,7 +445,6 @@ begin
   end;
   pMozaik.fKiVanRakva := false;        //állapotjelzõ kell ez?
   dec(fKirakottMennyiseg);             //állapotjelzõ kell ez?
-
 end;
 
 function TJatekTer.KeszVan: Boolean;
@@ -424,13 +452,13 @@ begin
   Result := (fKirakottMennyiseg = 12);
 end;
 
-function TJatekTer.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örökölni 1 parammal...
+function TJatekTer.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örököltetni pl...
 var s: String;
-    i, j: Byte;
+    i, j: Shortint;
 begin
   s := '';
-  for i := 1 to 7 do begin
-    for j := 1 to 11 do begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
       s := s + fTeglalap[i,j];
     end;
     s := s + #13#10;
@@ -439,12 +467,12 @@ begin
 end;
 
 procedure TJatekTer.DeSerialize(pSor: String); //TODO DeSerialize-t is kiemelni közös õsbe...
-var i, j, k: Byte;
+var i, j, k: Shortint;
 begin
   k := 1;
   pSor := StringReplace(pSor, #13#10, '' ,[rfReplaceAll]);
-  for i := 1 to 7 do begin
-    for j := 1 to 11 do begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
       fTeglalap[i,j] := pSor[k];
       inc(k);
     end;
@@ -452,7 +480,7 @@ begin
 end;
 
 procedure TJatekTer.KeresElsoUres;
-var i, j: Byte;
+var i, j: Shortint;
 begin
   fElsoUresI := 7;                                       //ezen értékek jelzik, ha nincs már üres pozíció, azaz már teli van a játéktér
   fElsoUresJ := 11;
@@ -468,17 +496,17 @@ begin
 end;
 
 procedure TJatekTer.Leallit;
-var i, j: Byte;
+var i, j: Shortint;
 begin
-  for i := 1 to 11 do begin
-    for j := 1 to 7 do begin
+  for i := 1 to 6 do begin
+    for j := 1 to 10 do begin
       fTeglalap[i,j] := 'M';
     end;
   end;
 end;
 
 function TJatekTer.LyukLenneEgy: Boolean;
-var i, j: Byte;
+var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
@@ -501,7 +529,7 @@ begin
 end;
 
 function TJatekTer.LyukLenneKetto: Boolean;
-var i, j: Byte;
+var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
@@ -556,7 +584,7 @@ end;
 // {$BOOLEVAL ON} kapcsolóval a Main.pas és a MainTest.pas elejében sem száll el. Beszarok.
 
 function TJatekTer.LyukLenneHarom: Boolean;
-var i, j: Byte;
+var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
@@ -708,7 +736,7 @@ begin
 end;
 
 function TJatekTer.LyukLenneNegy: Boolean;
-var i, j: Byte;
+var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
@@ -1261,7 +1289,7 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 var lMentveVolt: Boolean;
     iTipus: TMozaikNevek;
-    i: Byte;
+    i: Shortint;
 begin
   oMenteniKell := false;
   oToltveVolt := false;
@@ -1306,8 +1334,8 @@ procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect
 begin
   if Assigned(fJatekter) then begin
     if fJatekter.fTeglalap[ARow+1,ACol+1] <> '.' then begin
-      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ARow+1,ACol+1]) - Ord('A')];
-      //a cellában lévõ karakter ascii kódjából kivonjuk az A ascii kódját, ezzel az integerrel már címezhetõ a színes tömb
+      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ARow+1,ACol+1]) - Ord('@')];
+      //a cellában lévõ karakter ascii kódjából kivonjuk az A-1 ascii kódját, ezzel az integerrel már címezhetõ a színes tömb
     end else begin
       dwgdLenyeg.Canvas.Brush.Color := clWhite;
       //az üres cellában . van, az távol van ascii kódilag a betûktõl, nem lehet könnyen címezhetõvé tenni a színes tömböt így
@@ -1337,7 +1365,7 @@ end;
 procedure TfrmMain.Save;
 var f: TextFile;
     iTipus: TMozaikNevek;
-    i: Byte;
+    i: Shortint;
 begin
 
   AssignFile(f, 'save.txt');
@@ -1368,7 +1396,7 @@ end;
 procedure TfrmMain.Load;
 var f: TextFile;
     iTipus: TMozaikNevek;
-    i, j: Byte;
+    i, j: Shortint;
     lSor, lSorMind: String;
 begin
   AssignFile(f, 'save.txt');
@@ -1422,9 +1450,9 @@ end;
 
 procedure TfrmMain.Rekurziv;
 var jTipus: TMozaikNevek;
-    lElsoUresI, lElsoUresJ: Byte;
+    lElsoUresI, lElsoUresJ: Shortint;
 begin
-  //if fJatekter.fKirakottMennyiseg = 12 then ShowMessage('12');
+  if fJatekter.fKirakottMennyiseg = 12 then ShowMessage('12');
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // ezt a változót írni kirak, leszed -ben! // további gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fJatekter.KeresElsoUres;

@@ -4,7 +4,7 @@ object frmMain: TfrmMain
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Kirak'#243
-  ClientHeight = 274
+  ClientHeight = 262
   ClientWidth = 577
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -18,7 +18,7 @@ object frmMain: TfrmMain
   TextHeight = 13
   object lblKirakottMennyiseg: TLabel
     Left = 8
-    Top = 136
+    Top = 117
     Width = 6
     Height = 13
     Caption = '0'
@@ -27,7 +27,7 @@ object frmMain: TfrmMain
     Left = 8
     Top = 8
     Width = 153
-    Height = 113
+    Height = 97
     Caption = 'Keres!'
     TabOrder = 0
     OnClick = btnKeresClick
@@ -36,23 +36,23 @@ object frmMain: TfrmMain
     Left = 168
     Top = 8
     Width = 401
-    Height = 257
-    ColCount = 11
-    DefaultColWidth = 35
-    DefaultRowHeight = 35
+    Height = 245
+    ColCount = 10
+    DefaultColWidth = 38
+    DefaultRowHeight = 38
     DefaultDrawing = False
     Enabled = False
     FixedCols = 0
-    RowCount = 7
+    RowCount = 6
     FixedRows = 0
     TabOrder = 1
     OnDrawCell = dwgdLenyegDrawCell
   end
   object rgrpTempo: TRadioGroup
     Left = 8
-    Top = 160
+    Top = 144
     Width = 153
-    Height = 105
+    Height = 109
     Caption = 'Gyorsas'#225'g'
     ItemIndex = 1
     Items.Strings = (
