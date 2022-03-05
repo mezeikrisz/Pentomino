@@ -213,6 +213,20 @@ begin
   Normalizal;
 end;
 
+function TMozaik.Hasonlit(pNegyzet: TNegyzet): Boolean;
+var i, j: Shortint;
+begin
+  for i := 1 to 5 do begin
+    for j := 1 to 5 do begin
+      if pNegyzet[i, j] <> fNegyzet[i, j] then begin
+        Result := false;
+        Exit;
+      end;
+     end;
+  end;
+  Result := true;
+end;
+
 procedure TMozaik.Forgat;
 var i, j: Shortint;
     lTempNegyzet: TNegyzet;
@@ -327,20 +341,6 @@ begin
   end;
   Normalizal;
   Result := true;                                                          //true-val, ha csinált valamit
-end;
-
-function TMozaik.Hasonlit(pNegyzet: TNegyzet): Boolean;
-var i, j: Shortint;
-begin
-  for i := 1 to 5 do begin
-    for j := 1 to 5 do begin
-      if pNegyzet[i, j] <> fNegyzet[i, j] then begin
-        Result := false;
-        Exit;
-      end;
-     end;
-  end;
-  Result := true;
 end;
 
 {-----------}
@@ -1422,34 +1422,35 @@ var jTipus: TMozaikNevek;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
   if fJatekter.KeszVan then begin
-    ShowMessage('12');
+    ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
     inc(fHanyadikMegoldas);
     Writeln(f, '#' + IntToStr(fHanyadikMegoldas));
     Writeln(f, fJatekter.Serialize + #13#10);
   end;
   for jTipus := Hosszu to Esbetu do begin
-    if (not fMozaikok[jTipus].fKiVanRakva) then begin   // ezt a változót írni kirak, leszed -ben! // további gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
+    if (not fMozaikok[jTipus].fKiVanRakva) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fJatekter.KeresElsoUres;
       lElsoUresI := fJatekter.fElsoUresI;
       lElsoUresJ := fJatekter.fElsoUresJ;
-      if fJatekter.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
-        SetTempo;
-        fJatekter.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
-        SetTempo;
-        if fJatekter.LyukLenneEgy or fJatekter.LyukLenneKetto or fJatekter.LyukLenneHarom or fJatekter.LyukLenneNegy then begin
+      while fMozaikok[jTipus].Valtoztat do begin
+        if fJatekter.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
           SetTempo;
-          fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+          fJatekter.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
           SetTempo;
-        end else begin
-          Rekurziv;
-          SetTempo;
-          fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
-          SetTempo;
-        end;
-        {fMozaikok[jTipus].fValtozatIndex := 0;}
-      end; // if
-    end;
-  end;
+          if fJatekter.LyukLenneEgy or fJatekter.LyukLenneKetto or fJatekter.LyukLenneHarom or fJatekter.LyukLenneNegy then begin
+            SetTempo;
+            fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            SetTempo;
+          end else begin
+            Rekurziv;
+            SetTempo;
+            fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            SetTempo;
+          end;
+        end; // if
+      end; // while
+    end; // if
+  end; // for
 end;
 
 end.
