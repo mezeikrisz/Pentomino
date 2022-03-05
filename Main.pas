@@ -18,7 +18,6 @@ type
     fNegyzet: TNegyzet;
     fMozaikTipus: TMozaikNevek;
     fValtozatIndex: Shortint;
-    fIttVoltUtoljaraI, fIttVoltUtoljaraJ: Shortint;
     fOffsetJ: Shortint;
     fKiVanRakva: Boolean;
     constructor Create(pMozaik: TMozaikNevek);
@@ -64,14 +63,10 @@ type
       Rect: TRect; State: TGridDrawState);
     procedure FormCreate(Sender: TObject);
   private
-    i, j: Shortint;
     fMozaikok: Array[Hosszu..Esbetu] of TMozaik;
     fJatekter: TJatekTer;
-    fRekurzioSzintjei: Array[1..12] of TMozaikNevek;
     f: TextFile;
     fHanyadikMegoldas: Integer;
-    fAktualisSzint: Shortint;
-    fToltottAktSzint: Shortint;
   public
     procedure Rekurziv;
     procedure SetTempo;
@@ -216,8 +211,6 @@ begin
   fNegyzet := oMozaikTomb[pMozaik];
   fMozaikTipus := pMozaik;
   fValtozatIndex := 0;
-  fIttVoltUtoljaraI := 0;
-  fIttVoltUtoljaraJ := 0;
   fKiVanRakva := false;
   Normalizal;
 end;
@@ -429,8 +422,8 @@ begin
       end;
     end;
   end;
-  pMozaik.fKiVanRakva := true;         //állapotjelzõ kell ez?
-  inc(fKirakottMennyiseg);             //állapotjelzõ kell ez?
+  pMozaik.fKiVanRakva := true;
+  inc(fKirakottMennyiseg);
 end;
 
 procedure TJatekTer.Levesz(pMozaik: TMozaik; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
@@ -443,8 +436,8 @@ begin
       end;
     end;
   end;
-  pMozaik.fKiVanRakva := false;        //állapotjelzõ kell ez?
-  dec(fKirakottMennyiseg);             //állapotjelzõ kell ez?
+  pMozaik.fKiVanRakva := false;
+  dec(fKirakottMennyiseg);
 end;
 
 function TJatekTer.KeszVan: Boolean;
@@ -1294,13 +1287,6 @@ begin
   oMenteniKell := false;
   oToltveVolt := false;
 
-  fAktualisSzint := 0;
-  for i := 1 to 12 do begin
-    fRekurzioSzintjei[i] := Ures;
-  end;
-
-  fToltottAktSzint := 0;
-
   fJatekter := TJatekTer.Create;
 
   for iTipus := Hosszu to Esbetu do begin
@@ -1371,22 +1357,21 @@ begin
   Rewrite(f);
 
   for i := 1 to 12 do begin
-    Writeln(f, IntToStr(ord(fRekurzioSzintjei[i])));
+    //Writeln(f, IntToStr(ord(fRekurzioSzintjei[i])));
   end;
 
   for iTipus := Hosszu to Esbetu do begin
     Writeln(f, fMozaikok[iTipus].Serialize);
     //fMozaikTipust nem írom ki, mert redundáns infó némileg és nincs is ..ToStr-je :)
     Writeln(f, IntToStr(fMozaikok[iTipus].fValtozatIndex));
-    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraI));
-    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraJ));
+    //Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraI));
+    //Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraJ));
     if fMozaikok[iTipus].fKiVanRakva then Writeln(f, 'true')
                                      else Writeln(f, 'false');
   end;
 
   Writeln(f,fJatekter.Serialize);
   Writeln(f,IntToStr(fJatekter.fKirakottMennyiseg));
-  Writeln(f,IntToStr(fAktualisSzint));
 
   CloseFile(f);
 end;
@@ -1402,7 +1387,7 @@ begin
 
   for i := 1 to 12 do begin
     Readln(f, j);
-    fRekurzioSzintjei[i] := TMozaikNevek(j);
+    //fRekurzioSzintjei[i] := TMozaikNevek(j);
   end;
 
   for iTipus := Hosszu to Esbetu do begin
@@ -1418,10 +1403,10 @@ begin
     fMozaikok[iTipus].fValtozatIndex := StrToInt(lSor);
 
     Readln(f, lSor);
-    fMozaikok[iTipus].fIttVoltUtoljaraI := StrToInt(lSor);
+    //fMozaikok[iTipus].fIttVoltUtoljaraI := StrToInt(lSor);
 
     Readln(f, lSor);
-    fMozaikok[iTipus].fIttVoltUtoljaraJ := StrToInt(lSor);
+    //fMozaikok[iTipus].fIttVoltUtoljaraJ := StrToInt(lSor);
 
     Readln(f, lSor);
     if lSor = 'true' then fMozaikok[iTipus].fKiVanRakva := true
@@ -1441,7 +1426,6 @@ begin
   fJatekter.fKirakottMennyiseg := StrToInt(lSor);
 
   Readln(f, lSor);
-  fToltottAktSzint := StrToInt(lSor);
 
   CloseFile(f);
 end;
