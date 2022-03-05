@@ -1,6 +1,6 @@
 object frmMain: TfrmMain
-  Left = 760
-  Top = 107
+  Left = 758
+  Top = 102
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Kirak'#243

@@ -77,8 +77,6 @@ type
 var
   frmMain: TfrmMain;
 
-  oMenteniKell, oToltveVolt: Boolean;
-
   oMozaikValtozatok: Array[Ures..Esbetu] of String =
   (
   'S',          //üres négyzetet nincs értelme forgatni/tükrözni
@@ -1280,22 +1278,14 @@ end;
 {----------}
 
 procedure TfrmMain.FormCreate(Sender: TObject);
-var lMentveVolt: Boolean;
-    iTipus: TMozaikNevek;
+var iTipus: TMozaikNevek;
     i: Shortint;
 begin
-  oMenteniKell := false;
-  oToltveVolt := false;
-
   fJatekter := TJatekTer.Create;
 
   for iTipus := Hosszu to Esbetu do begin
     fMozaikok[iTipus] := TMozaik.Create(iTipus);
   end;
-
-  lMentveVolt := FileExists('save.txt');
-
-  btnKeres.Enabled := not lMentveVolt;
 end;
 
 procedure TfrmMain.btnKeresClick(Sender: TObject);
@@ -1306,14 +1296,9 @@ begin
   Rewrite(f);
   fHanyadikMegoldas := 0;
 
-  //load-dal kezdõs esetben most nincs nyitva a results...
-  //olyankor is nyitni, de esetleg a méretétõl függõen hozzáírásra/újraírásra
-  //fHanyadikMegoldast file-ból tölteni, tehát elõtte el is menteni...
-
   Rekurziv;
 
   CloseFile(f);
-  //save-nél results-ot is zárni!!
 end;
 
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
@@ -1353,19 +1338,19 @@ var f: TextFile;
     iTipus: TMozaikNevek;
     i: Shortint;
 begin
-  AssignFile(f, 'save.txt');
+  {AssignFile(f, 'save.txt');
   Rewrite(f);
 
   for i := 1 to 12 do begin
-    //Writeln(f, IntToStr(ord(fRekurzioSzintjei[i])));
+    Writeln(f, IntToStr(ord(fRekurzioSzintjei[i])));
   end;
 
   for iTipus := Hosszu to Esbetu do begin
     Writeln(f, fMozaikok[iTipus].Serialize);
-    //fMozaikTipust nem írom ki, mert redundáns infó némileg és nincs is ..ToStr-je :)
+    fMozaikTipust nem írom ki, mert redundáns infó némileg és nincs is ..ToStr-je :)
     Writeln(f, IntToStr(fMozaikok[iTipus].fValtozatIndex));
-    //Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraI));
-    //Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraJ));
+    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraI));
+    Writeln(f, IntToStr(fMozaikok[iTipus].fIttVoltUtoljaraJ));
     if fMozaikok[iTipus].fKiVanRakva then Writeln(f, 'true')
                                      else Writeln(f, 'false');
   end;
@@ -1374,6 +1359,7 @@ begin
   Writeln(f,IntToStr(fJatekter.fKirakottMennyiseg));
 
   CloseFile(f);
+  }
 end;
 
 procedure TfrmMain.Load;
@@ -1382,7 +1368,7 @@ var f: TextFile;
     i, j: Shortint;
     lSor, lSorMind: String;
 begin
-  AssignFile(f, 'save.txt');
+  {AssignFile(f, 'save.txt');
   Reset(f);
 
   for i := 1 to 12 do begin
@@ -1403,10 +1389,10 @@ begin
     fMozaikok[iTipus].fValtozatIndex := StrToInt(lSor);
 
     Readln(f, lSor);
-    //fMozaikok[iTipus].fIttVoltUtoljaraI := StrToInt(lSor);
+    fMozaikok[iTipus].fIttVoltUtoljaraI := StrToInt(lSor);
 
     Readln(f, lSor);
-    //fMozaikok[iTipus].fIttVoltUtoljaraJ := StrToInt(lSor);
+    fMozaikok[iTipus].fIttVoltUtoljaraJ := StrToInt(lSor);
 
     Readln(f, lSor);
     if lSor = 'true' then fMozaikok[iTipus].fKiVanRakva := true
@@ -1420,7 +1406,7 @@ begin
     Readln(f, lSor);
     lSorMind := lSorMind + lSor;
   end;
- // fJatekter.DeSerialize(lSorMind);
+  fJatekter.DeSerialize(lSorMind);
 
   Readln(f, lSor);
   fJatekter.fKirakottMennyiseg := StrToInt(lSor);
@@ -1428,13 +1414,19 @@ begin
   Readln(f, lSor);
 
   CloseFile(f);
+  }
 end;
 
 procedure TfrmMain.Rekurziv;
 var jTipus: TMozaikNevek;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
-  if fJatekter.KeszVan then ShowMessage('12');
+  if fJatekter.KeszVan then begin
+    ShowMessage('12');
+    inc(fHanyadikMegoldas);
+    Writeln(f, '#' + IntToStr(fHanyadikMegoldas));
+    Writeln(f, fJatekter.Serialize + #13#10);
+  end;
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // ezt a változót írni kirak, leszed -ben! // további gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fJatekter.KeresElsoUres;
@@ -1454,18 +1446,7 @@ begin
           fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
           SetTempo;
         end;
-
-          {if fJatekter.KeszVan then begin
-            inc(fHanyadikMegoldas);
-            Writeln(f, IntToStr(fHanyadikMegoldas) + '. megoldás:');
-            Writeln(f, fJatekter.Serialize + #13#10);
-          end else begin
-            Rekurziv;
-          end;}
-
-
-          {fMozaikok[jTipus].fValtozatIndex := 0;}
-
+        {fMozaikok[jTipus].fValtozatIndex := 0;}
       end; // if
     end;
   end;
