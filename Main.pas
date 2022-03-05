@@ -1281,6 +1281,7 @@ var iTipus: TMozaikNevek;
     i: Shortint;
 begin
   btnKeres.Enabled := false;
+  fHanyadikMegoldas := 0;
 
   fJatekter := TJatekTer.Create;
   for iTipus := Hosszu to Esbetu do begin
@@ -1289,7 +1290,6 @@ begin
 
   AssignFile(f, 'results.txt');
   Rewrite(f);
-  fHanyadikMegoldas := 0;
 
   Rekurziv;
 
@@ -1326,7 +1326,7 @@ begin
       end;
     2:begin
         dwgdLenyeg.Repaint;
-        Sleep(500);
+        Sleep(1000);
       end;
   end;
   lblKirakottMennyiseg.Caption := IntToStr(fJatekter.fKirakottMennyiseg);
@@ -1422,7 +1422,7 @@ var jTipus: TMozaikNevek;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
   if fJatekter.KeszVan then begin
-    ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
+    //ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
     inc(fHanyadikMegoldas);
     Writeln(f, '#' + IntToStr(fHanyadikMegoldas));
     Writeln(f, fJatekter.Serialize + #13#10);
@@ -1449,6 +1449,7 @@ begin
           end;
         end; // if
       end; // while
+      fMozaikok[jTipus].fValtozatIndex := 0;  //TODO itt elkélne némi alprogramosítás
     end; // if
   end; // for
 end;
