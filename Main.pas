@@ -61,7 +61,6 @@ type
     procedure btnKeresClick(Sender: TObject);
     procedure dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
-    procedure FormCreate(Sender: TObject);
   private
     fMozaikok: Array[Hosszu..Esbetu] of TMozaik;
     fJatekter: TJatekTer;
@@ -1277,20 +1276,16 @@ end;
 { TfrmMain }
 {----------}
 
-procedure TfrmMain.FormCreate(Sender: TObject);
+procedure TfrmMain.btnKeresClick(Sender: TObject);
 var iTipus: TMozaikNevek;
     i: Shortint;
 begin
-  fJatekter := TJatekTer.Create;
+  btnKeres.Enabled := false;
 
+  fJatekter := TJatekTer.Create;
   for iTipus := Hosszu to Esbetu do begin
     fMozaikok[iTipus] := TMozaik.Create(iTipus);
   end;
-end;
-
-procedure TfrmMain.btnKeresClick(Sender: TObject);
-begin
-  btnKeres.Enabled := false;
 
   AssignFile(f, 'results.txt');
   Rewrite(f);
@@ -1299,6 +1294,11 @@ begin
   Rekurziv;
 
   CloseFile(f);
+
+  for iTipus := Hosszu to Esbetu do begin
+    fMozaikok[iTipus].Free;
+  end;
+  fJatekter.Free;
 end;
 
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
