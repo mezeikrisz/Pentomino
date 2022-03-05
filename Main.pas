@@ -68,6 +68,7 @@ type
     procedure dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure tmrTimerTimer(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     fMozaikok: Array[Hosszu..Esbetu] of TMozaik;
     fJatekter: TJatekTer;
@@ -1303,10 +1304,6 @@ begin
 
   Rekurziv;
 
-  for iTipus := Hosszu to Esbetu do begin
-    fMozaikok[iTipus].Free;
-  end;
-  fJatekter.Free;
 end;
 
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
@@ -1471,6 +1468,16 @@ begin
   fKirakasokSzama := 0;
 
   edtElkeszult.Text := IntToStr(Round(fHanyadikMegoldas*100/9356));
+end;
+
+procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
+var iTipus: TMozaikNevek;
+    i: Shortint;
+begin
+  for iTipus := Hosszu to Esbetu do begin
+    fMozaikok[iTipus].Free;
+  end;
+  fJatekter.Free;
 end;
 
 end.
