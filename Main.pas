@@ -1367,7 +1367,6 @@ var f: TextFile;
     iTipus: TMozaikNevek;
     i: Shortint;
 begin
-
   AssignFile(f, 'save.txt');
   Rewrite(f);
 
@@ -1390,7 +1389,6 @@ begin
   Writeln(f,IntToStr(fAktualisSzint));
 
   CloseFile(f);
-
 end;
 
 procedure TfrmMain.Load;
@@ -1452,7 +1450,7 @@ procedure TfrmMain.Rekurziv;
 var jTipus: TMozaikNevek;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
-  if fJatekter.fKirakottMennyiseg = 12 then ShowMessage('12');
+  if fJatekter.KeszVan then ShowMessage('12');
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // ezt a változót írni kirak, leszed -ben! // további gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fJatekter.KeresElsoUres;

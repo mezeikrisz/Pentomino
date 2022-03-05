@@ -32,6 +32,7 @@ type
     procedure testJatekterKirakhatoIde;
     procedure testJatekterKirak;
     procedure testJatekterLevesz;
+    procedure testJatekterKeszVan;
   end;
 
 { TMainTest }
@@ -1156,6 +1157,56 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   Check(j.Serialize = s, 'Levesz 1');
+
+  mMozaikHosszu.Free;
+  mMozaikElbetu.Free;
+  mMozaikHazteto.Free;
+  mMozaikSonka.Free;
+  mMozaikKereszt.Free;
+  mMozaikPuska.Free;
+  mMozaikLapat.Free;
+  mMozaikCsunya.Free;
+  mMozaikTebetu.Free;
+  mMozaikLepcso.Free;
+  mMozaikUbetu.Free;
+  mMozaikEsbetu.Free;
+  j.Free;
+end;
+
+procedure TMainTest.testJatekterKeszVan;
+var s: String;
+    j: TJatekTer;
+    mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TMozaik;
+begin
+  j := TJatekTer.Create;
+  mMozaikHosszu := TMozaik.Create(Hosszu);
+  mMozaikElbetu := TMozaik.Create(Elbetu);
+  mMozaikHazteto := TMozaik.Create(Hazteto);
+  mMozaikSonka := TMozaik.Create(Sonka);
+  mMozaikKereszt := TMozaik.Create(Kereszt);
+  mMozaikPuska := TMozaik.Create(Puska);
+  mMozaikLapat := TMozaik.Create(Lapat);
+  mMozaikCsunya :=TMozaik.Create(Csunya);
+  mMozaikTebetu := TMozaik.Create(Tebetu);
+  mMozaikLepcso := TMozaik.Create(Lepcso);
+  mMozaikUbetu := TMozaik.Create(Ubetu);
+  mMozaikEsbetu := TMozaik.Create(Esbetu);
+
+  Check(not j.KeszVan, 'KeszVan 1 false');
+  j.Kirak(mMozaikSonka, 1, 1);
+  j.Kirak(mMozaikUbetu, 1, 4);
+  j.Kirak(mMozaikCsunya, 1, 7);
+  j.Kirak(mMozaikElbetu, 1, 9);
+  j.Kirak(mMozaikLapat, 2, 3);
+  j.Kirak(mMozaikKereszt, 2, 5);
+  j.Kirak(mMozaikPuska, 2, 7);
+  j.Kirak(mMozaikEsbetu, 3, 1);
+  j.Kirak(mMozaikTebetu, 3, 9);
+  j.Kirak(mMozaikHazteto, 4, 1);
+  j.Kirak(mMozaikLepcso, 4, 6);
+  Check(not j.KeszVan, 'KeszVan 2 false');
+  j.Kirak(mMozaikHosszu, 6, 6);
+  Check(j.KeszVan, 'KeszVan 3 true');
 
   mMozaikHosszu.Free;
   mMozaikElbetu.Free;
