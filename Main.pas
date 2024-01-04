@@ -7,7 +7,7 @@ uses
   Dialogs, ExtCtrls, StdCtrls, Grids;
 
 type
-  TNegyzet = Array[1..5,1..5] of Char; //sorindex majd oszlopindex, tehát fordítva, mint pixelcímzésnél
+  TSquare = Array[1..5,1..5] of Char; //sorindex majd oszlopindex, tehát fordítva, mint pixelcímzésnél
 
   TTeglalap = Array[-4..11,-4..15] of Char; //sorindex majd oszlopindex
 
@@ -15,7 +15,7 @@ type
 
   TMozaik = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
-    fNegyzet: TNegyzet;
+    fSquare: TSquare;
     fMozaikTipus: TMozaikNevek;
     fValtozatIndex: Shortint;
     fOffsetJ: Shortint;
@@ -24,7 +24,7 @@ type
     procedure Forgat;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
     procedure Tukroz;      //fNegyzetet tükrözi függõleges tengelyre
     procedure Normalizal;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
-    function Hasonlit(pNegyzet: TNegyzet): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
+    function Hasonlit(pSquare: TSquare): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
@@ -135,7 +135,7 @@ var
   clPurple
   );
 
-  oMozaikTomb: Array[Ures..Esbetu] of TNegyzet =
+  oMozaikTomb: Array[Ures..Esbetu] of TSquare =
   (
   (('.','.','.','.','.'),  //Ures
    ('.','.','.','.','.'),
@@ -214,19 +214,19 @@ implementation
 
 constructor TMozaik.Create(pMozaik: TMozaikNevek);
 begin
-  fNegyzet := oMozaikTomb[pMozaik];
+  fSquare := oMozaikTomb[pMozaik];
   fMozaikTipus := pMozaik;
   fValtozatIndex := 0;
   fKiVanRakva := false;
   Normalizal;
 end;
 
-function TMozaik.Hasonlit(pNegyzet: TNegyzet): Boolean;
+function TMozaik.Hasonlit(pSquare: TSquare): Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if pNegyzet[i, j] <> fNegyzet[i, j] then begin
+      if pSquare[i, j] <> fSquare[i, j] then begin
         Result := false;
         Exit;
       end;
@@ -237,21 +237,21 @@ end;
 
 procedure TMozaik.Forgat;
 var i, j: Shortint;
-    lTempNegyzet: TNegyzet;
+    lTempSquare: TSquare;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      lTempNegyzet[i,j] := fNegyzet[6-j,i];
+      lTempSquare[i,j] := fSquare[6-j,i];
     end;
   end;
-  fNegyzet := lTempNegyzet;
+  fSquare := lTempSquare;
 end;
 
 procedure TMozaik.Normalizal;
 var i, j, i2, j2, i3, j3, lMinJ, lMinI: Shortint;
-    lTempNegyzet: TNegyzet;
+    lTempSquare: TSquare;
 begin
-  if (fNegyzet[1,1] <> '.') then Exit; //mert nincs mit normalizálni
+  if (fSquare[1,1] <> '.') then Exit; //mert nincs mit normalizálni
 
   //minimum keresés mindkét koordinátára, ahol ertek = 1
   lMinI := 5;
@@ -259,7 +259,7 @@ begin
     i := 0;
     repeat
       inc(i);
-    until (fNegyzet[i,j] <> '.') or (i = 5);
+    until (fSquare[i,j] <> '.') or (i = 5);
     if i < lMinI then lMinI := i;
   end;
   lMinJ := 5;
@@ -267,32 +267,32 @@ begin
     j := 0;
     repeat
       inc(j);
-    until (fNegyzet[i,j] <> '.') or (j = 5);
+    until (fSquare[i,j] <> '.') or (j = 5);
     if j < lMinJ then lMinJ := j;
   end;
 
   if (lMinI = 1) and (lMinJ = 1) then begin //mert nincs mit normalizálni
   end else begin
-    lTempNegyzet := oMozaikTomb[Ures];
+    lTempSquare := oMozaikTomb[Ures];
 
     //majd a két számmal jelölt pontig felmásolni mindent
     i2 := 1;
     for i := lMinI to 5 do begin
       j2 := 1;
       for j := lMinJ to 5 do begin
-        lTempNegyzet[i2,j2] := fNegyzet[i,j];
+        lTempSquare[i2,j2] := fSquare[i,j];
         inc(j2);
       end;
       inc(i2);
     end;
-    fNegyzet := lTempNegyzet;
+    fSquare := lTempSquare;
   end;
   
   //a normalizált négyzet elsõ sorában megkeresni az elsõ értékes jegyet, ez legyen a J offset. Oszlopban elvileg nem kell vele törõdni.
   j3 := 0;
   repeat
     inc(j3);
-  until (fNegyzet[1,j3] <> '.') or (j3 = 5);
+  until (fSquare[1,j3] <> '.') or (j3 = 5);
   fOffsetJ := j3 - 1;             //offset 0-tól indul, ha a sarokban kezdõdik az értékes jegy
 end;
 
@@ -303,7 +303,7 @@ begin
   s := '';
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      s := s + fNegyzet[i,j];
+      s := s + fSquare[i,j];
     end;
     s := s + #13#10;
   end;
@@ -317,7 +317,7 @@ begin
   pSor := StringReplace(pSor, #13#10, '', [rfReplaceAll]);
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      fNegyzet[i,j] := pSor[k];
+      fSquare[i,j] := pSor[k];
       inc(k);
     end;
   end;
@@ -325,14 +325,14 @@ end;
 
 procedure TMozaik.Tukroz;
 var i, j: Shortint;
-    lTempNegyzet: TNegyzet;
+    lTempSquare: TSquare;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      lTempNegyzet[i,j] := fNegyzet[i,6-j];
+      lTempSquare[i,j] := fSquare[i,6-j];
     end;
   end;
-  fNegyzet := lTempNegyzet;
+  fSquare := lTempSquare;
 end;
 
 function TMozaik.Valtoztat: Boolean;
@@ -407,9 +407,9 @@ var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin                    
-      if ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] <> '.')) //egybelógás lenne
+      if ((pMozaik.fSquare[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] <> '.')) //egybelógás lenne
          or
-         ((pMozaik.fNegyzet[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
+         ((pMozaik.fSquare[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
         Result := false;
         Exit;
       end;
@@ -423,8 +423,8 @@ var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if pMozaik.fNegyzet[i,j] <> '.' then begin
-        fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := pMozaik.fNegyzet[i,j];
+      if pMozaik.fSquare[i,j] <> '.' then begin
+        fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := pMozaik.fSquare[i,j];
       end;
     end;
   end;

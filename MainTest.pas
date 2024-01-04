@@ -48,7 +48,7 @@ begin
 end;
 
 procedure TMainTest.testMozaikHasonlit;
-var t: TNegyzet;
+var t: TSquare;
     mMozaikUres, mMozaikHosszu: TMozaik;
 begin
   mMozaikUres := TMozaik.Create(Ures);
@@ -132,7 +132,7 @@ begin
 end;
 
 procedure TMainTest.testMozaikForgat;
-var t: TNegyzet;
+var t: TSquare;
     s: String;
     mMozaikHazteto, mMozaikMindegy: TMozaik;
 begin
@@ -166,7 +166,7 @@ begin
 end;
 
 procedure TMainTest.testMozaikTukroz;
-var t: TNegyzet;
+var t: TSquare;
     s: String;
     mMozaikHazteto, mMozaikMindegy: TMozaik;
 begin
@@ -200,7 +200,7 @@ begin
 end;
 
 procedure TMainTest.testMozaikNormalizal;
-var t: TNegyzet;
+var t: TSquare;
     s: String;
     mMozaikEsbetu, mMozaikMindegy: TMozaik;
 begin
@@ -292,7 +292,7 @@ begin
 end;
 
 procedure TMainTest.testMozaikValtoztat;
-var t: TNegyzet;
+var t: TSquare;
     s: String;
     mMozaikUres, mMozaikElbetu: TMozaik;
     b: Boolean;
