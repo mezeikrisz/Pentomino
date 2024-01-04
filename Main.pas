@@ -23,7 +23,7 @@ type
     constructor Create(pMozaik: TMozaikNevek);
     procedure Rotate;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
     procedure Flip;      //fNegyzetet tükrözi függõleges tengelyre
-    procedure Normalizal;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
+    procedure Normalize;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
     function Hasonlit(pSquare: TSquare): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
   public
     function Serialize: String;
@@ -218,7 +218,7 @@ begin
   fMozaikTipus := pMozaik;
   fValtozatIndex := 0;
   fKiVanRakva := false;
-  Normalizal;
+  Normalize;
 end;
 
 function TMozaik.Hasonlit(pSquare: TSquare): Boolean;
@@ -247,7 +247,7 @@ begin
   fSquare := lTempSquare;
 end;
 
-procedure TMozaik.Normalizal;
+procedure TMozaik.Normalize;
 var i, j, i2, j2, i3, j3, lMinJ, lMinI: Shortint;
     lTempSquare: TSquare;
 begin
@@ -347,7 +347,7 @@ begin
     'F': Rotate;
     'T': Flip;
   end;
-  Normalizal;
+  Normalize;
   Result := true;                                                          //true-val, ha csinált valamit
 end;
 

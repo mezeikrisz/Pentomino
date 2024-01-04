@@ -209,13 +209,13 @@ begin
 
   mMozaikEsbetu.Rotate;
   mMozaikEsbetu.Rotate;
-  mMozaikEsbetu.Normalizal;
+  mMozaikEsbetu.Normalize;
   t[1, 1] := 'L';   t[1, 2] := 'L';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
   t[2, 1] := '.';   t[2, 2] := 'L';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
   t[3, 1] := '.';   t[3, 2] := 'L';   t[3, 3] := 'L';   t[3, 4] := '.';   t[3, 5] := '.';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikEsbetu.Hasonlit(t), 'Mozaik Normalizal 1, Hasonlit-tal');
+  Check(mMozaikEsbetu.Hasonlit(t), 'Mozaik Normalize 1, Hasonlit-tal');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -223,13 +223,13 @@ begin
        '....*'#13#10 +
        '...**'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Normalizal;
+  mMozaikMindegy.Normalize;
   s := '*....'#13#10 +
        '..*..'#13#10 +
        '.**..'#13#10 +
        '.....'#13#10 +
        '.....'#13#10;
-  Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalizal 2, DeSer+Ser');
+  Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalize 2, DeSer+Ser');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -237,13 +237,13 @@ begin
        '....*'#13#10 +
        '...**'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Normalizal;
+  mMozaikMindegy.Normalize;
   s := '.*...'#13#10 +
        '.*...'#13#10 +
        '**...'#13#10 +
        '.....'#13#10 +
        '.....'#13#10;
-  Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalizal 3, DeSer+Ser');
+  Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalize 3, DeSer+Ser');
 
   s := '..*..'#13#10 +
        '.....'#13#10 +
@@ -251,13 +251,13 @@ begin
        '....*'#13#10 +
        '...**'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Normalizal;
+  mMozaikMindegy.Normalize;
   s := '*....'#13#10 +
        '.....'#13#10 +
        '..*..'#13#10 +
        '..*..'#13#10 +
        '.**..'#13#10;
-  Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalizal 4, DeSer+Ser');
+  Check(mMozaikMindegy.Serialize = s, 'Mozaik Normalize 4, DeSer+Ser');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -265,8 +265,8 @@ begin
        '....*'#13#10 +
        '..***'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Normalizal;
-  Check(mMozaikMindegy.fOffsetJ = 2, 'Mozaik Normalizal 5, offset');
+  mMozaikMindegy.Normalize;
+  Check(mMozaikMindegy.fOffsetJ = 2, 'Mozaik Normalize 5, offset');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -274,8 +274,8 @@ begin
        '....*'#13#10 +
        '*****'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Normalizal;
-  Check(mMozaikMindegy.fOffsetJ = 4, 'Mozaik Normalizal 6, offset');
+  mMozaikMindegy.Normalize;
+  Check(mMozaikMindegy.fOffsetJ = 4, 'Mozaik Normalize 6, offset');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -283,8 +283,8 @@ begin
        '....*'#13#10 +
        '....*'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Normalizal;
-  Check(mMozaikMindegy.fOffsetJ = 0, 'Mozaik Normalizal 7, offset');
+  mMozaikMindegy.Normalize;
+  Check(mMozaikMindegy.fOffsetJ = 0, 'Mozaik Normalize 7, offset');
 
 
   mMozaikEsbetu.Free;
