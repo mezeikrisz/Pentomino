@@ -21,8 +21,8 @@ type
     fOffsetJ: Shortint;
     fKiVanRakva: Boolean;
     constructor Create(pMozaik: TMozaikNevek);
-    procedure Forgat;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
-    procedure Tukroz;      //fNegyzetet tükrözi függõleges tengelyre
+    procedure Rotate;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
+    procedure Flip;      //fNegyzetet tükrözi függõleges tengelyre
     procedure Normalizal;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
     function Hasonlit(pSquare: TSquare): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
   public
@@ -235,7 +235,7 @@ begin
   Result := true;
 end;
 
-procedure TMozaik.Forgat;
+procedure TMozaik.Rotate;
 var i, j: Shortint;
     lTempSquare: TSquare;
 begin
@@ -323,7 +323,7 @@ begin
   end;
 end;
 
-procedure TMozaik.Tukroz;
+procedure TMozaik.Flip;
 var i, j: Shortint;
     lTempSquare: TSquare;
 begin
@@ -344,8 +344,8 @@ begin
   inc(fValtozatIndex);
   case oMozaikValtozatok[fMozaikTipus][fValtozatIndex] of
     'S': ;
-    'F': Forgat;
-    'T': Tukroz;
+    'F': Rotate;
+    'T': Flip;
   end;
   Normalizal;
   Result := true;                                                          //true-val, ha csinált valamit

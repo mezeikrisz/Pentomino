@@ -139,13 +139,13 @@ begin
   mMozaikHazteto := TMozaik.Create(Hazteto);
   mMozaikMindegy := TMozaik.Create(Ures);
 
-  mMozaikHazteto.Forgat;
+  mMozaikHazteto.Rotate;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := 'C';   t[1, 4] := 'C';   t[1, 5] := 'C';
   t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := 'C';   t[2, 4] := '.';   t[2, 5] := '.';
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := 'C';   t[3, 4] := '.';   t[3, 5] := '.';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Forgat 1, Hasonlit-tal');
+  Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Rotate 1, Hasonlit-tal');
 
   s := '.....'#13#10 +
        '.*..*'#13#10 +
@@ -153,13 +153,13 @@ begin
        '.*..*'#13#10 +
        '.....'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Forgat;
+  mMozaikMindegy.Rotate;
   s := '.....'#13#10 +
        '.***.'#13#10 +
        '.....'#13#10 +
        '.....'#13#10 +
        '.***.'#13#10;
-  Check(mMozaikMindegy.Serialize = s, 'Mozaik Forgat 2, DeSer+Ser');
+  Check(mMozaikMindegy.Serialize = s, 'Mozaik Rotate 2, DeSer+Ser');
 
   mMozaikHazteto.Free;
   mMozaikMindegy.Free;
@@ -173,13 +173,13 @@ begin
   mMozaikHazteto := TMozaik.Create(Hazteto);
   mMozaikMindegy := TMozaik.Create(Ures);
 
-  mMozaikHazteto.Tukroz;
+  mMozaikHazteto.Flip;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := 'C';
   t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := 'C';
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := 'C';   t[3, 4] := 'C';   t[3, 5] := 'C';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Tukroz 1, Hasonlit-tal');
+  Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Flip 1, Hasonlit-tal');
 
   s := '*....'#13#10 +
        '.*...'#13#10 +
@@ -187,13 +187,13 @@ begin
        '...*.'#13#10 +
        '....*'#13#10;
   mMozaikMindegy.DeSerialize(s);
-  mMozaikMindegy.Forgat;
+  mMozaikMindegy.Rotate;
   s := '....*'#13#10 +
        '...*.'#13#10 +
        '..*..'#13#10 +
        '.*...'#13#10 +
        '*....'#13#10;
-  Check(mMozaikMindegy.Serialize = s, 'Mozaik Tukroz 2, DeSer+Ser');
+  Check(mMozaikMindegy.Serialize = s, 'Mozaik Flip 2, DeSer+Ser');
 
   mMozaikHazteto.Free;
   mMozaikMindegy.Free;
@@ -207,8 +207,8 @@ begin
   mMozaikEsbetu := TMozaik.Create(Esbetu);
   mMozaikMindegy := TMozaik.Create(Ures);
 
-  mMozaikEsbetu.Forgat;
-  mMozaikEsbetu.Forgat;
+  mMozaikEsbetu.Rotate;
+  mMozaikEsbetu.Rotate;
   mMozaikEsbetu.Normalizal;
   t[1, 1] := 'L';   t[1, 2] := 'L';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
   t[2, 1] := '.';   t[2, 2] := 'L';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
