@@ -389,7 +389,7 @@ begin
 end;
 
 procedure TMainTest.testJatekterHasonlit;
-var t: TTeglalap;
+var t: TRectangle;
     j: TJatekTer;
 begin
   j := TJatekTer.Create;

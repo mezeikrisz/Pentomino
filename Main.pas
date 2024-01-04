@@ -9,7 +9,7 @@ uses
 type
   TSquare = Array[1..5,1..5] of Char; //sorindex majd oszlopindex, tehát fordítva, mint pixelcímzésnél
 
-  TTeglalap = Array[-4..11,-4..15] of Char; //sorindex majd oszlopindex
+  TRectangle = Array[-4..11,-4..15] of Char; //sorindex majd oszlopindex
 
   TMozaikNevek = (Ures, Hosszu, Elbetu, Hazteto, Sonka, Kereszt, Puska, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
 
@@ -33,7 +33,7 @@ type
 
   TJatekTer = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
-    fTeglalap: TTeglalap;
+    fRectangle: TRectangle;
     fKirakottMennyiseg: Shortint;
     fElsoUresI, fElsoUresJ: Shortint;
     constructor Create;
@@ -44,7 +44,7 @@ type
     function LyukLenneHarom: Boolean;
     function LyukLenneNegy: Boolean;
     procedure KeresElsoUres;
-    function Hasonlit(pTeglalap: TTeglalap): Boolean;
+    function Hasonlit(pRectangle: TRectangle): Boolean;
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
@@ -360,40 +360,40 @@ var i, j: Shortint;
 begin
   for i := 1 to 6 do begin      //lényeg
     for j := 1 to 10 do begin
-      fTeglalap[i,j] := '.';
+      fRectangle[i,j] := '.';
     end;
   end;
 
   for i := -4 to 0 do begin     //teteje
     for j := -4 to 15 do begin
-      fTeglalap[i,j] := 'M';
+      fRectangle[i,j] := 'M';
     end;
   end;
   for i := 7 to 11 do begin     //alja
     for j := -4 to 15 do begin
-      fTeglalap[i,j] := 'M';
+      fRectangle[i,j] := 'M';
     end;
   end;
   for i := 1 to 6 do begin     //bal oldala
     for j := -4 to 0 do begin
-      fTeglalap[i,j] := 'M';
+      fRectangle[i,j] := 'M';
     end;
   end;
   for i := 1 to 6 do begin     //jobb oldala
     for j := 11 to 15 do begin
-      fTeglalap[i,j] := 'M';
+      fRectangle[i,j] := 'M';
     end;
   end;
 
   fKirakottMennyiseg := 0;
 end;
 
-function TJatekTer.Hasonlit(pTeglalap: TTeglalap): Boolean;
+function TJatekTer.Hasonlit(pRectangle: TRectangle): Boolean;
 var i, j: Shortint;
 begin
   for i := -4 to 11 do begin
     for j := -4 to 15 do begin
-      if pTeglalap[i, j] <> fTeglalap[i, j] then begin
+      if pRectangle[i, j] <> fRectangle[i, j] then begin
         Result := false;
         Exit;
       end;
@@ -407,9 +407,9 @@ var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin                    
-      if ((pMozaik.fSquare[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] <> '.')) //egybelógás lenne
+      if ((pMozaik.fSquare[i,j] <> '.') and (fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] <> '.')) //egybelógás lenne
          or
-         ((pMozaik.fSquare[i,j] <> '.') and (fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
+         ((pMozaik.fSquare[i,j] <> '.') and (fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
         Result := false;
         Exit;
       end;
@@ -424,7 +424,7 @@ begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
       if pMozaik.fSquare[i,j] <> '.' then begin
-        fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := pMozaik.fSquare[i,j];
+        fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := pMozaik.fSquare[i,j];
       end;
     end;
   end;
@@ -437,8 +437,8 @@ var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus] then begin
-        fTeglalap[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := '.';
+      if fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus] then begin
+        fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := '.';
       end;
     end;
   end;
@@ -458,7 +458,7 @@ begin
   s := '';
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      s := s + fTeglalap[i,j];
+      s := s + fRectangle[i,j];
     end;
     s := s + #13#10;
   end;
@@ -472,7 +472,7 @@ begin
   pSor := StringReplace(pSor, #13#10, '' ,[rfReplaceAll]);
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      fTeglalap[i,j] := pSor[k];
+      fRectangle[i,j] := pSor[k];
       inc(k);
     end;
   end;
@@ -485,7 +485,7 @@ begin
   fElsoUresJ := 11;
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if fTeglalap[i,j] = '.' then begin
+      if fRectangle[i,j] = '.' then begin
         fElsoUresI := i;
         fElsoUresJ := j;
         Exit;
@@ -499,7 +499,7 @@ var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      fTeglalap[i,j] := 'M';
+      fRectangle[i,j] := 'M';
     end;
   end;
 end;
@@ -509,15 +509,15 @@ var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.') then
+         (fRectangle[i,j-1] <> '.') then
       begin
         Result := true;
         Exit;
@@ -532,40 +532,40 @@ var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //kettes zárvány vízszintesen
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //kettes zárvány függõlegesen
         Result := true;
         Exit;
@@ -587,144 +587,144 @@ var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '.')
+         (fRectangle[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i,j+3] <> '.')
+         (fRectangle[i,j+3] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '.')
+         (fRectangle[i-1,j+2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //hármas zárvány vízszintesen (#1)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '.')
+         (fRectangle[i+3,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //hármas zárvány függõlegesen  (#2)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //#3
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '.')
+         (fRectangle[i+1,j-1] = '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '.')
+         (fRectangle[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //#4
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#5
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#6
         Result := true;
         Exit;
@@ -739,539 +739,539 @@ var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '.')
+         (fRectangle[i,j+2] = '.')
        and
-         (fTeglalap[i,j+3] = '.')
+         (fRectangle[i,j+3] = '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '.')
+         (fRectangle[i+1,j+3] <> '.')
        and
-         (fTeglalap[i,j+4] <> '.')
+         (fRectangle[i,j+4] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '.')
+         (fRectangle[i-1,j+2] <> '.')
        and
-         (fTeglalap[i-1,j+3] <> '.')
+         (fRectangle[i-1,j+3] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //négyes zárvány vízszintesen (#1)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i+3,j] = '.')
+         (fRectangle[i+3,j] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '.')
+         (fRectangle[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+4,j] <> '.')
+         (fRectangle[i+4,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+3,j-1] <> '.')
+         (fRectangle[i+3,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //négyes zárvány függõlegesen  (#2)
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i+1,j+2] = '.')
+         (fRectangle[i+1,j+2] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '.')
+         (fRectangle[i+1,j+3] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '.')
+         (fRectangle[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#3
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '.')
+         (fRectangle[i+1,j-1] = '.')
        and
-         (fTeglalap[i+1,j-2] = '.')
+         (fRectangle[i+1,j-2] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-2] <> '.')
+         (fRectangle[i+2,j-2] <> '.')
        and
-         (fTeglalap[i+1,j-3] <> '.')
+         (fRectangle[i+1,j-3] <> '.')
        and
-         (fTeglalap[i,j-2] <> '.')
+         (fRectangle[i,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#4
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '.')
+         (fRectangle[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j+2] = '.')
+         (fRectangle[i+1,j+2] = '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '.')
+         (fRectangle[i-1,j+2] <> '.')
        and
-         (fTeglalap[i,j+3] <> '.')
+         (fRectangle[i,j+3] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '.')
+         (fRectangle[i+1,j+3] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '.')
+         (fRectangle[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //#5
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '.')
+         (fRectangle[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '.')
+         (fRectangle[i-1,j+2] <> '.')
        and
-         (fTeglalap[i,j+3] <> '.')
+         (fRectangle[i,j+3] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
       then begin                                //#6
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i+2,j+1] = '.')
+         (fRectangle[i+2,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '.')
+         (fRectangle[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '.')
+         (fRectangle[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '.')
+         (fRectangle[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#7
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i+2,j-1] = '.')
+         (fRectangle[i+2,j-1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '.')
+         (fRectangle[i+3,j] <> '.')
        and
-         (fTeglalap[i+3,j-1] <> '.')
+         (fRectangle[i+3,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-2] <> '.')
+         (fRectangle[i+2,j-2] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#8
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i+2,j+1] = '.')
+         (fRectangle[i+2,j+1] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '.')
+         (fRectangle[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '.')
+         (fRectangle[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#9
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '.')
+         (fRectangle[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#10
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i+2,j+1] = '.')
+         (fRectangle[i+2,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '.')
+         (fRectangle[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+3,j+1] <> '.')
+         (fRectangle[i+3,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#11
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '.')
+         (fRectangle[i+1,j-1] = '.')
        and
-         (fTeglalap[i+2,j-1] = '.')
+         (fRectangle[i+2,j-1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+3,j-1] <> '.')
+         (fRectangle[i+3,j-1] <> '.')
        and
-         (fTeglalap[i+2,j-2] <> '.')
+         (fRectangle[i+2,j-2] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '.')
+         (fRectangle[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#12
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i+1,j+2] = '.')
+         (fRectangle[i+1,j+2] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+3] <> '.')
+         (fRectangle[i+1,j+3] <> '.')
        and
-         (fTeglalap[i+2,j+2] <> '.')
+         (fRectangle[i+2,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#13
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '.')
+         (fRectangle[i+1,j-1] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '.')
+         (fRectangle[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#14
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i,j+2] = '.')
+         (fRectangle[i,j+2] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+3] <> '.')
+         (fRectangle[i,j+3] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+1,j] <> '.')
+         (fRectangle[i+1,j] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
        and
-         (fTeglalap[i-1,j+2] <> '.')
+         (fRectangle[i-1,j+2] <> '.')
       then begin                                //#15
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '.')
+         (fRectangle[i+1,j-1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '.')
+         (fRectangle[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#16
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '.')
+         (fRectangle[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#17
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i+2,j] = '.')
+         (fRectangle[i+2,j] = '.')
        and
-         (fTeglalap[i+1,j-1] = '.')
+         (fRectangle[i+1,j-1] = '.')
        and
-         (fTeglalap[i,j+1] <> '.')
+         (fRectangle[i,j+1] <> '.')
        and
-         (fTeglalap[i+1,j+1] <> '.')
+         (fRectangle[i+1,j+1] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+3,j] <> '.')
+         (fRectangle[i+3,j] <> '.')
        and
-         (fTeglalap[i+2,j-1] <> '.')
+         (fRectangle[i+2,j-1] <> '.')
        and
-         (fTeglalap[i+1,j-2] <> '.')
+         (fRectangle[i+1,j-2] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
       then begin                                //#18
         Result := true;
         Exit;
       end;
-      if (fTeglalap[i,j] = '.')
+      if (fRectangle[i,j] = '.')
        and
-         (fTeglalap[i+1,j] = '.')
+         (fRectangle[i+1,j] = '.')
        and
-         (fTeglalap[i,j+1] = '.')
+         (fRectangle[i,j+1] = '.')
        and
-         (fTeglalap[i+1,j+1] = '.')
+         (fRectangle[i+1,j+1] = '.')
        and
-         (fTeglalap[i,j+2] <> '.')
+         (fRectangle[i,j+2] <> '.')
        and
-         (fTeglalap[i+1,j+2] <> '.')
+         (fRectangle[i+1,j+2] <> '.')
        and
-         (fTeglalap[i+2,j+1] <> '.')
+         (fRectangle[i+2,j+1] <> '.')
        and
-         (fTeglalap[i+2,j] <> '.')
+         (fRectangle[i+2,j] <> '.')
        and
-         (fTeglalap[i+1,j-1] <> '.')
+         (fRectangle[i+1,j-1] <> '.')
        and
-         (fTeglalap[i,j-1] <> '.')
+         (fRectangle[i,j-1] <> '.')
        and
-         (fTeglalap[i-1,j] <> '.')
+         (fRectangle[i-1,j] <> '.')
        and
-         (fTeglalap[i-1,j+1] <> '.')
+         (fRectangle[i-1,j+1] <> '.')
       then begin                                //#19
         Result := true;
         Exit;
@@ -1309,8 +1309,8 @@ end;
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
   if Assigned(fJatekter) then begin
-    if fJatekter.fTeglalap[ARow+1,ACol+1] <> '.' then begin
-      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fTeglalap[ARow+1,ACol+1]) - Ord('@')];
+    if fJatekter.fRectangle[ARow+1,ACol+1] <> '.' then begin
+      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fRectangle[ARow+1,ACol+1]) - Ord('@')];
       //a cellában lévõ karakter ascii kódjából kivonjuk az A-1 ascii kódját, ezzel az integerrel már címezhetõ a színes tömb
     end else begin
       dwgdLenyeg.Canvas.Brush.Color := clWhite;
