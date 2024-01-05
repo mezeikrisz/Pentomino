@@ -390,9 +390,9 @@ end;
 
 procedure TMainTest.testJatekterHasonlit;
 var t: TRectangle;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
 
   //kódból nem tudok ettõl szebb tömb értékadást. deklarációban megy (oMozaikTomb), kódból nem. lokális deklarációban sem
   t[-4, -4] := 'M'; t[-4, -3] := 'M'; t[-4, -2] := 'M'; t[-4, -1] := 'M'; t[-4, 0] := 'M'; t[-4, 1] := 'M'; t[-4, 2] := 'M'; t[-4, 3] := 'M'; t[-4, 4] := 'M'; t[-4, 5] := 'M'; t[-4, 6] := 'M'; t[-4, 7] := 'M'; t[-4, 8] := 'M'; t[-4, 9] := 'M'; t[-4, 10] := 'M'; t[-4, 11] := 'M'; t[-4, 12] := 'M'; t[-4, 13] := 'M'; t[-4, 14] := 'M'; t[-4, 15] := 'M';
@@ -418,9 +418,9 @@ end;
 
 procedure TMainTest.testJatekterSerialize;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
   s := '..........'#13#10 +
        '..........'#13#10 +
        '..........'#13#10 +
@@ -433,9 +433,9 @@ end;
 
 procedure TMainTest.testJatekterDeSerialize;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
   s := '..........'#13#10 +
        '..........'#13#10 +
        '....oo....'#13#10 +
@@ -449,9 +449,9 @@ end;
 
 procedure TMainTest.testJatekterLyukLenneEgy;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
 
   s := 'AB........'#13#10 +
        'AB........'#13#10 +
@@ -513,9 +513,9 @@ end;
 
 procedure TMainTest.testJatekterLyukLenneKetto;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
 
   s := 'AB........'#13#10 +
        'AB........'#13#10 +
@@ -585,9 +585,9 @@ end;
 
 procedure TMainTest.testJatekterLyukLenneHarom;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
 
   s := 'AB........'#13#10 +
        'AB........'#13#10 +
@@ -684,9 +684,9 @@ end;
 
 procedure TMainTest.testJatekterLyukLenneNegy;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
 
   s := 'AB........'#13#10 +
        'AB........'#13#10 +
@@ -900,9 +900,9 @@ end;
 
 procedure TMainTest.testJatekterKeresElsoUres;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -969,11 +969,11 @@ end;
 
 procedure TMainTest.testJatekterKirakhatoIde;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
     b: Boolean;
     mMozaikUres, mMozaikElbetu, mMozaikKereszt, mMozaikLepcso, mMozaikHosszu: TTile;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
   mMozaikUres := TTile.Create(Ures);
   mMozaikElbetu := TTile.Create(Elbetu);
   mMozaikKereszt := TTile.Create(Kereszt);
@@ -1069,10 +1069,10 @@ end;
 
 procedure TMainTest.testJatekterKirak;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
     mMozaikUres, mMozaikKereszt, mMozaikElbetu, mMozaikHosszu: TTile;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
   mMozaikUres := TTile.Create(Ures);
   mMozaikKereszt := TTile.Create(Kereszt);
   mMozaikElbetu := TTile.Create(Elbetu);
@@ -1107,10 +1107,10 @@ end;
 
 procedure TMainTest.testJatekterLevesz;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
     mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
   mMozaikHosszu := TTile.Create(Hosszu);
   mMozaikElbetu := TTile.Create(Elbetu);
   mMozaikHazteto := TTile.Create(Hazteto);
@@ -1175,10 +1175,10 @@ end;
 
 procedure TMainTest.testJatekterKeszVan;
 var s: String;
-    j: TJatekTer;
+    j: TPlayGround;
     mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
 begin
-  j := TJatekTer.Create;
+  j := TPlayGround.Create;
   mMozaikHosszu := TTile.Create(Hosszu);
   mMozaikElbetu := TTile.Create(Elbetu);
   mMozaikHazteto := TTile.Create(Hazteto);

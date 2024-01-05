@@ -31,7 +31,7 @@ type
     function Vary: Boolean; //elõállítja a köv változatot fNegyzet-be, ha lehet még
   end;
 
-  TJatekTer = class(TObject)
+  TPlayGround = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
     fRectangle: TRectangle;
     fKirakottMennyiseg: Shortint;
@@ -71,7 +71,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     fMozaikok: Array[Hosszu..Esbetu] of TTile;
-    fJatekter: TJatekTer;
+    fPlayGround: TPlayGround;
     f: TextFile;
     fHanyadikMegoldas: Integer;
     fKirakasokSzama: Integer;
@@ -355,7 +355,7 @@ end;
 { TJatekTer }
 {-----------}
 
-constructor TJatekTer.Create;
+constructor TPlayGround.Create;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin      //lényeg
@@ -388,7 +388,7 @@ begin
   fKirakottMennyiseg := 0;
 end;
 
-function TJatekTer.Compare(pRectangle: TRectangle): Boolean;
+function TPlayGround.Compare(pRectangle: TRectangle): Boolean;
 var i, j: Shortint;
 begin
   for i := -4 to 11 do begin
@@ -402,7 +402,7 @@ begin
   Result := true;
 end;
 
-function TJatekTer.KirakhatoIde(pTile: TTile; pI, pJ: Shortint): Boolean;
+function TPlayGround.KirakhatoIde(pTile: TTile; pI, pJ: Shortint): Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -418,7 +418,7 @@ begin
   Result := true;
 end;
 
-procedure TJatekTer.Kirak(pTile: TTile; pI, pJ: Shortint);
+procedure TPlayGround.Kirak(pTile: TTile; pI, pJ: Shortint);
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -432,7 +432,7 @@ begin
   inc(fKirakottMennyiseg);
 end;
 
-procedure TJatekTer.Levesz(pTile: TTile; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
+procedure TPlayGround.Levesz(pTile: TTile; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -446,12 +446,12 @@ begin
   dec(fKirakottMennyiseg);
 end;
 
-function TJatekTer.KeszVan: Boolean;
+function TPlayGround.KeszVan: Boolean;
 begin
   Result := (fKirakottMennyiseg = 12);
 end;
 
-function TJatekTer.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örököltetni pl...
+function TPlayGround.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örököltetni pl...
 var s: String;
     i, j: Shortint;
 begin
@@ -465,7 +465,7 @@ begin
   Result := s;
 end;
 
-procedure TJatekTer.DeSerialize(pSor: String); //TODO DeSerialize-t is kiemelni közös õsbe...
+procedure TPlayGround.DeSerialize(pSor: String); //TODO DeSerialize-t is kiemelni közös õsbe...
 var i, j, k: Shortint;
 begin
   k := 1;
@@ -478,7 +478,7 @@ begin
   end;
 end;
 
-procedure TJatekTer.KeresElsoUres;
+procedure TPlayGround.KeresElsoUres;
 var i, j: Shortint;
 begin
   fElsoUresI := 7;                                       //ezen értékek jelzik, ha nincs már üres pozíció, azaz már teli van a játéktér
@@ -494,7 +494,7 @@ begin
   end;
 end;
 
-procedure TJatekTer.Leallit;
+procedure TPlayGround.Leallit;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -504,7 +504,7 @@ begin
   end;
 end;
 
-function TJatekTer.LyukLenneEgy: Boolean;
+function TPlayGround.LyukLenneEgy: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -527,7 +527,7 @@ begin
   Result := false;
 end;
 
-function TJatekTer.LyukLenneKetto: Boolean;
+function TPlayGround.LyukLenneKetto: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -582,7 +582,7 @@ end;
 //google: default-ban van short circuit evaluation: https://stackoverflow.com/questions/15084323/delphi-and-evaluation-with-2-conditions
 // {$BOOLEVAL ON} kapcsolóval a Main.pas és a MainTest.pas elejében sem száll el. Beszarok.
 
-function TJatekTer.LyukLenneHarom: Boolean;
+function TPlayGround.LyukLenneHarom: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -734,7 +734,7 @@ begin
   Result := false;
 end;
 
-function TJatekTer.LyukLenneNegy: Boolean;
+function TPlayGround.LyukLenneNegy: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -1293,7 +1293,7 @@ begin
   fHanyadikMegoldas := 0;
   fKirakasokSzama := 0;
 
-  fJatekter := TJatekTer.Create;
+  fPlayGround := TPlayGround.Create;
   for iTipus := Hosszu to Esbetu do begin
     fMozaikok[iTipus] := TTile.Create(iTipus);
   end;
@@ -1308,9 +1308,9 @@ end;
 
 procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
-  if Assigned(fJatekter) then begin
-    if fJatekter.fRectangle[ARow+1,ACol+1] <> '.' then begin
-      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fJatekter.fRectangle[ARow+1,ACol+1]) - Ord('@')];
+  if Assigned(fPlayGround) then begin
+    if fPlayGround.fRectangle[ARow+1,ACol+1] <> '.' then begin
+      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fPlayGround.fRectangle[ARow+1,ACol+1]) - Ord('@')];
       //a cellában lévõ karakter ascii kódjából kivonjuk az A-1 ascii kódját, ezzel az integerrel már címezhetõ a színes tömb
     end else begin
       dwgdLenyeg.Canvas.Brush.Color := clWhite;
@@ -1425,34 +1425,34 @@ procedure TfrmMain.Rekurziv;
 var jTipus: TTileNames;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
-  if fJatekter.KeszVan then begin
+  if fPlayGround.KeszVan then begin
     //ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
     inc(fHanyadikMegoldas);
     edtTalalatokSzama.Text := IntToStr(fHanyadikMegoldas);
     Append(f);
     Writeln(f, '#' + IntToStr(fHanyadikMegoldas));
-    Writeln(f, fJatekter.Serialize + #13#10);
+    Writeln(f, fPlayGround.Serialize + #13#10);
     CloseFile(f);
   end;
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
-      fJatekter.KeresElsoUres;
-      lElsoUresI := fJatekter.fElsoUresI;
-      lElsoUresJ := fJatekter.fElsoUresJ;
+      fPlayGround.KeresElsoUres;
+      lElsoUresI := fPlayGround.fElsoUresI;
+      lElsoUresJ := fPlayGround.fElsoUresJ;
       while fMozaikok[jTipus].Vary do begin
-        if fJatekter.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
+        if fPlayGround.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
           SetTempo;
-          fJatekter.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+          fPlayGround.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
           inc(fKirakasokSzama);
           SetTempo;
-          if fJatekter.LyukLenneEgy or fJatekter.LyukLenneKetto or fJatekter.LyukLenneHarom or fJatekter.LyukLenneNegy then begin
+          if fPlayGround.LyukLenneEgy or fPlayGround.LyukLenneKetto or fPlayGround.LyukLenneHarom or fPlayGround.LyukLenneNegy then begin
             SetTempo;
-            fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            fPlayGround.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end else begin
             Rekurziv;
             SetTempo;
-            fJatekter.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            fPlayGround.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end;
         end; // if
@@ -1477,7 +1477,7 @@ begin
   for iTipus := Hosszu to Esbetu do begin
     fMozaikok[iTipus].Free;
   end;
-  fJatekter.Free;
+  fPlayGround.Free;
 end;
 
 end.
