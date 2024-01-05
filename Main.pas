@@ -43,14 +43,14 @@ type
     function IsThereDoubleHole: Boolean;
     function IsThereTripleHole: Boolean;
     function IsThereQuadrupleHole: Boolean;
-    procedure KeresElsoUres;
+    procedure FindFirstEmpty;
     function Compare(pRectangle: TRectangle): Boolean;
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
-    procedure Levesz(pTile: TTile; pI, pJ: Shortint);
-    function KeszVan: Boolean;
-    procedure Leallit;
+    procedure TakeOff(pTile: TTile; pI, pJ: Shortint);
+    function IsReady: Boolean;
+    procedure Stop;
   end;
 
   TfrmMain = class(TForm)
@@ -432,7 +432,7 @@ begin
   inc(fNumberOfTilesOnPlayGround);
 end;
 
-procedure TPlayGround.Levesz(pTile: TTile; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
+procedure TPlayGround.TakeOff(pTile: TTile; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -446,7 +446,7 @@ begin
   dec(fNumberOfTilesOnPlayGround);
 end;
 
-function TPlayGround.KeszVan: Boolean;
+function TPlayGround.IsReady: Boolean;
 begin
   Result := (fNumberOfTilesOnPlayGround = 12);
 end;
@@ -478,7 +478,7 @@ begin
   end;
 end;
 
-procedure TPlayGround.KeresElsoUres;
+procedure TPlayGround.FindFirstEmpty;
 var i, j: Shortint;
 begin
   fFirstEmptyI := 7;                                       //ezen értékek jelzik, ha nincs már üres pozíció, azaz már teli van a játéktér
@@ -494,7 +494,7 @@ begin
   end;
 end;
 
-procedure TPlayGround.Leallit;
+procedure TPlayGround.Stop;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -1425,7 +1425,7 @@ procedure TfrmMain.Rekurziv;
 var jTipus: TTileNames;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
-  if fPlayGround.KeszVan then begin
+  if fPlayGround.IsReady then begin
     //ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
     inc(fHanyadikMegoldas);
     edtTalalatokSzama.Text := IntToStr(fHanyadikMegoldas);
@@ -1436,7 +1436,7 @@ begin
   end;
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
-      fPlayGround.KeresElsoUres;
+      fPlayGround.FindFirstEmpty;
       lElsoUresI := fPlayGround.fFirstEmptyI;
       lElsoUresJ := fPlayGround.fFirstEmptyJ;
       while fMozaikok[jTipus].Vary do begin
@@ -1447,12 +1447,12 @@ begin
           SetTempo;
           if fPlayGround.IsThereSingleHole or fPlayGround.IsThereDoubleHole or fPlayGround.IsThereTripleHole or fPlayGround.IsThereQuadrupleHole then begin
             SetTempo;
-            fPlayGround.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            fPlayGround.TakeOff(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end else begin
             Rekurziv;
             SetTempo;
-            fPlayGround.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            fPlayGround.TakeOff(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end;
         end; // if

@@ -911,7 +911,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  j.KeresElsoUres;
+  j.FindFirstEmpty;
   Check((j.fFirstEmptyI = 1) and (j.fFirstEmptyJ = 1), 'KeresElsoUres 1');
 
   s := 'AAA.......'#13#10 +
@@ -921,7 +921,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  j.KeresElsoUres;
+  j.FindFirstEmpty;
   Check((j.fFirstEmptyI = 1) and (j.fFirstEmptyJ = 4), 'KeresElsoUres 2');
 
   s := 'AAAABBBCCC'#13#10 +
@@ -931,7 +931,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  j.KeresElsoUres;
+  j.FindFirstEmpty;
   Check((j.fFirstEmptyI = 2) and (j.fFirstEmptyJ = 1), 'KeresElsoUres 3');
 
   s := 'AAAABBBCCC'#13#10 +
@@ -941,7 +941,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  j.KeresElsoUres;
+  j.FindFirstEmpty;
   Check((j.fFirstEmptyI = 2) and (j.fFirstEmptyJ = 10), 'KeresElsoUres 4');
 
   s := 'AAAABBBCCC'#13#10 +
@@ -951,7 +951,7 @@ begin
        'GGGGGGGGGG'#13#10 +
        'HHHHHHHHH.'#13#10;
   j.DeSerialize(s);
-  j.KeresElsoUres;
+  j.FindFirstEmpty;
   Check((j.fFirstEmptyI = 6) and (j.fFirstEmptyJ = 10), 'KeresElsoUres 5');
 
   s := 'AAAABBBCCC'#13#10 +
@@ -961,7 +961,7 @@ begin
        'GGGGGGGGGG'#13#10 +
        'HHHHHHHHHH'#13#10;
   j.DeSerialize(s);
-  j.KeresElsoUres;
+  j.FindFirstEmpty;
   Check((j.fFirstEmptyI = 7) and (j.fFirstEmptyJ = 11), 'KeresElsoUres 6, ki van rakva');
 
   j.Free;
@@ -1137,18 +1137,18 @@ begin
   j.Put(mMozaikLepcso, 4, 6);
   j.Put(mMozaikHosszu, 6, 6);
 
-  j.Levesz(mMozaikHosszu, 6, 6);
-  j.Levesz(mMozaikLepcso, 4, 6);
-  j.Levesz(mMozaikHazteto, 4, 1);
-  j.Levesz(mMozaikTebetu, 3, 9);
-  j.Levesz(mMozaikEsbetu, 3, 1);
-  j.Levesz(mMozaikPuska, 2, 7);
-  j.Levesz(mMozaikKereszt, 2, 5);
-  j.Levesz(mMozaikLapat, 2, 3);
-  j.Levesz(mMozaikElbetu, 1, 9);
-  j.Levesz(mMozaikCsunya, 1, 7);
-  j.Levesz(mMozaikUbetu, 1, 4);
-  j.Levesz(mMozaikSonka, 1, 1);
+  j.TakeOff(mMozaikHosszu, 6, 6);
+  j.TakeOff(mMozaikLepcso, 4, 6);
+  j.TakeOff(mMozaikHazteto, 4, 1);
+  j.TakeOff(mMozaikTebetu, 3, 9);
+  j.TakeOff(mMozaikEsbetu, 3, 1);
+  j.TakeOff(mMozaikPuska, 2, 7);
+  j.TakeOff(mMozaikKereszt, 2, 5);
+  j.TakeOff(mMozaikLapat, 2, 3);
+  j.TakeOff(mMozaikElbetu, 1, 9);
+  j.TakeOff(mMozaikCsunya, 1, 7);
+  j.TakeOff(mMozaikUbetu, 1, 4);
+  j.TakeOff(mMozaikSonka, 1, 1);
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -1192,7 +1192,7 @@ begin
   mMozaikUbetu := TTile.Create(Ubetu);
   mMozaikEsbetu := TTile.Create(Esbetu);
 
-  Check(not j.KeszVan, 'KeszVan 1 false');
+  Check(not j.IsReady, 'KeszVan 1 false');
   j.Put(mMozaikSonka, 1, 1);
   j.Put(mMozaikUbetu, 1, 4);
   j.Put(mMozaikCsunya, 1, 7);
@@ -1204,9 +1204,9 @@ begin
   j.Put(mMozaikTebetu, 3, 9);
   j.Put(mMozaikHazteto, 4, 1);
   j.Put(mMozaikLepcso, 4, 6);
-  Check(not j.KeszVan, 'KeszVan 2 false');
+  Check(not j.IsReady, 'KeszVan 2 false');
   j.Put(mMozaikHosszu, 6, 6);
-  Check(j.KeszVan, 'KeszVan 3 true');
+  Check(j.IsReady, 'KeszVan 3 true');
 
   mMozaikHosszu.Free;
   mMozaikElbetu.Free;
