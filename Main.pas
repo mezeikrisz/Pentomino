@@ -76,7 +76,7 @@ type
     fHanyadikMegoldas: Integer;
     fKirakasokSzama: Integer;
   public
-    procedure Rekurziv;
+    procedure Recursive;
     procedure SetTempo;
     procedure Save;
     procedure Load;
@@ -1302,7 +1302,7 @@ begin
   Rewrite(f);
   CloseFile(f);
 
-  Rekurziv;
+  Recursive;
 
 end;
 
@@ -1421,7 +1421,7 @@ begin
   }
 end;
 
-procedure TfrmMain.Rekurziv;
+procedure TfrmMain.Recursive;
 var jTipus: TTileNames;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
@@ -1450,7 +1450,7 @@ begin
             fPlayGround.TakeOff(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end else begin
-            Rekurziv;
+            Recursive;
             SetTempo;
             fPlayGround.TakeOff(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
