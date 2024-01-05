@@ -300,7 +300,7 @@ begin
   mMozaikUres := TTile.Create(Ures);
   mMozaikElbetu := TTile.Create(Elbetu);
 
-  b := mMozaikUres.Valtoztat;
+  b := mMozaikUres.Vary;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
   t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := '.';   t[3, 4] := '.';   t[3, 5] := '.';
@@ -308,82 +308,82 @@ begin
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(b = true, 'Ures Valtoztat, kimenõ érték true');
   Check(mMozaikUres.Compare(t), 'Ures Valtoztat, result array with Compare');
-  b := mMozaikUres.Valtoztat;
-  Check(b = false, 'Ures Valtoztat, kimenõ érték false');
-  Check(mMozaikUres.Compare(t), 'Ures Valtoztat megint, result array with Compare');
+  b := mMozaikUres.Vary;
+  Check(b = false, 'Ures Vary, kimenõ érték false');
+  Check(mMozaikUres.Compare(t), 'Ures Vary megint, result array with Compare');
 
-  b := mMozaikElbetu.Valtoztat;
+  b := mMozaikElbetu.Vary;
   s := 'BB...'#13#10 +
        '.B...'#13#10 +
        '.B...'#13#10 +
        '.B...'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 1, kimenõ érték true');
-  Check(mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 1, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 1, kimenõ érték true');
+  Check(mMozaikElbetu.Serialize = s, 'Elbetu Vary 1, Ser');
+  b := mMozaikElbetu.Vary;
   s := '...B.'#13#10 +
        'BBBB.'#13#10 +
        '.....'#13#10 +
        '.....'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 2, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 2, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 2, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 2, Ser');
+  b := mMozaikElbetu.Vary;
   s := 'B....'#13#10 +
        'B....'#13#10 +
        'B....'#13#10 +
        'BB...'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 3, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 3, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 3, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 3, Ser');
+  b := mMozaikElbetu.Vary;
   s := 'BBBB.'#13#10 +
        'B....'#13#10 +
        '.....'#13#10 +
        '.....'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 4, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 4, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 4, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 4, Ser');
+  b := mMozaikElbetu.Vary;
   s := 'BBBB.'#13#10 +
        '...B.'#13#10 +
        '.....'#13#10 +
        '.....'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 5, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 5, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 5, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 5, Ser');
+  b := mMozaikElbetu.Vary;
   s := '.B...'#13#10 +
        '.B...'#13#10 +
        '.B...'#13#10 +
        'BB...'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 6, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 6, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 6, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 6, Ser');
+  b := mMozaikElbetu.Vary;
   s := 'B....'#13#10 +
        'BBBB.'#13#10 +
        '.....'#13#10 +
        '.....'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 7, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 7, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 7, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 7, Ser');
+  b := mMozaikElbetu.Vary;
   s := 'BB...'#13#10 +
        'B....'#13#10 +
        'B....'#13#10 +
        'B....'#13#10 +
        '.....'#13#10;
-  Check(b = true, 'Elbetu Valtoztat 8, kimenõ érték true');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 8, Ser');
-  b := mMozaikElbetu.Valtoztat;
+  Check(b = true, 'Elbetu Vary 8, kimenõ érték true');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 8, Ser');
+  b := mMozaikElbetu.Vary;
   s := 'BB...'#13#10 +
        'B....'#13#10 +
        'B....'#13#10 +
        'B....'#13#10 +
        '.....'#13#10;
-  Check(b = false, 'Elbetu Valtoztat 9, kimenõ érték false');
-  Check( mMozaikElbetu.Serialize = s, 'Elbetu Valtoztat 9, Ser');
+  Check(b = false, 'Elbetu Vary 9, kimenõ érték false');
+  Check( mMozaikElbetu.Serialize = s, 'Elbetu Vary 9, Ser');
 
   mMozaikUres.Free;
 end;

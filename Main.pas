@@ -28,7 +28,7 @@ type
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
-    function Valtoztat: Boolean; //elõállítja a köv változatot fNegyzet-be, ha lehet még
+    function Vary: Boolean; //elõállítja a köv változatot fNegyzet-be, ha lehet még
   end;
 
   TJatekTer = class(TObject)
@@ -335,7 +335,7 @@ begin
   fSquare := lTempSquare;
 end;
 
-function TTile.Valtoztat: Boolean;
+function TTile.Vary: Boolean;
 begin
   if (Length(oMozaikValtozatok[fTileType]) = fValtozatIndex) then begin
     Result := false;                                                       //false-szal száll ki, ha már nincs több változat
@@ -1439,7 +1439,7 @@ begin
       fJatekter.KeresElsoUres;
       lElsoUresI := fJatekter.fElsoUresI;
       lElsoUresJ := fJatekter.fElsoUresJ;
-      while fMozaikok[jTipus].Valtoztat do begin
+      while fMozaikok[jTipus].Vary do begin
         if fJatekter.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
           SetTempo;
           fJatekter.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
