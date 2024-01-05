@@ -24,7 +24,7 @@ type
     procedure Rotate;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
     procedure Flip;      //fNegyzetet tükrözi függõleges tengelyre
     procedure Normalize;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
-    function Hasonlit(pSquare: TSquare): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
+    function Compare(pSquare: TSquare): Boolean;   //fNegyzetet másik TNegyzettel hasonlít
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
@@ -44,7 +44,7 @@ type
     function LyukLenneHarom: Boolean;
     function LyukLenneNegy: Boolean;
     procedure KeresElsoUres;
-    function Hasonlit(pRectangle: TRectangle): Boolean;
+    function Compare(pRectangle: TRectangle): Boolean;
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
@@ -221,7 +221,7 @@ begin
   Normalize;
 end;
 
-function TMozaik.Hasonlit(pSquare: TSquare): Boolean;
+function TMozaik.Compare(pSquare: TSquare): Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -388,7 +388,7 @@ begin
   fKirakottMennyiseg := 0;
 end;
 
-function TJatekTer.Hasonlit(pRectangle: TRectangle): Boolean;
+function TJatekTer.Compare(pRectangle: TRectangle): Boolean;
 var i, j: Shortint;
 begin
   for i := -4 to 11 do begin

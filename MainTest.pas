@@ -60,14 +60,14 @@ begin
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := '.';   t[3, 4] := '.';   t[3, 5] := '.';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikUres.Hasonlit(t), 'Mozaik Hasonlit 1');
+  Check(mMozaikUres.Compare(t), 'Mozaik Compare 1');
 
   t[1, 1] := 'A';   t[1, 2] := 'A';   t[1, 3] := 'A';   t[1, 4] := 'A';   t[1, 5] := 'A';
   t[2, 1] := '.';   t[2, 2] := '.';   t[2, 3] := '.';   t[2, 4] := '.';   t[2, 5] := '.';
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := '.';   t[3, 4] := '.';   t[3, 5] := '.';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikHosszu.Hasonlit(t), 'Mozaik Hasonlit 2');
+  Check(mMozaikHosszu.Compare(t), 'Mozaik Compare 2');
 
   mMozaikUres.Free;
   mMozaikHosszu.Free;
@@ -145,7 +145,7 @@ begin
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := 'C';   t[3, 4] := '.';   t[3, 5] := '.';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Rotate 1, Hasonlit-tal');
+  Check(mMozaikHazteto.Compare(t), 'Mozaik Rotate 1, with Compare');
 
   s := '.....'#13#10 +
        '.*..*'#13#10 +
@@ -179,7 +179,7 @@ begin
   t[3, 1] := '.';   t[3, 2] := '.';   t[3, 3] := 'C';   t[3, 4] := 'C';   t[3, 5] := 'C';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikHazteto.Hasonlit(t), 'Mozaik Flip 1, Hasonlit-tal');
+  Check(mMozaikHazteto.Compare(t), 'Mozaik Flip 1, with Compare');
 
   s := '*....'#13#10 +
        '.*...'#13#10 +
@@ -215,7 +215,7 @@ begin
   t[3, 1] := '.';   t[3, 2] := 'L';   t[3, 3] := 'L';   t[3, 4] := '.';   t[3, 5] := '.';
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
-  Check(mMozaikEsbetu.Hasonlit(t), 'Mozaik Normalize 1, Hasonlit-tal');
+  Check(mMozaikEsbetu.Compare(t), 'Mozaik Normalize 1, with Compare');
 
   s := '.....'#13#10 +
        '.....'#13#10 +
@@ -307,10 +307,10 @@ begin
   t[4, 1] := '.';   t[4, 2] := '.';   t[4, 3] := '.';   t[4, 4] := '.';   t[4, 5] := '.';
   t[5, 1] := '.';   t[5, 2] := '.';   t[5, 3] := '.';   t[5, 4] := '.';   t[5, 5] := '.';
   Check(b = true, 'Ures Valtoztat, kimenõ érték true');
-  Check(mMozaikUres.Hasonlit(t), 'Ures Valtoztat, eredmény tömb Hasonlit-tal');
+  Check(mMozaikUres.Compare(t), 'Ures Valtoztat, result array with Compare');
   b := mMozaikUres.Valtoztat;
   Check(b = false, 'Ures Valtoztat, kimenõ érték false');
-  Check(mMozaikUres.Hasonlit(t), 'Ures Valtoztat megint, eredmény tömb Hasonlit-tal');
+  Check(mMozaikUres.Compare(t), 'Ures Valtoztat megint, result array with Compare');
 
   b := mMozaikElbetu.Valtoztat;
   s := 'BB...'#13#10 +
@@ -412,7 +412,7 @@ begin
   t[10, -4] := 'M'; t[10, -3] := 'M'; t[10, -2] := 'M'; t[10, -1] := 'M'; t[10, 0] := 'M'; t[10, 1] := 'M'; t[10, 2] := 'M'; t[10, 3] := 'M'; t[10, 4] := 'M'; t[10, 5] := 'M'; t[10, 6] := 'M'; t[10, 7] := 'M'; t[10, 8] := 'M'; t[10, 9] := 'M'; t[10, 10] := 'M'; t[10, 11] := 'M'; t[10, 12] := 'M'; t[10, 13] := 'M'; t[10, 14] := 'M'; t[10, 15] := 'M';
   t[11, -4] := 'M'; t[11, -3] := 'M'; t[11, -2] := 'M'; t[11, -1] := 'M'; t[11, 0] := 'M'; t[11, 1] := 'M'; t[11, 2] := 'M'; t[11, 3] := 'M'; t[11, 4] := 'M'; t[11, 5] := 'M'; t[11, 6] := 'M'; t[11, 7] := 'M'; t[11, 8] := 'M'; t[11, 9] := 'M'; t[11, 10] := 'M'; t[11, 11] := 'M'; t[11, 12] := 'M'; t[11, 13] := 'M'; t[11, 14] := 'M'; t[11, 15] := 'M';
 
-  Check(j.Hasonlit(t), 'Jatekter Hasonlit 1');
+  Check(j.Compare(t), 'Jatekter Compare 1');
   j.Free;
 end;
 
