@@ -51,8 +51,8 @@ procedure TMainTest.testMozaikHasonlit;
 var t: TSquare;
     mMozaikUres, mMozaikHosszu: TTile;
 begin
-  mMozaikUres := TTile.Create(Ures);
-  mMozaikHosszu := TTile.Create(Hosszu);
+  mMozaikUres := TTile.Create(Empty);
+  mMozaikHosszu := TTile.Create(LetterI);
 
   //kódból nem tudok ettõl szebb tömb értékadást. deklarációban megy (oMozaikTomb), kódból nem. lokális deklarációban sem
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
@@ -76,8 +76,8 @@ end;
 procedure TMainTest.testMozaikSerialize;
 var mMozaikUres, mMozaikHosszu: TTile;
 begin
-  mMozaikUres := TTile.Create(Ures);
-  mMozaikHosszu := TTile.Create(Hosszu);
+  mMozaikUres := TTile.Create(Empty);
+  mMozaikHosszu := TTile.Create(LetterI);
 
   Check(mMozaikUres.Serialize = '.....'#13#10 +
                                 '.....'#13#10 +
@@ -99,7 +99,7 @@ procedure TMainTest.testMozaikDeSerialize;
 var s: String;
     mMozaikMindegy: TTile;
 begin
-  mMozaikMindegy := TTile.Create(Ures);
+  mMozaikMindegy := TTile.Create(Empty);
 
   s := '*....'#13#10 +
        '.....'#13#10 +
@@ -136,8 +136,8 @@ var t: TSquare;
     s: String;
     mMozaikHazteto, mMozaikMindegy: TTile;
 begin
-  mMozaikHazteto := TTile.Create(Hazteto);
-  mMozaikMindegy := TTile.Create(Ures);
+  mMozaikHazteto := TTile.Create(LetterV);
+  mMozaikMindegy := TTile.Create(Empty);
 
   mMozaikHazteto.Rotate;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := 'C';   t[1, 4] := 'C';   t[1, 5] := 'C';
@@ -170,8 +170,8 @@ var t: TSquare;
     s: String;
     mMozaikHazteto, mMozaikMindegy: TTile;
 begin
-  mMozaikHazteto := TTile.Create(Hazteto);
-  mMozaikMindegy := TTile.Create(Ures);
+  mMozaikHazteto := TTile.Create(LetterV);
+  mMozaikMindegy := TTile.Create(Empty);
 
   mMozaikHazteto.Flip;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := 'C';
@@ -205,7 +205,7 @@ var t: TSquare;
     mMozaikEsbetu, mMozaikMindegy: TTile;
 begin
   mMozaikEsbetu := TTile.Create(Esbetu);
-  mMozaikMindegy := TTile.Create(Ures);
+  mMozaikMindegy := TTile.Create(Empty);
 
   mMozaikEsbetu.Rotate;
   mMozaikEsbetu.Rotate;
@@ -297,8 +297,8 @@ var t: TSquare;
     mMozaikUres, mMozaikElbetu: TTile;
     b: Boolean;
 begin
-  mMozaikUres := TTile.Create(Ures);
-  mMozaikElbetu := TTile.Create(Elbetu);
+  mMozaikUres := TTile.Create(Empty);
+  mMozaikElbetu := TTile.Create(LetterL);
 
   b := mMozaikUres.Vary;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
@@ -974,11 +974,11 @@ var s: String;
     mMozaikUres, mMozaikElbetu, mMozaikKereszt, mMozaikLepcso, mMozaikHosszu: TTile;
 begin
   j := TPlayGround.Create;
-  mMozaikUres := TTile.Create(Ures);
-  mMozaikElbetu := TTile.Create(Elbetu);
-  mMozaikKereszt := TTile.Create(Kereszt);
+  mMozaikUres := TTile.Create(Empty);
+  mMozaikElbetu := TTile.Create(LetterL);
+  mMozaikKereszt := TTile.Create(LetterX);
   mMozaikLepcso := TTile.Create(Lepcso);
-  mMozaikHosszu := TTile.Create(Hosszu);
+  mMozaikHosszu := TTile.Create(LetterI);
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -1073,10 +1073,10 @@ var s: String;
     mMozaikUres, mMozaikKereszt, mMozaikElbetu, mMozaikHosszu: TTile;
 begin
   j := TPlayGround.Create;
-  mMozaikUres := TTile.Create(Ures);
-  mMozaikKereszt := TTile.Create(Kereszt);
-  mMozaikElbetu := TTile.Create(Elbetu);
-  mMozaikHosszu := TTile.Create(Hosszu);
+  mMozaikUres := TTile.Create(Empty);
+  mMozaikKereszt := TTile.Create(LetterX);
+  mMozaikElbetu := TTile.Create(LetterL);
+  mMozaikHosszu := TTile.Create(LetterI);
 
   j.Put(mMozaikUres, 1, 1);
   s := '..........'#13#10 +
@@ -1111,12 +1111,12 @@ var s: String;
     mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
 begin
   j := TPlayGround.Create;
-  mMozaikHosszu := TTile.Create(Hosszu);
-  mMozaikElbetu := TTile.Create(Elbetu);
-  mMozaikHazteto := TTile.Create(Hazteto);
-  mMozaikSonka := TTile.Create(Sonka);
-  mMozaikKereszt := TTile.Create(Kereszt);
-  mMozaikPuska := TTile.Create(Puska);
+  mMozaikHosszu := TTile.Create(LetterI);
+  mMozaikElbetu := TTile.Create(LetterL);
+  mMozaikHazteto := TTile.Create(LetterV);
+  mMozaikSonka := TTile.Create(LetterP);
+  mMozaikKereszt := TTile.Create(LetterX);
+  mMozaikPuska := TTile.Create(LetterN);
   mMozaikLapat := TTile.Create(Lapat);
   mMozaikCsunya := TTile.Create(Csunya);
   mMozaikTebetu := TTile.Create(Tebetu);
@@ -1179,12 +1179,12 @@ var s: String;
     mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
 begin
   j := TPlayGround.Create;
-  mMozaikHosszu := TTile.Create(Hosszu);
-  mMozaikElbetu := TTile.Create(Elbetu);
-  mMozaikHazteto := TTile.Create(Hazteto);
-  mMozaikSonka := TTile.Create(Sonka);
-  mMozaikKereszt := TTile.Create(Kereszt);
-  mMozaikPuska := TTile.Create(Puska);
+  mMozaikHosszu := TTile.Create(LetterI);
+  mMozaikElbetu := TTile.Create(LetterL);
+  mMozaikHazteto := TTile.Create(LetterV);
+  mMozaikSonka := TTile.Create(LetterP);
+  mMozaikKereszt := TTile.Create(LetterX);
+  mMozaikPuska := TTile.Create(LetterN);
   mMozaikLapat := TTile.Create(Lapat);
   mMozaikCsunya := TTile.Create(Csunya);
   mMozaikTebetu := TTile.Create(Tebetu);

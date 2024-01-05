@@ -11,7 +11,7 @@ type
 
   TRectangle = Array[-4..11,-4..15] of Char; //sorindex majd oszlopindex
 
-  TTileNames = (Ures, Hosszu, Elbetu, Hazteto, Sonka, Kereszt, Puska, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
+  TTileNames = (Empty, LetterI, LetterL, LetterV, LetterP, LetterX, LetterN, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
 
   TTile = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
@@ -70,7 +70,7 @@ type
     procedure tmrTimerTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    fMozaikok: Array[Hosszu..Esbetu] of TTile;
+    fMozaikok: Array[LetterI..Esbetu] of TTile;
     fPlayGround: TPlayGround;
     f: TextFile;
     fHanyadikMegoldas: Integer;
@@ -85,7 +85,7 @@ type
 var
   frmMain: TfrmMain;
 
-  oMozaikValtozatok: Array[Ures..Esbetu] of String =
+  oMozaikValtozatok: Array[Empty..Esbetu] of String =
   (
   'S',          //üres négyzetet nincs értelme forgatni/tükrözni
   'SF',         //a Hosszut egyszer lehet Forgatni, több változat nincs..
@@ -102,7 +102,7 @@ var
   'SFTF'
   );
 
-  oMozaikKarakterek: Array[Ures..Esbetu] of Char =
+  oMozaikKarakterek: Array[Empty..Esbetu] of Char =
   (
   '.',
   'A',
@@ -135,39 +135,39 @@ var
   clPurple
   );
 
-  oMozaikTomb: Array[Ures..Esbetu] of TSquare =
+  oMozaikTomb: Array[Empty..Esbetu] of TSquare =
   (
-  (('.','.','.','.','.'),  //Ures
+  (('.','.','.','.','.'),  //Ures     //Empty
    ('.','.','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.')),
-  (('A','A','A','A','A'),  //Hosszu
+  (('A','A','A','A','A'),  //Hosszu   //LetterI
    ('.','.','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.')),
-  (('B','B','.','.','.'),  //Elbetu
+  (('B','B','.','.','.'),  //Elbetu   //LetterL
    ('.','B','.','.','.'),
    ('.','B','.','.','.'),
    ('.','B','.','.','.'),
    ('.','.','.','.','.')),
-  (('C','.','.','.','.'),  //Hazteto
+  (('C','.','.','.','.'),  //Hazteto  //LetterV
    ('C','.','.','.','.'),
    ('C','C','C','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.')),
-  (('D','D','D','.','.'),  //Sonka
+  (('D','D','D','.','.'),  //Sonka    //LetterP
    ('D','D','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.')),
-  (('.','E','.','.','.'),  //Kereszt
+  (('.','E','.','.','.'),  //Kereszt  //LetterX
    ('E','E','E','.','.'),
    ('.','E','.','.','.'),
    ('.','.','.','.','.'),
    ('.','.','.','.','.')),
-  (('F','.','.','.','.'),  //Puska
+  (('F','.','.','.','.'),  //Puska    //LetterN
    ('F','.','.','.','.'),
    ('F','F','.','.','.'),
    ('F','.','.','.','.'),
@@ -273,7 +273,7 @@ begin
 
   if (lMinI = 1) and (lMinJ = 1) then begin //mert nincs mit normalizálni
   end else begin
-    lTempSquare := oMozaikTomb[Ures];
+    lTempSquare := oMozaikTomb[Empty];
 
     //majd a két számmal jelölt pontig felmásolni mindent
     i2 := 1;
@@ -1294,7 +1294,7 @@ begin
   fKirakasokSzama := 0;
 
   fPlayGround := TPlayGround.Create;
-  for iTipus := Hosszu to Esbetu do begin
+  for iTipus := LetterI to Esbetu do begin
     fMozaikok[iTipus] := TTile.Create(iTipus);
   end;
 
@@ -1434,7 +1434,7 @@ begin
     Writeln(f, fPlayGround.Serialize + #13#10);
     CloseFile(f);
   end;
-  for jTipus := Hosszu to Esbetu do begin
+  for jTipus := LetterI to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fPlayGround.FindFirstEmpty;
       lElsoUresI := fPlayGround.fFirstEmptyI;
@@ -1474,7 +1474,7 @@ procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
 var iTipus: TTileNames;
     i: Shortint;
 begin
-  for iTipus := Hosszu to Esbetu do begin
+  for iTipus := LetterI to Esbetu do begin
     fMozaikok[iTipus].Free;
   end;
   fPlayGround.Free;
