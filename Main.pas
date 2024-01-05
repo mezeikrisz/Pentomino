@@ -34,15 +34,15 @@ type
   TPlayGround = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
     fRectangle: TRectangle;
-    fKirakottMennyiseg: Shortint;
-    fElsoUresI, fElsoUresJ: Shortint;
+    fNumberOfTilesOnPlayGround: Shortint;
+    fFirstEmptyI, fFirstEmptyJ: Shortint;
     constructor Create;
-    function KirakhatoIde(pTile: TTile; pI, pJ: Shortint): Boolean;
-    procedure Kirak(pTile: TTile; pI, pJ: Shortint);
-    function LyukLenneEgy: Boolean;
-    function LyukLenneKetto: Boolean;
-    function LyukLenneHarom: Boolean;
-    function LyukLenneNegy: Boolean;
+    function IsPuttableHere(pTile: TTile; pI, pJ: Shortint): Boolean;
+    procedure Put(pTile: TTile; pI, pJ: Shortint);
+    function IsThereSingleHole: Boolean;
+    function IsThereDoubleHole: Boolean;
+    function IsThereTripleHole: Boolean;
+    function IsThereQuadrupleHole: Boolean;
     procedure KeresElsoUres;
     function Compare(pRectangle: TRectangle): Boolean;
   public
@@ -385,7 +385,7 @@ begin
     end;
   end;
 
-  fKirakottMennyiseg := 0;
+  fNumberOfTilesOnPlayGround := 0;
 end;
 
 function TPlayGround.Compare(pRectangle: TRectangle): Boolean;
@@ -402,7 +402,7 @@ begin
   Result := true;
 end;
 
-function TPlayGround.KirakhatoIde(pTile: TTile; pI, pJ: Shortint): Boolean;
+function TPlayGround.IsPuttableHere(pTile: TTile; pI, pJ: Shortint): Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -418,7 +418,7 @@ begin
   Result := true;
 end;
 
-procedure TPlayGround.Kirak(pTile: TTile; pI, pJ: Shortint);
+procedure TPlayGround.Put(pTile: TTile; pI, pJ: Shortint);
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -429,7 +429,7 @@ begin
     end;
   end;
   pTile.fKiVanRakva := true;
-  inc(fKirakottMennyiseg);
+  inc(fNumberOfTilesOnPlayGround);
 end;
 
 procedure TPlayGround.Levesz(pTile: TTile; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
@@ -443,12 +443,12 @@ begin
     end;
   end;
   pTile.fKiVanRakva := false;
-  dec(fKirakottMennyiseg);
+  dec(fNumberOfTilesOnPlayGround);
 end;
 
 function TPlayGround.KeszVan: Boolean;
 begin
-  Result := (fKirakottMennyiseg = 12);
+  Result := (fNumberOfTilesOnPlayGround = 12);
 end;
 
 function TPlayGround.Serialize: String; //TODO ez a Serialize azárt eléggé olyan, mint a Mozaiké... közös õstõl örököltetni pl...
@@ -481,13 +481,13 @@ end;
 procedure TPlayGround.KeresElsoUres;
 var i, j: Shortint;
 begin
-  fElsoUresI := 7;                                       //ezen értékek jelzik, ha nincs már üres pozíció, azaz már teli van a játéktér
-  fElsoUresJ := 11;
+  fFirstEmptyI := 7;                                       //ezen értékek jelzik, ha nincs már üres pozíció, azaz már teli van a játéktér
+  fFirstEmptyJ := 11;
   for i := 1 to 6 do begin
     for j := 1 to 10 do begin
       if fRectangle[i,j] = '.' then begin
-        fElsoUresI := i;
-        fElsoUresJ := j;
+        fFirstEmptyI := i;
+        fFirstEmptyJ := j;
         Exit;
       end;
     end;
@@ -504,7 +504,7 @@ begin
   end;
 end;
 
-function TPlayGround.LyukLenneEgy: Boolean;
+function TPlayGround.IsThereSingleHole: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -527,7 +527,7 @@ begin
   Result := false;
 end;
 
-function TPlayGround.LyukLenneKetto: Boolean;
+function TPlayGround.IsThereDoubleHole: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -582,7 +582,7 @@ end;
 //google: default-ban van short circuit evaluation: https://stackoverflow.com/questions/15084323/delphi-and-evaluation-with-2-conditions
 // {$BOOLEVAL ON} kapcsolóval a Main.pas és a MainTest.pas elejében sem száll el. Beszarok.
 
-function TPlayGround.LyukLenneHarom: Boolean;
+function TPlayGround.IsThereTripleHole: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -734,7 +734,7 @@ begin
   Result := false;
 end;
 
-function TPlayGround.LyukLenneNegy: Boolean;
+function TPlayGround.IsThereQuadrupleHole: Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 6 do begin
@@ -1437,15 +1437,15 @@ begin
   for jTipus := Hosszu to Esbetu do begin
     if (not fMozaikok[jTipus].fKiVanRakva) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fPlayGround.KeresElsoUres;
-      lElsoUresI := fPlayGround.fElsoUresI;
-      lElsoUresJ := fPlayGround.fElsoUresJ;
+      lElsoUresI := fPlayGround.fFirstEmptyI;
+      lElsoUresJ := fPlayGround.fFirstEmptyJ;
       while fMozaikok[jTipus].Vary do begin
-        if fPlayGround.KirakhatoIde(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
+        if fPlayGround.IsPuttableHere(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
           SetTempo;
-          fPlayGround.Kirak(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+          fPlayGround.Put(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
           inc(fKirakasokSzama);
           SetTempo;
-          if fPlayGround.LyukLenneEgy or fPlayGround.LyukLenneKetto or fPlayGround.LyukLenneHarom or fPlayGround.LyukLenneNegy then begin
+          if fPlayGround.IsThereSingleHole or fPlayGround.IsThereDoubleHole or fPlayGround.IsThereTripleHole or fPlayGround.IsThereQuadrupleHole then begin
             SetTempo;
             fPlayGround.Levesz(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;

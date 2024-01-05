@@ -460,7 +460,7 @@ begin
        'A.........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneEgy = false, 'LyukLenneEgy, két elemnél nincs lyuk, false legyen');
+  Check(j.IsThereSingleHole = false, 'LyukLenneEgy, két elemnél nincs lyuk, false legyen');
 
   s := 'AAAAAAAAAAM'#13#10 +
        'AAAAAAAAAAM'#13#10 +
@@ -470,7 +470,7 @@ begin
        'AAAAAAAAAAM'#13#10 +
        'MMMMMMMMMMM'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneEgy = false, 'LyukLenneEgy, teli táblánál nincs lyuk, false legyen');
+  Check(j.IsThereSingleHole = false, 'LyukLenneEgy, teli táblánál nincs lyuk, false legyen');
 
   s := '.DD.......'#13#10 +
        'DDD.......'#13#10 +
@@ -479,7 +479,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 1');
+  Check(j.IsThereSingleHole = true, 'LyukLenneEgy, true legyen 1');
 
   s := 'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -488,7 +488,7 @@ begin
        'AAAAAAAAAA'#13#10 +
        'AAAAAAAAA.'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 2');
+  Check(j.IsThereSingleHole = true, 'LyukLenneEgy, true legyen 2');
 
   s := '.A........'#13#10 +
        'A.........'#13#10 +
@@ -497,7 +497,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 3');
+  Check(j.IsThereSingleHole = true, 'LyukLenneEgy, true legyen 3');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -506,7 +506,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneEgy = true, 'LyukLenneEgy, true legyen 4');
+  Check(j.IsThereSingleHole = true, 'LyukLenneEgy, true legyen 4');
 
   j.Free;
 end;
@@ -524,7 +524,7 @@ begin
        'A.........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = false, 'LyukLenneKetto, két elemnél nincs lyuk, false legyen');
+  Check(j.IsThereDoubleHole = false, 'LyukLenneKetto, két elemnél nincs lyuk, false legyen');
 
   s := 'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -533,7 +533,7 @@ begin
        'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = false, 'LyukLenneKetto, teli táblánál nincs lyuk, false legyen');
+  Check(j.IsThereDoubleHole = false, 'LyukLenneKetto, teli táblánál nincs lyuk, false legyen');
 
   s := 'AAAAA.....'#13#10 +
        '..F.......'#13#10 +
@@ -542,7 +542,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 1');
+  Check(j.IsThereDoubleHole = true, 'LyukLenneKetto, true legyen 1');
 
   s := 'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -551,7 +551,7 @@ begin
        'AAAAAAAAA.'#13#10 +
        'AAAAAAAAA.'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 2');
+  Check(j.IsThereDoubleHole = true, 'LyukLenneKetto, true legyen 2');
 
   s := '.A........'#13#10 +
        '.A........'#13#10 +
@@ -560,7 +560,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 3');
+  Check(j.IsThereDoubleHole = true, 'LyukLenneKetto, true legyen 3');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -569,7 +569,7 @@ begin
        '...A......'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 4');
+  Check(j.IsThereDoubleHole = true, 'LyukLenneKetto, true legyen 4');
 
   s := '..........'#13#10 +
        '...AA.....'#13#10 +
@@ -578,7 +578,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneKetto = true, 'LyukLenneKetto, true legyen 5');
+  Check(j.IsThereDoubleHole = true, 'LyukLenneKetto, true legyen 5');
 
   j.Free;
 end;
@@ -596,7 +596,7 @@ begin
        'A.........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = false, 'LyukLenneHarom, két elemnél nincs lyuk, false legyen');
+  Check(j.IsThereTripleHole = false, 'LyukLenneHarom, két elemnél nincs lyuk, false legyen');
 
   s := 'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -605,7 +605,7 @@ begin
        'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = false, 'LyukLenneHarom, teli táblánál nincs lyuk, false legyen');
+  Check(j.IsThereTripleHole = false, 'LyukLenneHarom, teli táblánál nincs lyuk, false legyen');
 
   s := '..........'#13#10 +
        '...AAA....'#13#10 +
@@ -614,7 +614,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 1');
+  Check(j.IsThereTripleHole = true, 'LyukLenneHarom, true legyen 1');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -623,7 +623,7 @@ begin
        '..A.A.....'#13#10 +
        '...A......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 2');
+  Check(j.IsThereTripleHole = true, 'LyukLenneHarom, true legyen 2');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -632,7 +632,7 @@ begin
        '...AA.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 3');
+  Check(j.IsThereTripleHole = true, 'LyukLenneHarom, true legyen 3');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -641,7 +641,7 @@ begin
        '..AA......'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 4');
+  Check(j.IsThereTripleHole = true, 'LyukLenneHarom, true legyen 4');
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -650,7 +650,7 @@ begin
        '.....A.A..'#13#10 +
        '......A...'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 5');
+  Check(j.IsThereTripleHole = true, 'LyukLenneHarom, true legyen 5');
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -659,7 +659,7 @@ begin
        '....A.A...'#13#10 +
        '.....A....'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = true, 'LyukLenneHarom, true legyen 6');
+  Check(j.IsThereTripleHole = true, 'LyukLenneHarom, true legyen 6');
 
   s := '.AAAAAAAA.'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -668,7 +668,7 @@ begin
        'AAAAAAAAAA'#13#10 +
        '.AAAAAAAA.'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = false, 'LyukLenneHarom, határmenti kínzás 1');
+  Check(j.IsThereTripleHole = false, 'LyukLenneHarom, határmenti kínzás 1');
 
   s := '.AAA..AAA.'#13#10 +
        'A.AAAAAAA.'#13#10 +
@@ -677,7 +677,7 @@ begin
        'A.AAAAAAA.'#13#10 +
        '.AAA..AAA.'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneHarom = false, 'LyukLenneHarom, határmenti kínzás 2');
+  Check(j.IsThereTripleHole = false, 'LyukLenneHarom, határmenti kínzás 2');
 
   j.Free;
 end;
@@ -695,7 +695,7 @@ begin
        'A.........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = false, 'LyukLenneNegy, két elemnél nincs lyuk, false legyen');
+  Check(j.IsThereQuadrupleHole = false, 'LyukLenneNegy, két elemnél nincs lyuk, false legyen');
 
   s := 'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -704,7 +704,7 @@ begin
        'AAAAAAAAAA'#13#10 +
        'AAAAAAAAAA'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = false, 'LyukLenneNegy, teli táblánál nincs lyuk, false legyen');
+  Check(j.IsThereQuadrupleHole = false, 'LyukLenneNegy, teli táblánál nincs lyuk, false legyen');
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -713,7 +713,7 @@ begin
        '..AAAA....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 1');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 1');
 
   s := '...A......'#13#10 +
        '..A.A.....'#13#10 +
@@ -722,7 +722,7 @@ begin
        '..A.A.....'#13#10 +
        '...A......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 2');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 2');
 
   s := '..........'#13#10 +
        '..A.......'#13#10 +
@@ -731,7 +731,7 @@ begin
        '..AAA.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 3');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 3');
 
   s := '..........'#13#10 +
        '....A.....'#13#10 +
@@ -740,7 +740,7 @@ begin
        '..AAA.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 4');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 4');
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -749,7 +749,7 @@ begin
        '..AA.A....'#13#10 +
        '....A.....'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 5');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 5');
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -758,7 +758,7 @@ begin
        '.A.AA.....'#13#10 +
        '..A.......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 6');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 6');
 
   s := '....A.....'#13#10 +
        '...A.A....'#13#10 +
@@ -767,7 +767,7 @@ begin
        '....AA....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 7');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 7');
 
   s := '....A.....'#13#10 +
        '...A.A....'#13#10 +
@@ -776,7 +776,7 @@ begin
        '...AA.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 8');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 8');
 
   s := '...AA.....'#13#10 +
        '..A..A....'#13#10 +
@@ -785,7 +785,7 @@ begin
        '....A.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 9');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 9');
 
   s := '....AA....'#13#10 +
        '...A..A...'#13#10 +
@@ -794,7 +794,7 @@ begin
        '....A.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 10');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 10');
 
   s := '..........'#13#10 +
        '..A.......'#13#10 +
@@ -803,7 +803,7 @@ begin
        '..A.A.....'#13#10 +
        '...A......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 11');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 11');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -812,7 +812,7 @@ begin
        '.A.A......'#13#10 +
        '..A.......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 12');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 12');
 
   s := '..........'#13#10 +
        '...AA.....'#13#10 +
@@ -821,7 +821,7 @@ begin
        '....AA....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 13');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 13');
 
   s := '..........'#13#10 +
        '...AA.....'#13#10 +
@@ -830,7 +830,7 @@ begin
        '..AA......'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 14');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 14');
 
   s := '..........'#13#10 +
        '...AAA....'#13#10 +
@@ -839,7 +839,7 @@ begin
        '....A.....'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 15');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 15');
 
   s := '....A.....'#13#10 +
        '...A.A....'#13#10 +
@@ -848,7 +848,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 16');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 16');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -857,7 +857,7 @@ begin
        '..A.A.....'#13#10 +
        '...A......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 17');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 17');
 
   s := '..........'#13#10 +
        '...A......'#13#10 +
@@ -866,7 +866,7 @@ begin
        '..A.A.....'#13#10 +
        '...A......'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 18');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 18');
 
   s := '....AA....'#13#10 +
        '...A..A...'#13#10 +
@@ -875,7 +875,7 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = true, 'LyukLenneNegy, true legyen 19');
+  Check(j.IsThereQuadrupleHole = true, 'LyukLenneNegy, true legyen 19');
 
   s := '.AAAAAAAA.'#13#10 +
        'AAAAAAAAAA'#13#10 +
@@ -884,7 +884,7 @@ begin
        'AAAAAAAAAA'#13#10 +
        '.AAAAAAAA.'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = false, 'LyukLenneNegy, határmenti kínzás 1');
+  Check(j.IsThereQuadrupleHole = false, 'LyukLenneNegy, határmenti kínzás 1');
 
   s := '.A.A..AA..'#13#10 +
        'A.AAAAAAA.'#13#10 +
@@ -893,7 +893,7 @@ begin
        'A.AAAAAAA.'#13#10 +
        '.A.A..AA..'#13#10;
   j.DeSerialize(s);
-  Check(j.LyukLenneNegy = false, 'LyukLenneNegy, határmenti kínzás 2');
+  Check(j.IsThereQuadrupleHole = false, 'LyukLenneNegy, határmenti kínzás 2');
 
   j.Free;
 end;
@@ -912,7 +912,7 @@ begin
        '..........'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
-  Check((j.fElsoUresI = 1) and (j.fElsoUresJ = 1), 'KeresElsoUres 1');
+  Check((j.fFirstEmptyI = 1) and (j.fFirstEmptyJ = 1), 'KeresElsoUres 1');
 
   s := 'AAA.......'#13#10 +
        '..........'#13#10 +
@@ -922,7 +922,7 @@ begin
        '..........'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
-  Check((j.fElsoUresI = 1) and (j.fElsoUresJ = 4), 'KeresElsoUres 2');
+  Check((j.fFirstEmptyI = 1) and (j.fFirstEmptyJ = 4), 'KeresElsoUres 2');
 
   s := 'AAAABBBCCC'#13#10 +
        '..........'#13#10 +
@@ -932,7 +932,7 @@ begin
        '..........'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
-  Check((j.fElsoUresI = 2) and (j.fElsoUresJ = 1), 'KeresElsoUres 3');
+  Check((j.fFirstEmptyI = 2) and (j.fFirstEmptyJ = 1), 'KeresElsoUres 3');
 
   s := 'AAAABBBCCC'#13#10 +
        'DDDDDDDDD.'#13#10 +
@@ -942,7 +942,7 @@ begin
        '..........'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
-  Check((j.fElsoUresI = 2) and (j.fElsoUresJ = 10), 'KeresElsoUres 4');
+  Check((j.fFirstEmptyI = 2) and (j.fFirstEmptyJ = 10), 'KeresElsoUres 4');
 
   s := 'AAAABBBCCC'#13#10 +
        'DDDDDDDDDD'#13#10 +
@@ -952,7 +952,7 @@ begin
        'HHHHHHHHH.'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
-  Check((j.fElsoUresI = 6) and (j.fElsoUresJ = 10), 'KeresElsoUres 5');
+  Check((j.fFirstEmptyI = 6) and (j.fFirstEmptyJ = 10), 'KeresElsoUres 5');
 
   s := 'AAAABBBCCC'#13#10 +
        'DDDDDDDDDD'#13#10 +
@@ -962,7 +962,7 @@ begin
        'HHHHHHHHHH'#13#10;
   j.DeSerialize(s);
   j.KeresElsoUres;
-  Check((j.fElsoUresI = 7) and (j.fElsoUresJ = 11), 'KeresElsoUres 6, ki van rakva');
+  Check((j.fFirstEmptyI = 7) and (j.fFirstEmptyJ = 11), 'KeresElsoUres 6, ki van rakva');
 
   j.Free;
 end;
@@ -987,21 +987,21 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  b := j.KirakhatoIde(mMozaikUres, 1, 1);
+  b := j.IsPuttableHere(mMozaikUres, 1, 1);
   Check(b, 'KirakhatoIde true 1');
-  b := j.KirakhatoIde(mMozaikUres, 1, 10);
+  b := j.IsPuttableHere(mMozaikUres, 1, 10);
   Check(b, 'KirakhatoIde true 2');
-  b := j.KirakhatoIde(mMozaikUres, 6, 10);
+  b := j.IsPuttableHere(mMozaikUres, 6, 10);
   Check(b, 'KirakhatoIde true 3');
-  b := j.KirakhatoIde(mMozaikElbetu, 1, 1);
+  b := j.IsPuttableHere(mMozaikElbetu, 1, 1);
   Check(b, 'KirakhatoIde true 4');
-  b := j.KirakhatoIde(mMozaikElbetu, 1, 9);
+  b := j.IsPuttableHere(mMozaikElbetu, 1, 9);
   Check(b, 'KirakhatoIde true 5');
-  b := j.KirakhatoIde(mMozaikElbetu, 3, 9);
+  b := j.IsPuttableHere(mMozaikElbetu, 3, 9);
   Check(b, 'KirakhatoIde true 6');
-  b := j.KirakhatoIde(mMozaikElbetu, 4, 9);
+  b := j.IsPuttableHere(mMozaikElbetu, 4, 9);
   Check(not b, 'KirakhatoIde false 7');
-  b := j.KirakhatoIde(mMozaikElbetu, 3, 10);
+  b := j.IsPuttableHere(mMozaikElbetu, 3, 10);
   Check(not b, 'KirakhatoIde false 8');
 
   s := 'AAAAAAAAAA'#13#10 +
@@ -1011,15 +1011,15 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  b := j.KirakhatoIde(mMozaikElbetu, 2, 8);
+  b := j.IsPuttableHere(mMozaikElbetu, 2, 8);
   Check(not b, 'KirakhatoIde false 9');
-  b := j.KirakhatoIde(mMozaikElbetu, 2, 9);
+  b := j.IsPuttableHere(mMozaikElbetu, 2, 9);
   Check(b, 'KirakhatoIde true 10');
-  b := j.KirakhatoIde(mMozaikKereszt, 3, 1);
+  b := j.IsPuttableHere(mMozaikKereszt, 3, 1);
   Check(not b, 'KirakhatoIde false 11');
-  b := j.KirakhatoIde(mMozaikKereszt, 3, 2);
+  b := j.IsPuttableHere(mMozaikKereszt, 3, 2);
   Check(not b, 'KirakhatoIde false 12');
-  b := j.KirakhatoIde(mMozaikKereszt, 3, 3);
+  b := j.IsPuttableHere(mMozaikKereszt, 3, 3);
   Check(b, 'KirakhatoIde true 13');
 
   s := 'AAAAAAAAAA'#13#10 +
@@ -1029,13 +1029,13 @@ begin
        'EEEEEEE...'#13#10 +
        'FFFFFFFF.F'#13#10;
   j.DeSerialize(s);
-  b := j.KirakhatoIde(mMozaikKereszt, 4, 7);
+  b := j.IsPuttableHere(mMozaikKereszt, 4, 7);
   Check(not b, 'KirakhatoIde false 14');
-  b := j.KirakhatoIde(mMozaikKereszt, 4, 8);
+  b := j.IsPuttableHere(mMozaikKereszt, 4, 8);
   Check(not b, 'KirakhatoIde false 15');
-  b := j.KirakhatoIde(mMozaikKereszt, 4, 9);
+  b := j.IsPuttableHere(mMozaikKereszt, 4, 9);
   Check(b, 'KirakhatoIde true 16');
-  b := j.KirakhatoIde(mMozaikKereszt, 4, 10);
+  b := j.IsPuttableHere(mMozaikKereszt, 4, 10);
   Check(not b, 'KirakhatoIde false 17');
 
 
@@ -1046,17 +1046,17 @@ begin
        '..........'#13#10 +
        '..........'#13#10;
   j.DeSerialize(s);
-  b := j.KirakhatoIde(mMozaikLepcso, 2, 5);
+  b := j.IsPuttableHere(mMozaikLepcso, 2, 5);
   Check(not b, 'KirakhatoIde false 18');
-  b := j.KirakhatoIde(mMozaikLepcso, 2, 6);
+  b := j.IsPuttableHere(mMozaikLepcso, 2, 6);
   Check(b, 'KirakhatoIde true 19');
-  b := j.KirakhatoIde(mMozaikHosszu, 2, 5);
+  b := j.IsPuttableHere(mMozaikHosszu, 2, 5);
   Check(not b, 'KirakhatoIde false 20');
-  b := j.KirakhatoIde(mMozaikHosszu, 2, 6);
+  b := j.IsPuttableHere(mMozaikHosszu, 2, 6);
   Check(b, 'KirakhatoIde true 21');
-  b := j.KirakhatoIde(mMozaikHosszu, 2, 7);
+  b := j.IsPuttableHere(mMozaikHosszu, 2, 7);
   Check(not b, 'KirakhatoIde false 21');
-  b := j.KirakhatoIde(mMozaikHosszu, 6, 10);
+  b := j.IsPuttableHere(mMozaikHosszu, 6, 10);
   Check(not b, 'KirakhatoIde false 22');
 
   mMozaikUres.Free;
@@ -1078,7 +1078,7 @@ begin
   mMozaikElbetu := TTile.Create(Elbetu);
   mMozaikHosszu := TTile.Create(Hosszu);
 
-  j.Kirak(mMozaikUres, 1, 1);
+  j.Put(mMozaikUres, 1, 1);
   s := '..........'#13#10 +
        '..........'#13#10 +
        '..........'#13#10 +
@@ -1087,9 +1087,9 @@ begin
        '..........'#13#10;
   Check(j.Serialize = s, 'Kirak 1');
 
-  j.Kirak(mMozaikHosszu, 1, 1);
-  j.Kirak(mMozaikKereszt, 1, 6);
-  j.Kirak(mMozaikElbetu, 3, 7);
+  j.Put(mMozaikHosszu, 1, 1);
+  j.Put(mMozaikKereszt, 1, 6);
+  j.Put(mMozaikElbetu, 3, 7);
   s := 'AAAAAE....'#13#10 +
        '....EEE...'#13#10 +
        '.....EBB..'#13#10 +
@@ -1124,18 +1124,18 @@ begin
   mMozaikUbetu := TTile.Create(Ubetu);
   mMozaikEsbetu := TTile.Create(Esbetu);
 
-  j.Kirak(mMozaikSonka, 1, 1);
-  j.Kirak(mMozaikUbetu, 1, 4);
-  j.Kirak(mMozaikCsunya, 1, 7);
-  j.Kirak(mMozaikElbetu, 1, 9);
-  j.Kirak(mMozaikLapat, 2, 3);
-  j.Kirak(mMozaikKereszt, 2, 5);
-  j.Kirak(mMozaikPuska, 2, 7);
-  j.Kirak(mMozaikEsbetu, 3, 1);
-  j.Kirak(mMozaikTebetu, 3, 9);
-  j.Kirak(mMozaikHazteto, 4, 1);
-  j.Kirak(mMozaikLepcso, 4, 6);
-  j.Kirak(mMozaikHosszu, 6, 6);
+  j.Put(mMozaikSonka, 1, 1);
+  j.Put(mMozaikUbetu, 1, 4);
+  j.Put(mMozaikCsunya, 1, 7);
+  j.Put(mMozaikElbetu, 1, 9);
+  j.Put(mMozaikLapat, 2, 3);
+  j.Put(mMozaikKereszt, 2, 5);
+  j.Put(mMozaikPuska, 2, 7);
+  j.Put(mMozaikEsbetu, 3, 1);
+  j.Put(mMozaikTebetu, 3, 9);
+  j.Put(mMozaikHazteto, 4, 1);
+  j.Put(mMozaikLepcso, 4, 6);
+  j.Put(mMozaikHosszu, 6, 6);
 
   j.Levesz(mMozaikHosszu, 6, 6);
   j.Levesz(mMozaikLepcso, 4, 6);
@@ -1193,19 +1193,19 @@ begin
   mMozaikEsbetu := TTile.Create(Esbetu);
 
   Check(not j.KeszVan, 'KeszVan 1 false');
-  j.Kirak(mMozaikSonka, 1, 1);
-  j.Kirak(mMozaikUbetu, 1, 4);
-  j.Kirak(mMozaikCsunya, 1, 7);
-  j.Kirak(mMozaikElbetu, 1, 9);
-  j.Kirak(mMozaikLapat, 2, 3);
-  j.Kirak(mMozaikKereszt, 2, 5);
-  j.Kirak(mMozaikPuska, 2, 7);
-  j.Kirak(mMozaikEsbetu, 3, 1);
-  j.Kirak(mMozaikTebetu, 3, 9);
-  j.Kirak(mMozaikHazteto, 4, 1);
-  j.Kirak(mMozaikLepcso, 4, 6);
+  j.Put(mMozaikSonka, 1, 1);
+  j.Put(mMozaikUbetu, 1, 4);
+  j.Put(mMozaikCsunya, 1, 7);
+  j.Put(mMozaikElbetu, 1, 9);
+  j.Put(mMozaikLapat, 2, 3);
+  j.Put(mMozaikKereszt, 2, 5);
+  j.Put(mMozaikPuska, 2, 7);
+  j.Put(mMozaikEsbetu, 3, 1);
+  j.Put(mMozaikTebetu, 3, 9);
+  j.Put(mMozaikHazteto, 4, 1);
+  j.Put(mMozaikLepcso, 4, 6);
   Check(not j.KeszVan, 'KeszVan 2 false');
-  j.Kirak(mMozaikHosszu, 6, 6);
+  j.Put(mMozaikHosszu, 6, 6);
   Check(j.KeszVan, 'KeszVan 3 true');
 
   mMozaikHosszu.Free;
