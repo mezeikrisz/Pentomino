@@ -16,7 +16,7 @@ type
   TTile = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
     fSquare: TSquare;
-    fMozaikTipus: TTileNames;
+    fTileType: TTileNames;
     fValtozatIndex: Shortint;
     fOffsetJ: Shortint;
     fKiVanRakva: Boolean;
@@ -215,7 +215,7 @@ implementation
 constructor TTile.Create(pTile: TTileNames);
 begin
   fSquare := oMozaikTomb[pTile];
-  fMozaikTipus := pTile;
+  fTileType := pTile;
   fValtozatIndex := 0;
   fKiVanRakva := false;
   Normalize;
@@ -337,12 +337,12 @@ end;
 
 function TTile.Valtoztat: Boolean;
 begin
-  if (Length(oMozaikValtozatok[fMozaikTipus]) = fValtozatIndex) then begin
+  if (Length(oMozaikValtozatok[fTileType]) = fValtozatIndex) then begin
     Result := false;                                                       //false-szal száll ki, ha már nincs több változat
     Exit;
   end;
   inc(fValtozatIndex);
-  case oMozaikValtozatok[fMozaikTipus][fValtozatIndex] of
+  case oMozaikValtozatok[fTileType][fValtozatIndex] of
     'S': ;
     'F': Rotate;
     'T': Flip;
@@ -437,7 +437,7 @@ var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] = oMozaikKarakterek[pTile.fMozaikTipus] then begin
+      if fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] = oMozaikKarakterek[pTile.fTileType] then begin
         fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] := '.';
       end;
     end;
