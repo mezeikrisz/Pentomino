@@ -11,16 +11,16 @@ type
 
   TRectangle = Array[-4..11,-4..15] of Char; //sorindex majd oszlopindex
 
-  TMozaikNevek = (Ures, Hosszu, Elbetu, Hazteto, Sonka, Kereszt, Puska, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
+  TTileNames = (Ures, Hosszu, Elbetu, Hazteto, Sonka, Kereszt, Puska, Lapat, Csunya, Tebetu, Lepcso, Ubetu, Esbetu);
 
-  TMozaik = class(TObject)
+  TTile = class(TObject)
   public //private //hogy rálásson a test, egyelõre public minden
     fSquare: TSquare;
-    fMozaikTipus: TMozaikNevek;
+    fMozaikTipus: TTileNames;
     fValtozatIndex: Shortint;
     fOffsetJ: Shortint;
     fKiVanRakva: Boolean;
-    constructor Create(pMozaik: TMozaikNevek);
+    constructor Create(pTile: TTileNames);
     procedure Rotate;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
     procedure Flip;      //fNegyzetet tükrözi függõleges tengelyre
     procedure Normalize;  //fNegyzet 1-eseit a balfelsõ sarokba tolja
@@ -37,8 +37,8 @@ type
     fKirakottMennyiseg: Shortint;
     fElsoUresI, fElsoUresJ: Shortint;
     constructor Create;
-    function KirakhatoIde(pMozaik: TMozaik; pI, pJ: Shortint): Boolean;
-    procedure Kirak(pMozaik: TMozaik; pI, pJ: Shortint);
+    function KirakhatoIde(pTile: TTile; pI, pJ: Shortint): Boolean;
+    procedure Kirak(pTile: TTile; pI, pJ: Shortint);
     function LyukLenneEgy: Boolean;
     function LyukLenneKetto: Boolean;
     function LyukLenneHarom: Boolean;
@@ -48,7 +48,7 @@ type
   public
     function Serialize: String;
     procedure DeSerialize(pSor: String);
-    procedure Levesz(pMozaik: TMozaik; pI, pJ: Shortint);
+    procedure Levesz(pTile: TTile; pI, pJ: Shortint);
     function KeszVan: Boolean;
     procedure Leallit;
   end;
@@ -70,7 +70,7 @@ type
     procedure tmrTimerTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    fMozaikok: Array[Hosszu..Esbetu] of TMozaik;
+    fMozaikok: Array[Hosszu..Esbetu] of TTile;
     fJatekter: TJatekTer;
     f: TextFile;
     fHanyadikMegoldas: Integer;
@@ -212,16 +212,16 @@ implementation
 { TMozaik }
 {---------}
 
-constructor TMozaik.Create(pMozaik: TMozaikNevek);
+constructor TTile.Create(pTile: TTileNames);
 begin
-  fSquare := oMozaikTomb[pMozaik];
-  fMozaikTipus := pMozaik;
+  fSquare := oMozaikTomb[pTile];
+  fMozaikTipus := pTile;
   fValtozatIndex := 0;
   fKiVanRakva := false;
   Normalize;
 end;
 
-function TMozaik.Compare(pSquare: TSquare): Boolean;
+function TTile.Compare(pSquare: TSquare): Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
@@ -235,7 +235,7 @@ begin
   Result := true;
 end;
 
-procedure TMozaik.Rotate;
+procedure TTile.Rotate;
 var i, j: Shortint;
     lTempSquare: TSquare;
 begin
@@ -247,7 +247,7 @@ begin
   fSquare := lTempSquare;
 end;
 
-procedure TMozaik.Normalize;
+procedure TTile.Normalize;
 var i, j, i2, j2, i3, j3, lMinJ, lMinI: Shortint;
     lTempSquare: TSquare;
 begin
@@ -296,7 +296,7 @@ begin
   fOffsetJ := j3 - 1;             //offset 0-tól indul, ha a sarokban kezdõdik az értékes jegy
 end;
 
-function TMozaik.Serialize: String;
+function TTile.Serialize: String;
 var s: String;
     i, j: Shortint;
 begin
@@ -310,7 +310,7 @@ begin
   Result := s;
 end;
 
-procedure TMozaik.DeSerialize(pSor: String);
+procedure TTile.DeSerialize(pSor: String);
 var i, j, k: Shortint;
 begin
   k := 1;
@@ -323,7 +323,7 @@ begin
   end;
 end;
 
-procedure TMozaik.Flip;
+procedure TTile.Flip;
 var i, j: Shortint;
     lTempSquare: TSquare;
 begin
@@ -335,7 +335,7 @@ begin
   fSquare := lTempSquare;
 end;
 
-function TMozaik.Valtoztat: Boolean;
+function TTile.Valtoztat: Boolean;
 begin
   if (Length(oMozaikValtozatok[fMozaikTipus]) = fValtozatIndex) then begin
     Result := false;                                                       //false-szal száll ki, ha már nincs több változat
@@ -402,14 +402,14 @@ begin
   Result := true;
 end;
 
-function TJatekTer.KirakhatoIde(pMozaik: TMozaik; pI, pJ: Shortint): Boolean;
+function TJatekTer.KirakhatoIde(pTile: TTile; pI, pJ: Shortint): Boolean;
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
-    for j := 1 to 5 do begin                    
-      if ((pMozaik.fSquare[i,j] <> '.') and (fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] <> '.')) //egybelógás lenne
+    for j := 1 to 5 do begin
+      if ((pTile.fSquare[i,j] <> '.') and (fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] <> '.')) //egybelógás lenne
          or
-         ((pMozaik.fSquare[i,j] <> '.') and (fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
+         ((pTile.fSquare[i,j] <> '.') and (fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] = 'M')) then begin //kilógás lenne
         Result := false;
         Exit;
       end;
@@ -418,31 +418,31 @@ begin
   Result := true;
 end;
 
-procedure TJatekTer.Kirak(pMozaik: TMozaik; pI, pJ: Shortint);
+procedure TJatekTer.Kirak(pTile: TTile; pI, pJ: Shortint);
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if pMozaik.fSquare[i,j] <> '.' then begin
-        fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := pMozaik.fSquare[i,j];
+      if pTile.fSquare[i,j] <> '.' then begin
+        fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] := pTile.fSquare[i,j];
       end;
     end;
   end;
-  pMozaik.fKiVanRakva := true;
+  pTile.fKiVanRakva := true;
   inc(fKirakottMennyiseg);
 end;
 
-procedure TJatekTer.Levesz(pMozaik: TMozaik; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
+procedure TJatekTer.Levesz(pTile: TTile; pI, pJ: Shortint); //ez alapból pozíció nélküli fejléces volt, emiatt a ciklusai 6-ig/10-ig mentek, címzés is más volt
 var i, j: Shortint;
 begin
   for i := 1 to 5 do begin
     for j := 1 to 5 do begin
-      if fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] = oMozaikKarakterek[pMozaik.fMozaikTipus] then begin
-        fRectangle[pI+i-1,pJ-pMozaik.fOffsetJ+j-1] := '.';
+      if fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] = oMozaikKarakterek[pTile.fMozaikTipus] then begin
+        fRectangle[pI+i-1,pJ-pTile.fOffsetJ+j-1] := '.';
       end;
     end;
   end;
-  pMozaik.fKiVanRakva := false;
+  pTile.fKiVanRakva := false;
   dec(fKirakottMennyiseg);
 end;
 
@@ -1286,7 +1286,7 @@ end;
 {----------}
 
 procedure TfrmMain.btnKeresClick(Sender: TObject);
-var iTipus: TMozaikNevek;
+var iTipus: TTileNames;
     i: Shortint;
 begin
   btnKeres.Enabled := false;
@@ -1295,7 +1295,7 @@ begin
 
   fJatekter := TJatekTer.Create;
   for iTipus := Hosszu to Esbetu do begin
-    fMozaikok[iTipus] := TMozaik.Create(iTipus);
+    fMozaikok[iTipus] := TTile.Create(iTipus);
   end;
 
   AssignFile(f, 'results.txt');
@@ -1339,7 +1339,7 @@ end;
 
 procedure TfrmMain.Save;
 var f: TextFile;
-    iTipus: TMozaikNevek;
+    iTipus: TTileNames;
     i: Shortint;
 begin
   {AssignFile(f, 'save.txt');
@@ -1368,7 +1368,7 @@ end;
 
 procedure TfrmMain.Load;
 var f: TextFile;
-    iTipus: TMozaikNevek;
+    iTipus: TTileNames;
     i, j: Shortint;
     lSor, lSorMind: String;
 begin
@@ -1377,7 +1377,7 @@ begin
 
   for i := 1 to 12 do begin
     Readln(f, j);
-    //fRekurzioSzintjei[i] := TMozaikNevek(j);
+    //fRekurzioSzintjei[i] := TTileNames(j);
   end;
 
   for iTipus := Hosszu to Esbetu do begin
@@ -1422,7 +1422,7 @@ begin
 end;
 
 procedure TfrmMain.Rekurziv;
-var jTipus: TMozaikNevek;
+var jTipus: TTileNames;
     lElsoUresI, lElsoUresJ: Shortint;
 begin
   if fJatekter.KeszVan then begin
@@ -1471,7 +1471,7 @@ begin
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
-var iTipus: TMozaikNevek;
+var iTipus: TTileNames;
     i: Shortint;
 begin
   for iTipus := Hosszu to Esbetu do begin

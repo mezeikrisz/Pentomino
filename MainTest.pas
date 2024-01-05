@@ -49,10 +49,10 @@ end;
 
 procedure TMainTest.testMozaikHasonlit;
 var t: TSquare;
-    mMozaikUres, mMozaikHosszu: TMozaik;
+    mMozaikUres, mMozaikHosszu: TTile;
 begin
-  mMozaikUres := TMozaik.Create(Ures);
-  mMozaikHosszu := TMozaik.Create(Hosszu);
+  mMozaikUres := TTile.Create(Ures);
+  mMozaikHosszu := TTile.Create(Hosszu);
 
   //kódból nem tudok ettõl szebb tömb értékadást. deklarációban megy (oMozaikTomb), kódból nem. lokális deklarációban sem
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
@@ -74,10 +74,10 @@ begin
 end;
 
 procedure TMainTest.testMozaikSerialize;
-var mMozaikUres, mMozaikHosszu: TMozaik;
+var mMozaikUres, mMozaikHosszu: TTile;
 begin
-  mMozaikUres := TMozaik.Create(Ures);
-  mMozaikHosszu := TMozaik.Create(Hosszu);
+  mMozaikUres := TTile.Create(Ures);
+  mMozaikHosszu := TTile.Create(Hosszu);
 
   Check(mMozaikUres.Serialize = '.....'#13#10 +
                                 '.....'#13#10 +
@@ -97,9 +97,9 @@ end;
 
 procedure TMainTest.testMozaikDeSerialize;
 var s: String;
-    mMozaikMindegy: TMozaik;
+    mMozaikMindegy: TTile;
 begin
-  mMozaikMindegy := TMozaik.Create(Ures);
+  mMozaikMindegy := TTile.Create(Ures);
 
   s := '*....'#13#10 +
        '.....'#13#10 +
@@ -134,10 +134,10 @@ end;
 procedure TMainTest.testMozaikForgat;
 var t: TSquare;
     s: String;
-    mMozaikHazteto, mMozaikMindegy: TMozaik;
+    mMozaikHazteto, mMozaikMindegy: TTile;
 begin
-  mMozaikHazteto := TMozaik.Create(Hazteto);
-  mMozaikMindegy := TMozaik.Create(Ures);
+  mMozaikHazteto := TTile.Create(Hazteto);
+  mMozaikMindegy := TTile.Create(Ures);
 
   mMozaikHazteto.Rotate;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := 'C';   t[1, 4] := 'C';   t[1, 5] := 'C';
@@ -168,10 +168,10 @@ end;
 procedure TMainTest.testMozaikTukroz;
 var t: TSquare;
     s: String;
-    mMozaikHazteto, mMozaikMindegy: TMozaik;
+    mMozaikHazteto, mMozaikMindegy: TTile;
 begin
-  mMozaikHazteto := TMozaik.Create(Hazteto);
-  mMozaikMindegy := TMozaik.Create(Ures);
+  mMozaikHazteto := TTile.Create(Hazteto);
+  mMozaikMindegy := TTile.Create(Ures);
 
   mMozaikHazteto.Flip;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := 'C';
@@ -202,10 +202,10 @@ end;
 procedure TMainTest.testMozaikNormalizal;
 var t: TSquare;
     s: String;
-    mMozaikEsbetu, mMozaikMindegy: TMozaik;
+    mMozaikEsbetu, mMozaikMindegy: TTile;
 begin
-  mMozaikEsbetu := TMozaik.Create(Esbetu);
-  mMozaikMindegy := TMozaik.Create(Ures);
+  mMozaikEsbetu := TTile.Create(Esbetu);
+  mMozaikMindegy := TTile.Create(Ures);
 
   mMozaikEsbetu.Rotate;
   mMozaikEsbetu.Rotate;
@@ -294,11 +294,11 @@ end;
 procedure TMainTest.testMozaikValtoztat;
 var t: TSquare;
     s: String;
-    mMozaikUres, mMozaikElbetu: TMozaik;
+    mMozaikUres, mMozaikElbetu: TTile;
     b: Boolean;
 begin
-  mMozaikUres := TMozaik.Create(Ures);
-  mMozaikElbetu := TMozaik.Create(Elbetu);
+  mMozaikUres := TTile.Create(Ures);
+  mMozaikElbetu := TTile.Create(Elbetu);
 
   b := mMozaikUres.Valtoztat;
   t[1, 1] := '.';   t[1, 2] := '.';   t[1, 3] := '.';   t[1, 4] := '.';   t[1, 5] := '.';
@@ -971,14 +971,14 @@ procedure TMainTest.testJatekterKirakhatoIde;
 var s: String;
     j: TJatekTer;
     b: Boolean;
-    mMozaikUres, mMozaikElbetu, mMozaikKereszt, mMozaikLepcso, mMozaikHosszu: TMozaik;
+    mMozaikUres, mMozaikElbetu, mMozaikKereszt, mMozaikLepcso, mMozaikHosszu: TTile;
 begin
   j := TJatekTer.Create;
-  mMozaikUres := TMozaik.Create(Ures);
-  mMozaikElbetu := TMozaik.Create(Elbetu);
-  mMozaikKereszt := TMozaik.Create(Kereszt);
-  mMozaikLepcso := TMozaik.Create(Lepcso);
-  mMozaikHosszu := TMozaik.Create(Hosszu);
+  mMozaikUres := TTile.Create(Ures);
+  mMozaikElbetu := TTile.Create(Elbetu);
+  mMozaikKereszt := TTile.Create(Kereszt);
+  mMozaikLepcso := TTile.Create(Lepcso);
+  mMozaikHosszu := TTile.Create(Hosszu);
 
   s := '..........'#13#10 +
        '..........'#13#10 +
@@ -1070,13 +1070,13 @@ end;
 procedure TMainTest.testJatekterKirak;
 var s: String;
     j: TJatekTer;
-    mMozaikUres, mMozaikKereszt, mMozaikElbetu, mMozaikHosszu: TMozaik;
+    mMozaikUres, mMozaikKereszt, mMozaikElbetu, mMozaikHosszu: TTile;
 begin
   j := TJatekTer.Create;
-  mMozaikUres := TMozaik.Create(Ures);
-  mMozaikKereszt := TMozaik.Create(Kereszt);
-  mMozaikElbetu := TMozaik.Create(Elbetu);
-  mMozaikHosszu := TMozaik.Create(Hosszu);
+  mMozaikUres := TTile.Create(Ures);
+  mMozaikKereszt := TTile.Create(Kereszt);
+  mMozaikElbetu := TTile.Create(Elbetu);
+  mMozaikHosszu := TTile.Create(Hosszu);
 
   j.Kirak(mMozaikUres, 1, 1);
   s := '..........'#13#10 +
@@ -1108,21 +1108,21 @@ end;
 procedure TMainTest.testJatekterLevesz;
 var s: String;
     j: TJatekTer;
-    mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TMozaik;
+    mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
 begin
   j := TJatekTer.Create;
-  mMozaikHosszu := TMozaik.Create(Hosszu);
-  mMozaikElbetu := TMozaik.Create(Elbetu);
-  mMozaikHazteto := TMozaik.Create(Hazteto);
-  mMozaikSonka := TMozaik.Create(Sonka);
-  mMozaikKereszt := TMozaik.Create(Kereszt);
-  mMozaikPuska := TMozaik.Create(Puska);
-  mMozaikLapat := TMozaik.Create(Lapat);
-  mMozaikCsunya :=TMozaik.Create(Csunya);
-  mMozaikTebetu := TMozaik.Create(Tebetu);
-  mMozaikLepcso := TMozaik.Create(Lepcso);
-  mMozaikUbetu := TMozaik.Create(Ubetu);
-  mMozaikEsbetu := TMozaik.Create(Esbetu);
+  mMozaikHosszu := TTile.Create(Hosszu);
+  mMozaikElbetu := TTile.Create(Elbetu);
+  mMozaikHazteto := TTile.Create(Hazteto);
+  mMozaikSonka := TTile.Create(Sonka);
+  mMozaikKereszt := TTile.Create(Kereszt);
+  mMozaikPuska := TTile.Create(Puska);
+  mMozaikLapat := TTile.Create(Lapat);
+  mMozaikCsunya := TTile.Create(Csunya);
+  mMozaikTebetu := TTile.Create(Tebetu);
+  mMozaikLepcso := TTile.Create(Lepcso);
+  mMozaikUbetu := TTile.Create(Ubetu);
+  mMozaikEsbetu := TTile.Create(Esbetu);
 
   j.Kirak(mMozaikSonka, 1, 1);
   j.Kirak(mMozaikUbetu, 1, 4);
@@ -1176,21 +1176,21 @@ end;
 procedure TMainTest.testJatekterKeszVan;
 var s: String;
     j: TJatekTer;
-    mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TMozaik;
+    mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
 begin
   j := TJatekTer.Create;
-  mMozaikHosszu := TMozaik.Create(Hosszu);
-  mMozaikElbetu := TMozaik.Create(Elbetu);
-  mMozaikHazteto := TMozaik.Create(Hazteto);
-  mMozaikSonka := TMozaik.Create(Sonka);
-  mMozaikKereszt := TMozaik.Create(Kereszt);
-  mMozaikPuska := TMozaik.Create(Puska);
-  mMozaikLapat := TMozaik.Create(Lapat);
-  mMozaikCsunya :=TMozaik.Create(Csunya);
-  mMozaikTebetu := TMozaik.Create(Tebetu);
-  mMozaikLepcso := TMozaik.Create(Lepcso);
-  mMozaikUbetu := TMozaik.Create(Ubetu);
-  mMozaikEsbetu := TMozaik.Create(Esbetu);
+  mMozaikHosszu := TTile.Create(Hosszu);
+  mMozaikElbetu := TTile.Create(Elbetu);
+  mMozaikHazteto := TTile.Create(Hazteto);
+  mMozaikSonka := TTile.Create(Sonka);
+  mMozaikKereszt := TTile.Create(Kereszt);
+  mMozaikPuska := TTile.Create(Puska);
+  mMozaikLapat := TTile.Create(Lapat);
+  mMozaikCsunya := TTile.Create(Csunya);
+  mMozaikTebetu := TTile.Create(Tebetu);
+  mMozaikLepcso := TTile.Create(Lepcso);
+  mMozaikUbetu := TTile.Create(Ubetu);
+  mMozaikEsbetu := TTile.Create(Esbetu);
 
   Check(not j.KeszVan, 'KeszVan 1 false');
   j.Kirak(mMozaikSonka, 1, 1);
