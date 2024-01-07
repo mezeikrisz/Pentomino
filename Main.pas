@@ -17,9 +17,9 @@ type
   public //private //hogy rálásson a test, egyelõre public minden
     fSquare: TSquare;
     fTileType: TTileNames;
-    fValtozatIndex: Shortint;
+    fVariantIndex: Shortint;
     fOffsetJ: Shortint;
-    fKiVanRakva: Boolean;
+    fIsOnPlayGround: Boolean;
     constructor Create(pTile: TTileNames);
     procedure Rotate;      //fNegyzetet megforgatja clockwise [3,3]-as középponttal
     procedure Flip;      //fNegyzetet tükrözi függõleges tengelyre
@@ -70,9 +70,9 @@ type
     procedure tmrTimerTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
-    fMozaikok: Array[LetterI..LetterZ] of TTile;
+    fTiles: Array[LetterI..LetterZ] of TTile;
     fPlayGround: TPlayGround;
-    f: TextFile;
+    fResults: TextFile;
     fHanyadikMegoldas: Integer;
     fKirakasokSzama: Integer;
   public
@@ -216,8 +216,8 @@ constructor TTile.Create(pTile: TTileNames);
 begin
   fSquare := oMozaikTomb[pTile];
   fTileType := pTile;
-  fValtozatIndex := 0;
-  fKiVanRakva := false;
+  fVariantIndex := 0;
+  fIsOnPlayGround := false;
   Normalize;
 end;
 
@@ -337,12 +337,12 @@ end;
 
 function TTile.Vary: Boolean;
 begin
-  if (Length(oMozaikValtozatok[fTileType]) = fValtozatIndex) then begin
+  if (Length(oMozaikValtozatok[fTileType]) = fVariantIndex) then begin
     Result := false;                                                       //false-szal száll ki, ha már nincs több változat
     Exit;
   end;
-  inc(fValtozatIndex);
-  case oMozaikValtozatok[fTileType][fValtozatIndex] of
+  inc(fVariantIndex);
+  case oMozaikValtozatok[fTileType][fVariantIndex] of
     'S': ;
     'F': Rotate;
     'T': Flip;
@@ -428,7 +428,7 @@ begin
       end;
     end;
   end;
-  pTile.fKiVanRakva := true;
+  pTile.fIsOnPlayGround := true;
   inc(fNumberOfTilesOnPlayGround);
 end;
 
@@ -442,7 +442,7 @@ begin
       end;
     end;
   end;
-  pTile.fKiVanRakva := false;
+  pTile.fIsOnPlayGround := false;
   dec(fNumberOfTilesOnPlayGround);
 end;
 
@@ -1295,12 +1295,12 @@ begin
 
   fPlayGround := TPlayGround.Create;
   for iTipus := LetterI to LetterZ do begin
-    fMozaikok[iTipus] := TTile.Create(iTipus);
+    fTiles[iTipus] := TTile.Create(iTipus);
   end;
 
-  AssignFile(f, 'results.txt');
-  Rewrite(f);
-  CloseFile(f);
+  AssignFile(fResults, 'results.txt');
+  Rewrite(fResults);
+  CloseFile(fResults);
 
   Recursive;
 
@@ -1429,35 +1429,35 @@ begin
     //ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
     inc(fHanyadikMegoldas);
     edtTalalatokSzama.Text := IntToStr(fHanyadikMegoldas);
-    Append(f);
-    Writeln(f, '#' + IntToStr(fHanyadikMegoldas));
-    Writeln(f, fPlayGround.Serialize + #13#10);
-    CloseFile(f);
+    Append(fResults);
+    Writeln(fResults, '#' + IntToStr(fHanyadikMegoldas));
+    Writeln(fResults, fPlayGround.Serialize + #13#10);
+    CloseFile(fResults);
   end;
   for jTipus := LetterI to LetterZ do begin
-    if (not fMozaikok[jTipus].fKiVanRakva) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
+    if (not fTiles[jTipus].fIsOnPlayGround) then begin   // talán gond, h leszedés után ez így az épp leszedettet akarja majd visszarakni? -> a ciklus ezt kivédi, akkor az ott vált... de egy hívással kiljebb már igen
       fPlayGround.FindFirstEmpty;
       lElsoUresI := fPlayGround.fFirstEmptyI;
       lElsoUresJ := fPlayGround.fFirstEmptyJ;
-      while fMozaikok[jTipus].Vary do begin
-        if fPlayGround.IsPuttableHere(fMozaikok[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
+      while fTiles[jTipus].Vary do begin
+        if fPlayGround.IsPuttableHere(fTiles[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
           SetTempo;
-          fPlayGround.Put(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+          fPlayGround.Put(fTiles[jTipus], lElsoUresI, lElsoUresJ);
           inc(fKirakasokSzama);
           SetTempo;
           if fPlayGround.IsThereSingleHole or fPlayGround.IsThereDoubleHole or fPlayGround.IsThereTripleHole or fPlayGround.IsThereQuadrupleHole then begin
             SetTempo;
-            fPlayGround.TakeOff(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            fPlayGround.TakeOff(fTiles[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end else begin
             Recursive;
             SetTempo;
-            fPlayGround.TakeOff(fMozaikok[jTipus], lElsoUresI, lElsoUresJ);
+            fPlayGround.TakeOff(fTiles[jTipus], lElsoUresI, lElsoUresJ);
             SetTempo;
           end;
         end; // if
       end; // while
-      fMozaikok[jTipus].fValtozatIndex := 0;  //TODO itt elkélne némi alprogramosítás
+      fTiles[jTipus].fVariantIndex := 0;  //TODO itt elkélne némi alprogramosítás
     end; // if
   end; // for
 end;
@@ -1475,7 +1475,7 @@ var iTipus: TTileNames;
     i: Shortint;
 begin
   for iTipus := LetterI to LetterZ do begin
-    fMozaikok[iTipus].Free;
+    fTiles[iTipus].Free;
   end;
   fPlayGround.Free;
 end;
