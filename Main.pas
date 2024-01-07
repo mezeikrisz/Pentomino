@@ -54,18 +54,18 @@ type
   end;
 
   TfrmMain = class(TForm)
-    btnKeres: TButton;
-    dwgdLenyeg: TDrawGrid;
+    btnFindSolutions: TButton;
+    dwgdPlayGround: TDrawGrid;
     rgrpTempo: TRadioGroup;
-    lblTalalatokSzama: TLabel;
-    edtTalalatokSzama: TEdit;
-    lblSebesseg: TLabel;
-    edtSebesseg: TEdit;
-    lblElkeszult: TLabel;
-    edtElkeszult: TEdit;
+    lblNumberOfSolutions: TLabel;
+    edtNumberOfSolutions: TEdit;
+    lblSpeedOfPuts: TLabel;
+    edtSpeedOfPuts: TEdit;
+    lblCompleted: TLabel;
+    edtCompleted: TEdit;
     tmrTimer: TTimer;
-    procedure btnKeresClick(Sender: TObject);
-    procedure dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer;
+    procedure btnFindSolutionsClick(Sender: TObject);
+    procedure dwgdPlayGroundDrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
     procedure tmrTimerTimer(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -1285,11 +1285,11 @@ end;
 { TfrmMain }
 {----------}
 
-procedure TfrmMain.btnKeresClick(Sender: TObject);
+procedure TfrmMain.btnFindSolutionsClick(Sender: TObject);
 var iTipus: TTileNames;
     i: Shortint;
 begin
-  btnKeres.Enabled := false;
+  btnFindSolutions.Enabled := false;
   fSolutionIndex := 0;
   fNumberOfPuts := 0;
 
@@ -1306,18 +1306,18 @@ begin
 
 end;
 
-procedure TfrmMain.dwgdLenyegDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
+procedure TfrmMain.dwgdPlayGroundDrawCell(Sender: TObject; ACol, ARow: Integer; Rect: TRect; State: TGridDrawState);
 begin
   if Assigned(fPlayGround) then begin
     if fPlayGround.fRectangle[ARow+1,ACol+1] <> '.' then begin
-      dwgdLenyeg.Canvas.Brush.Color := oMozaikSzinek[Ord(fPlayGround.fRectangle[ARow+1,ACol+1]) - Ord('@')];
+      dwgdPlayGround.Canvas.Brush.Color := oMozaikSzinek[Ord(fPlayGround.fRectangle[ARow+1,ACol+1]) - Ord('@')];
       //a cellában lévõ karakter ascii kódjából kivonjuk az A-1 ascii kódját, ezzel az integerrel már címezhetõ a színes tömb
     end else begin
-      dwgdLenyeg.Canvas.Brush.Color := clWhite;
+      dwgdPlayGround.Canvas.Brush.Color := clWhite;
       //az üres cellában . van, az távol van ascii kódilag a betûktõl, nem lehet könnyen címezhetõvé tenni a színes tömböt így
     end;
 
-    dwgdLenyeg.Canvas.FillRect(Rect);
+    dwgdPlayGround.Canvas.FillRect(Rect);
   end;
 end;
 
@@ -1327,10 +1327,10 @@ begin
     0:begin
       end;
     1:begin
-        dwgdLenyeg.Repaint;
+        dwgdPlayGround.Repaint;
       end;
     2:begin
-        dwgdLenyeg.Repaint;
+        dwgdPlayGround.Repaint;
         Sleep(500);
       end;
   end;
@@ -1428,7 +1428,7 @@ begin
   if fPlayGround.IsReady then begin
     //ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
     inc(fSolutionIndex);
-    edtTalalatokSzama.Text := IntToStr(fSolutionIndex);
+    edtNumberOfSolutions.Text := IntToStr(fSolutionIndex);
     Append(fResults);
     Writeln(fResults, '#' + IntToStr(fSolutionIndex));
     Writeln(fResults, fPlayGround.Serialize + #13#10);
@@ -1464,10 +1464,10 @@ end;
 
 procedure TfrmMain.tmrTimerTimer(Sender: TObject);
 begin
-  edtSebesseg.Text := IntToStr(fNumberOfPuts);
+  edtSpeedOfPuts.Text := IntToStr(fNumberOfPuts);
   fNumberOfPuts := 0;
 
-  edtElkeszult.Text := IntToStr(Round(fSolutionIndex*100/9356));
+  edtCompleted.Text := IntToStr(Round(fSolutionIndex*100/9356));
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);

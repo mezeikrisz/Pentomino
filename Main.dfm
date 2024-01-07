@@ -16,37 +16,37 @@ object frmMain: TfrmMain
   OnClose = FormClose
   PixelsPerInch = 96
   TextHeight = 13
-  object lblTalalatokSzama: TLabel
+  object lblNumberOfSolutions: TLabel
     Left = 8
     Top = 69
-    Width = 80
+    Width = 73
     Height = 13
-    Caption = 'Tal'#225'latok sz'#225'ma:'
+    Caption = 'No of solutions:'
   end
-  object lblSebesseg: TLabel
+  object lblSpeedOfPuts: TLabel
     Left = 8
     Top = 93
-    Width = 72
+    Width = 46
     Height = 13
-    Caption = 'Kirak'#225'sok/sec:'
+    Caption = 'Puts/sec:'
   end
-  object lblElkeszult: TLabel
+  object lblCompleted: TLabel
     Left = 8
     Top = 117
-    Width = 56
+    Width = 64
     Height = 13
-    Caption = 'Elk'#233'sz'#252'lt %:'
+    Caption = 'Completed %:'
   end
-  object btnKeres: TButton
+  object btnFindSolutions: TButton
     Left = 8
     Top = 8
     Width = 153
     Height = 49
-    Caption = 'Keres!'
+    Caption = 'Find!'
     TabOrder = 0
-    OnClick = btnKeresClick
+    OnClick = btnFindSolutionsClick
   end
-  object dwgdLenyeg: TDrawGrid
+  object dwgdPlayGround: TDrawGrid
     Left = 168
     Top = 8
     Width = 401
@@ -60,22 +60,22 @@ object frmMain: TfrmMain
     RowCount = 6
     FixedRows = 0
     TabOrder = 1
-    OnDrawCell = dwgdLenyegDrawCell
+    OnDrawCell = dwgdPlayGroundDrawCell
   end
   object rgrpTempo: TRadioGroup
     Left = 8
     Top = 144
     Width = 153
     Height = 109
-    Caption = 'Gyorsas'#225'g'
+    Caption = 'Tempo'
     ItemIndex = 1
     Items.Strings = (
-      'l'#225'thatatlan'
-      'l'#225'that'#243' gyors'
-      'l'#225'that'#243' lass'#250)
+      'invisible'
+      'visible fast'
+      'visible slow')
     TabOrder = 2
   end
-  object edtTalalatokSzama: TEdit
+  object edtNumberOfSolutions: TEdit
     Left = 96
     Top = 66
     Width = 65
@@ -84,7 +84,7 @@ object frmMain: TfrmMain
     TabOrder = 3
     Text = '0'
   end
-  object edtSebesseg: TEdit
+  object edtSpeedOfPuts: TEdit
     Left = 96
     Top = 90
     Width = 65
@@ -93,7 +93,7 @@ object frmMain: TfrmMain
     TabOrder = 4
     Text = '0'
   end
-  object edtElkeszult: TEdit
+  object edtCompleted: TEdit
     Left = 96
     Top = 114
     Width = 65
