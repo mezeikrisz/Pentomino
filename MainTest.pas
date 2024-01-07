@@ -204,7 +204,7 @@ var t: TSquare;
     s: String;
     mMozaikEsbetu, mMozaikMindegy: TTile;
 begin
-  mMozaikEsbetu := TTile.Create(Esbetu);
+  mMozaikEsbetu := TTile.Create(LetterZ);
   mMozaikMindegy := TTile.Create(Empty);
 
   mMozaikEsbetu.Rotate;
@@ -977,7 +977,7 @@ begin
   mMozaikUres := TTile.Create(Empty);
   mMozaikElbetu := TTile.Create(LetterL);
   mMozaikKereszt := TTile.Create(LetterX);
-  mMozaikLepcso := TTile.Create(Lepcso);
+  mMozaikLepcso := TTile.Create(LetterW);
   mMozaikHosszu := TTile.Create(LetterI);
 
   s := '..........'#13#10 +
@@ -1116,13 +1116,13 @@ begin
   mMozaikHazteto := TTile.Create(LetterV);
   mMozaikSonka := TTile.Create(LetterP);
   mMozaikKereszt := TTile.Create(LetterX);
-  mMozaikPuska := TTile.Create(LetterN);
-  mMozaikLapat := TTile.Create(Lapat);
-  mMozaikCsunya := TTile.Create(Csunya);
-  mMozaikTebetu := TTile.Create(Tebetu);
-  mMozaikLepcso := TTile.Create(Lepcso);
-  mMozaikUbetu := TTile.Create(Ubetu);
-  mMozaikEsbetu := TTile.Create(Esbetu);
+  mMozaikPuska := TTile.Create(LetterY);
+  mMozaikLapat := TTile.Create(LetterN);
+  mMozaikCsunya := TTile.Create(LetterF);
+  mMozaikTebetu := TTile.Create(LetterT);
+  mMozaikLepcso := TTile.Create(LetterW);
+  mMozaikUbetu := TTile.Create(LetterU);
+  mMozaikEsbetu := TTile.Create(LetterZ);
 
   j.Put(mMozaikSonka, 1, 1);
   j.Put(mMozaikUbetu, 1, 4);
@@ -1184,13 +1184,13 @@ begin
   mMozaikHazteto := TTile.Create(LetterV);
   mMozaikSonka := TTile.Create(LetterP);
   mMozaikKereszt := TTile.Create(LetterX);
-  mMozaikPuska := TTile.Create(LetterN);
-  mMozaikLapat := TTile.Create(Lapat);
-  mMozaikCsunya := TTile.Create(Csunya);
-  mMozaikTebetu := TTile.Create(Tebetu);
-  mMozaikLepcso := TTile.Create(Lepcso);
-  mMozaikUbetu := TTile.Create(Ubetu);
-  mMozaikEsbetu := TTile.Create(Esbetu);
+  mMozaikPuska := TTile.Create(LetterY);
+  mMozaikLapat := TTile.Create(LetterN);
+  mMozaikCsunya := TTile.Create(LetterF);
+  mMozaikTebetu := TTile.Create(LetterT);
+  mMozaikLepcso := TTile.Create(LetterW);
+  mMozaikUbetu := TTile.Create(LetterU);
+  mMozaikEsbetu := TTile.Create(LetterZ);
 
   Check(not j.IsReady, 'KeszVan 1 false');
   j.Put(mMozaikSonka, 1, 1);
