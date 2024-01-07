@@ -73,8 +73,8 @@ type
     fTiles: Array[LetterI..LetterZ] of TTile;
     fPlayGround: TPlayGround;
     fResults: TextFile;
-    fHanyadikMegoldas: Integer;
-    fKirakasokSzama: Integer;
+    fSolutionIndex: Integer;
+    fNumberOfPuts: Integer;
   public
     procedure Recursive;
     procedure SetTempo;
@@ -1290,8 +1290,8 @@ var iTipus: TTileNames;
     i: Shortint;
 begin
   btnKeres.Enabled := false;
-  fHanyadikMegoldas := 0;
-  fKirakasokSzama := 0;
+  fSolutionIndex := 0;
+  fNumberOfPuts := 0;
 
   fPlayGround := TPlayGround.Create;
   for iTipus := LetterI to LetterZ do begin
@@ -1427,10 +1427,10 @@ var jTipus: TTileNames;
 begin
   if fPlayGround.IsReady then begin
     //ShowMessage('12');              //TODO itt elkélne némi alprogramosítás
-    inc(fHanyadikMegoldas);
-    edtTalalatokSzama.Text := IntToStr(fHanyadikMegoldas);
+    inc(fSolutionIndex);
+    edtTalalatokSzama.Text := IntToStr(fSolutionIndex);
     Append(fResults);
-    Writeln(fResults, '#' + IntToStr(fHanyadikMegoldas));
+    Writeln(fResults, '#' + IntToStr(fSolutionIndex));
     Writeln(fResults, fPlayGround.Serialize + #13#10);
     CloseFile(fResults);
   end;
@@ -1443,7 +1443,7 @@ begin
         if fPlayGround.IsPuttableHere(fTiles[jTipus], lElsoUresI, lElsoUresJ) then begin // gáz: ha kész a tábla, akkor ez (7, 11)-re visz, de végülis ebbe az ifbe akkor már nem is jön be
           SetTempo;
           fPlayGround.Put(fTiles[jTipus], lElsoUresI, lElsoUresJ);
-          inc(fKirakasokSzama);
+          inc(fNumberOfPuts);
           SetTempo;
           if fPlayGround.IsThereSingleHole or fPlayGround.IsThereDoubleHole or fPlayGround.IsThereTripleHole or fPlayGround.IsThereQuadrupleHole then begin
             SetTempo;
@@ -1464,10 +1464,10 @@ end;
 
 procedure TfrmMain.tmrTimerTimer(Sender: TObject);
 begin
-  edtSebesseg.Text := IntToStr(fKirakasokSzama);
-  fKirakasokSzama := 0;
+  edtSebesseg.Text := IntToStr(fNumberOfPuts);
+  fNumberOfPuts := 0;
 
-  edtElkeszult.Text := IntToStr(Round(fHanyadikMegoldas*100/9356));
+  edtElkeszult.Text := IntToStr(Round(fSolutionIndex*100/9356));
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var Action: TCloseAction);
