@@ -14,13 +14,13 @@ type
     procedure SetUp; override;
     procedure TearDown; override;
   published
-    procedure testMozaikHasonlit;
-    procedure testMozaikSerialize;
-    procedure testMozaikDeSerialize;
-    procedure testMozaikForgat;
-    procedure testMozaikTukroz;
-    procedure testMozaikNormalizal;
-    procedure testMozaikValtoztat;
+    procedure testTileCompare;
+    procedure testTileSerialize;
+    procedure testTileDeSerialize;
+    procedure testTileRotate;
+    procedure testTileFlip;
+    procedure testTileNormalize;
+    procedure testTileVary;
     procedure testJatekterHasonlit;
     procedure testJatekterSerialize;
     procedure testJatekterDeSerialize;
@@ -47,7 +47,7 @@ begin
   inherited;
 end;
 
-procedure TMainTest.testMozaikHasonlit;
+procedure TMainTest.testTileCompare;
 var t: TSquare;
     mMozaikUres, mMozaikHosszu: TTile;
 begin
@@ -73,7 +73,7 @@ begin
   mMozaikHosszu.Free;
 end;
 
-procedure TMainTest.testMozaikSerialize;
+procedure TMainTest.testTileSerialize;
 var mMozaikUres, mMozaikHosszu: TTile;
 begin
   mMozaikUres := TTile.Create(Empty);
@@ -95,7 +95,7 @@ begin
   mMozaikHosszu.Free;
 end;
 
-procedure TMainTest.testMozaikDeSerialize;
+procedure TMainTest.testTileDeSerialize;
 var s: String;
     mMozaikMindegy: TTile;
 begin
@@ -131,7 +131,7 @@ begin
   //TTeglalapnál is "sorindex majd oszlopindex", "7 majd 11", "i majd j"
 end;
 
-procedure TMainTest.testMozaikForgat;
+procedure TMainTest.testTileRotate;
 var t: TSquare;
     s: String;
     mMozaikHazteto, mMozaikMindegy: TTile;
@@ -165,7 +165,7 @@ begin
   mMozaikMindegy.Free;
 end;
 
-procedure TMainTest.testMozaikTukroz;
+procedure TMainTest.testTileFlip;
 var t: TSquare;
     s: String;
     mMozaikHazteto, mMozaikMindegy: TTile;
@@ -199,7 +199,7 @@ begin
   mMozaikMindegy.Free;
 end;
 
-procedure TMainTest.testMozaikNormalizal;
+procedure TMainTest.testTileNormalize;
 var t: TSquare;
     s: String;
     mMozaikEsbetu, mMozaikMindegy: TTile;
@@ -291,7 +291,7 @@ begin
   mMozaikMindegy.Free;
 end;
 
-procedure TMainTest.testMozaikValtoztat;
+procedure TMainTest.testTileVary;
 var t: TSquare;
     s: String;
     mMozaikUres, mMozaikElbetu: TTile;
