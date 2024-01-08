@@ -21,18 +21,18 @@ type
     procedure testTileFlip;
     procedure testTileNormalize;
     procedure testTileVary;
-    procedure testJatekterHasonlit;
-    procedure testJatekterSerialize;
-    procedure testJatekterDeSerialize;
-    procedure testJatekterLyukLenneEgy;
-    procedure testJatekterLyukLenneKetto;
-    procedure testJatekterLyukLenneHarom;
-    procedure testJatekterLyukLenneNegy;
-    procedure testJatekterKeresElsoUres;
-    procedure testJatekterKirakhatoIde;
-    procedure testJatekterKirak;
-    procedure testJatekterLevesz;
-    procedure testJatekterKeszVan;
+    procedure testPlayGroundCompare;
+    procedure testPlayGroundSerialize;
+    procedure testPlayGroundDeSerialize;
+    procedure testPlayGroundIsThereSingleHole;
+    procedure testPlayGroundIsThereDoubleHole;
+    procedure testPlayGroundIsThereTripleHole;
+    procedure testPlayGroundIsThereQuadrupleHole;
+    procedure testPlayGroundFindFirstEmpty;
+    procedure testPlayGroundIsPuttableHere;
+    procedure testPlayGroundPut;
+    procedure testPlayGroundTakeOff;
+    procedure testPlayGroundIsReady;
   end;
 
 { TMainTest }
@@ -388,7 +388,7 @@ begin
   mMozaikUres.Free;
 end;
 
-procedure TMainTest.testJatekterHasonlit;
+procedure TMainTest.testPlayGroundCompare;
 var t: TRectangle;
     j: TPlayGround;
 begin
@@ -416,7 +416,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterSerialize;
+procedure TMainTest.testPlayGroundSerialize;
 var s: String;
     j: TPlayGround;
 begin
@@ -431,7 +431,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterDeSerialize;
+procedure TMainTest.testPlayGroundDeSerialize;
 var s: String;
     j: TPlayGround;
 begin
@@ -447,7 +447,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterLyukLenneEgy;
+procedure TMainTest.testPlayGroundIsThereSingleHole;
 var s: String;
     j: TPlayGround;
 begin
@@ -511,7 +511,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterLyukLenneKetto;
+procedure TMainTest.testPlayGroundIsThereDoubleHole;
 var s: String;
     j: TPlayGround;
 begin
@@ -583,7 +583,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterLyukLenneHarom;
+procedure TMainTest.testPlayGroundIsThereTripleHole;
 var s: String;
     j: TPlayGround;
 begin
@@ -682,7 +682,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterLyukLenneNegy;
+procedure TMainTest.testPlayGroundIsThereQuadrupleHole;
 var s: String;
     j: TPlayGround;
 begin
@@ -898,7 +898,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterKeresElsoUres;
+procedure TMainTest.testPlayGroundFindFirstEmpty;
 var s: String;
     j: TPlayGround;
 begin
@@ -967,7 +967,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterKirakhatoIde;
+procedure TMainTest.testPlayGroundIsPuttableHere;
 var s: String;
     j: TPlayGround;
     b: Boolean;
@@ -1067,7 +1067,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterKirak;
+procedure TMainTest.testPlayGroundPut;
 var s: String;
     j: TPlayGround;
     mMozaikUres, mMozaikKereszt, mMozaikElbetu, mMozaikHosszu: TTile;
@@ -1105,7 +1105,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterLevesz;
+procedure TMainTest.testPlayGroundTakeOff;
 var s: String;
     j: TPlayGround;
     mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
@@ -1173,7 +1173,7 @@ begin
   j.Free;
 end;
 
-procedure TMainTest.testJatekterKeszVan;
+procedure TMainTest.testPlayGroundIsReady;
 var s: String;
     j: TPlayGround;
     mMozaikHosszu, mMozaikElbetu, mMozaikHazteto, mMozaikSonka, mMozaikKereszt, mMozaikPuska, mMozaikLapat, mMozaikCsunya, mMozaikTebetu, mMozaikLepcso, mMozaikUbetu, mMozaikEsbetu: TTile;
